@@ -1,0 +1,8 @@
+{
+    "/js/frontend/app.js": "/js/frontend/app.js",
+    "/css/frontend/app.css": "/css/frontend/app.css",
+    "/css/backend/app.css": "/css/backend/app.css",
+    "/js/backend/app.js": "/js/backend/app.js",
+    "/css/frontend/vendor.css": "/css/frontend/vendor.css",
+    "/css/backend/vendor.css": "/css/backend/vendor.css"
+}
