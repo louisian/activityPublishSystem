@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div >
         <Header-component></Header-component>
         <div class="app-main" style="clear: both;">
             <router-view></router-view>
