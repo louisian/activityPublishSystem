@@ -79782,6 +79782,9 @@ router.afterEach(function () {});
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_index_index_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_index_index_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_activityDetail_index_vue__ = __webpack_require__(254);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_activityDetail_index_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_activityDetail_index_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_activityPublish_activityPublish_vue__ = __webpack_require__(261);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_activityPublish_activityPublish_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_activityPublish_activityPublish_vue__);
+
 
 
 
@@ -79789,8 +79792,8 @@ router.afterEach(function () {});
 /* harmony default export */ __webpack_exports__["a"] = ([{
     path: '/',
     component: __WEBPACK_IMPORTED_MODULE_0__components_common_main_vue___default.a,
-    name: '首页',
-    children: [{ path: 'index', component: __WEBPACK_IMPORTED_MODULE_1__components_index_index_vue___default.a, name: '首页' }, { path: 'activity/:id', component: __WEBPACK_IMPORTED_MODULE_2__components_activityDetail_index_vue___default.a, name: '活动详情' }]
+    name: 'skeleton',
+    children: [{ path: 'index', component: __WEBPACK_IMPORTED_MODULE_1__components_index_index_vue___default.a, name: '首页' }, { path: 'activity/publish', component: __WEBPACK_IMPORTED_MODULE_3__components_activityPublish_activityPublish_vue___default.a, name: '活动发布' }, { path: 'activity/:id', component: __WEBPACK_IMPORTED_MODULE_2__components_activityDetail_index_vue___default.a, name: '活动详情' }]
 }]);
 
 /***/ }),
@@ -81116,6 +81119,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "activityDetail",
@@ -81128,7 +81134,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 timeStart: '',
                 timeEnd: '',
                 location: '',
-                organizer: ''
+                organizer: '',
+                content: ''
             }
         };
     },
@@ -81225,7 +81232,11 @@ var render = function() {
         )
       ],
       1
-    )
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "content-container" }, [
+      _vm._v("\n        " + _vm._s(_vm.activityData.content) + "\n    ")
+    ])
   ])
 }
 var staticRenderFns = []
@@ -81235,6 +81246,198 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-95a8681e", module.exports)
+  }
+}
+
+/***/ }),
+/* 259 */,
+/* 260 */,
+/* 261 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(262)
+}
+var normalizeComponent = __webpack_require__(19)
+/* script */
+var __vue_script__ = __webpack_require__(264)
+/* template */
+var __vue_template__ = __webpack_require__(265)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-2c9a068e"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\frontend\\components\\activityPublish\\activityPublish.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2c9a068e", Component.options)
+  } else {
+    hotAPI.reload("data-v-2c9a068e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 262 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(263);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__(18).default
+var update = add("65305d68", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2c9a068e\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./activityPublish.vue", function() {
+     var newContent = require("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2c9a068e\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./activityPublish.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 263 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(8)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.publish-container[data-v-2c9a068e]{\n    margin-top: 15px;\n    border: 1px solid #eee;\n    padding: 10px;\n}\n.publish-step[data-v-2c9a068e]{\n    padding-bottom: 10px;\n    border-bottom:1px solid #eee ;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 264 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: "activityPublish",
+    data: function data() {
+        return {
+            activeStep: 0
+        };
+    }
+});
+
+/***/ }),
+/* 265 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "main" },
+    [
+      _c(
+        "el-breadcrumb",
+        { attrs: { separator: "/" } },
+        [
+          _c("el-breadcrumb-item", { attrs: { to: { path: "/index" } } }, [
+            _vm._v("首页")
+          ]),
+          _vm._v(" "),
+          _c("el-breadcrumb-item", [_vm._v("创建活动")])
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "publish-container" },
+        [
+          _c(
+            "el-steps",
+            {
+              staticClass: "publish-step",
+              attrs: {
+                "align-center": "",
+                active: _vm.activeStep,
+                "finish-status": "success"
+              }
+            },
+            [
+              _c("el-step", { attrs: { title: "活动信息" } }),
+              _vm._v(" "),
+              _c("el-step", { attrs: { title: "主办方信息" } }),
+              _vm._v(" "),
+              _c("el-step", { attrs: { title: "完成提交" } })
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2c9a068e", module.exports)
   }
 }
 

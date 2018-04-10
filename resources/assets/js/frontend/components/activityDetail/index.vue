@@ -47,6 +47,9 @@
 
 
         </div>
+        <div class="content-container">
+            {{activityData.content}}
+        </div>
     </div>
 </template>
 
@@ -63,6 +66,7 @@
                     timeEnd:'',
                     location:'',
                     organizer:'',
+                    content:'',
                 }
             }
         },
