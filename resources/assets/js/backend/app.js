@@ -6,8 +6,10 @@ import router from './router';
 import './plugins';
 import * as filters from './filter';
 import ElementUI from 'element-ui';
+import '../../css/reset.css';
 import 'element-ui/lib/theme-chalk/index.css';
-// import 'element-ui/lib/theme-default/index.css';
+
+
 
 Vue.use(ElementUI);
 

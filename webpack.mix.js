@@ -19,8 +19,7 @@ mix.styles([
 ], 'public/css/frontend/vendor.css');
 
 mix.sass('resources/assets/sass/frontend/app.scss', 'public/css/frontend/app.css');
-mix.js('resources/assets/js/frontend/app.js', 'public/js/frontend');
-
+mix.js('resources/assets/js/frontend/app.js', 'public/js/frontend')
 
 /*
  * 后台
@@ -30,4 +29,4 @@ mix.styles([
 ], 'public/css/backend/vendor.css');
 
 mix.sass('resources/assets/sass/backend/app.scss', 'public/css/backend/app.css');
-mix.js('resources/assets/js/backend/app.js', 'public/js/backend');
+mix.js('resources/assets/js/backend/app.js', 'public/js/backend')

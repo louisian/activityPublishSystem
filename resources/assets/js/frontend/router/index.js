@@ -7,6 +7,7 @@ Vue.use(VueRouter);
 //vue-router
 const router = new VueRouter({
     routes
+
 });
 
 // 访问权限
