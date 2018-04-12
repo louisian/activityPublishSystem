@@ -11,7 +11,7 @@ import '../../css/reset.css';
 // import 'element-ui/lib/theme-default/index.css';
 import 'element-ui/lib/theme-chalk/index.css';
 
-
+import '../../sass/app.scss';
 import '../../sass/frontend/app.scss';
 Vue.use(ElementUI);
 

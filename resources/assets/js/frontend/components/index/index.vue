@@ -1,6 +1,11 @@
 <template>
     <div class="main">
-        <el-row :gutter="20">
+        <div class="title-container clearfix">
+            <h1 class="title">最新活动</h1>
+            <el-button class="submit-activity-button" size="small" @click="$router.push('/activity/publish')">新建活动</el-button>
+        </div>
+
+        <el-row class="activity-container" :gutter="20">
             <el-col :span="6" v-for="item,key in activityDataList" :key="key">
                 <activity-block @activityClick="handleActivityClick" :activity-data="item"></activity-block>
             </el-col>
@@ -9,7 +14,10 @@
         <el-pagination
                 background
                 layout="prev, pager, next , sizes , total"
-                :total="1000">
+                :total="pageInfo.total"
+                :page-sizes="pageInfo.sizes"
+                :page-size="pageInfo.size"
+                :current-page.sync="pageInfo.current">
         </el-pagination>
     </div>
 </template>
@@ -83,5 +91,16 @@
 </script>
 
 <style scoped>
+    .title{
+        font-size: 24px;
+        float: left;
 
+    }
+    .activity-container{
+        margin-top: 10px;
+    }
+    .submit-activity-button{
+        float: right;
+        margin-right: 10px;
+    }
 </style>

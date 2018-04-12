@@ -8,7 +8,8 @@ import * as filters from './filter';
 import ElementUI from 'element-ui';
 import '../../css/reset.css';
 import 'element-ui/lib/theme-chalk/index.css';
-
+import '../../sass/app.scss';
+import '../../sass/backend/app.scss';
 
 
 Vue.use(ElementUI);
