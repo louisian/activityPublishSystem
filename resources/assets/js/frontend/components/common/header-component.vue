@@ -18,6 +18,11 @@
             return{
                 activeIndex:'index'
             }
+        },
+        methods:{
+            handleSelect(){
+
+            }
         }
     }
 </script>

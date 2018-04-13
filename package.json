@@ -25,6 +25,7 @@
   "dependencies": {
     "element-ui": "^2.2.2",
     "font-awesome": "^4.7.0",
+    "mavon-editor": "^2.5.3",
     "nprogress": "^0.2.0",
     "sass-loader": "^6.0.7",
     "style-loader": "^0.20.3",

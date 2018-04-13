@@ -47,8 +47,8 @@
 
 
         </div>
-        <div class="content-container">
-            {{activityData.content}}
+        <div class="content-container" v-html="activityData.content">
+
         </div>
     </div>
 </template>
@@ -101,5 +101,17 @@
     }
     .button-container{
         margin: 15px 0;
+    }
+    .map-container{
+        height: 100%;
+    }
+    .content-container{
+        width: 1200px;
+        padding: 15px;
+        margin: 0 auto;
+        border: 1px solid #eee;
+        border-radius: 10px;
+
+        min-height: 100px;
     }
 </style>
