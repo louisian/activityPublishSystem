@@ -11,11 +11,11 @@
                 <el-step title="完成提交"></el-step>
             </el-steps>
             <div v-if="activeStep===0" class="publish-form-container">
-                <el-form ref="publishForm" :model="publishInfo" label-width="80px">
-                    <el-form-item label="活动名称">
+                <el-form status-icon ref="publishForm" :rules="publishRule" :model="publishInfo" label-width="120px">
+                    <el-form-item label="活动名称" prop="name">
                         <el-input v-model="publishInfo.name"></el-input>
                     </el-form-item>
-                    <el-form-item label="活动标签">
+                    <el-form-item label="活动标签" prop="tag">
                         <div class="tag-container">
                             <el-select
                                     v-model="publishInfo.tag"
@@ -37,7 +37,7 @@
                         </div>
 
                     </el-form-item>
-                    <el-form-item label="活动时间">
+                    <el-form-item label="活动时间" prop="activityTime">
                         <el-date-picker
                                 v-model="publishInfo.activityTime"
                                 type="datetimerange"
@@ -47,7 +47,7 @@
                                 :picker-options="pickerOptions">
                         </el-date-picker>
                     </el-form-item>
-                    <el-form-item label="报名时间">
+                    <el-form-item label="报名时间" prop="applyTime">
                         <el-date-picker
                                 v-model="publishInfo.applyTime"
                                 type="daterange"
@@ -57,9 +57,10 @@
                                 :picker-options="pickerOptions">
                         </el-date-picker>
                     </el-form-item>
-                    <el-form-item label="活动地址">
+                    <el-form-item label="活动地址" prop="address">
                         <div class="address-container">
                             <el-cascader
+                                    class="address-select"
                                     placeholder="请选择城市"
                                     :props="{value:'code',label:'name'}"
                                     :options="provCityOptions"
@@ -78,16 +79,19 @@
                                     @select="handleAddressSelect"
                                     :trigger-on-focus="false">
                             </el-autocomplete>
+
                         </div>
+
+                        <div  id="map-container">
+
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="活动详细地址" prop="detailAddress">
                         <el-input class="detail-address-input"
                                   :disabled="publishInfo.city===''"
                                   placeholder="请输入楼层\房间号等信息"
                                   v-model="publishInfo.detailAddress">
-
                         </el-input>
-                        <div  id="map-container">
-
-                        </div>
                     </el-form-item>
                     <el-form-item>
                         <el-button type="primary" class="next-step-button" :plain="true" @click="onSubmitBasic">提交基本信息并进行下一步</el-button>
@@ -96,7 +100,7 @@
             </div>
             <div v-if="activeStep===1" class="publish-detail-info-container">
                 <h1 class="input-title">活动海报上传</h1>
-                <pic-uploader class="pic-uploader"></pic-uploader>
+                <pic-uploader @upload-success="picUploadStatus='success'" class="pic-uploader"></pic-uploader>
                 <h1 class="input-title">活动详情撰写</h1>
                 <mavon-editor class="md-editor"  ref="mdEditor" @imgAdd="imgAdd" @imgDel="imgDel" v-model="publishDetail"/>
                 <div class="button-container clearfix">
@@ -121,12 +125,54 @@
         name: "activityPublish",
         components: {PicUploader},
         data() {
+            var checkApplyTime=(rule,value,callback)=>{
+                if(!value){
+                    callback(new Error('请填写报名截止时间'));
+                }
+                try{
+                    if(this.publishInfo.activityTime[0].getTime()<value[1].getTime()){
+                        callback(new Error('报名截止时间不能晚于活动开始时间'))
+                    }else{
+                        callback();
+                    }
+                }catch (e) {
+                    callback(new Error('请先填写活动时间'))
+                }
+
+            }
+
+
             return {
                 activeStep: 0,
                 pickerOptions: {
                     disabledDate(time) {
                         return time.getTime() < new Date(new Date().getTime() - 24 * 60 * 60 * 1000);
                     }
+                },
+                publishRule:{
+                    name:[
+                        {required:true,message:'请填写活动名称',trigger:'blur'}
+                    ],
+                    tag:[
+                        {required:true,message:'请填写活动标签',trigger:'blur'}
+                    ],
+                    activityTime:[
+                        {required:true,message:'请填写活动时间',trigger:'blur'}
+                    ],
+                    applyTime:[
+                        {required:true,message:'请填写报名截止时间',trigger:'blur'},
+                        {validator:checkApplyTime,trigger:'blur'}
+                    ],
+                    address:[
+                        {required:true,message:'请填写活动地址',trigger:'blur'}
+                        // {trigger:'blur'}
+                    ],
+                    detailAddress:[
+                        {required:true,message:'请填写活动详细地址',trigger:'blur'}
+                        // {trigger:'blur'}
+                    ],
+
+
                 },
                 selectCityList: [],
                 publishInfo: {
@@ -139,6 +185,7 @@
                     address: '',
                     detailAddress: ''
                 },
+                picUploadStatus:'',
                 publishDetail: '',
                 mapInstance: null,
                 localSearchInstance: null,
@@ -179,9 +226,19 @@
                 })['name'];
             },
             onSubmitBasic() {
-                this.activeStep++;
+                this.$refs['publishForm'].validate((valid)=>{
+                    if(valid){
+                        this.activeStep++;
+                    }
+                })
+                // console.log(this.publishInfo)
+
             },
             onSubmitDetail(){
+                if(this.uploadStatus!=='success'){
+                    this.$alert('请上传海报照片!');
+                    return;
+                }
                 this.activeStep++;
 
             },
@@ -222,21 +279,21 @@
             imgAdd(pos, $file) {
                 // 第一步.将图片上传到服务器.
                 var formdata = new FormData();
-                formdata.append('image', $file);
+                formdata.append('file', $file);
                 axios({
-                    url: 'https://jsonplaceholder.typicode.com/posts/',
+                    url: '/api/activity/publish/uploader/md-pic',
                     method: 'post',
                     data: formdata,
                     headers: {'Content-Type': 'multipart/form-data'},
-                }).then((url) => {
+                }).then((response) => {
                     // 第二步.将返回的url替换到文本原位置![...](./0) -> ![...](url)
                     /**
                      * $vm 指为mavonEditor实例，可以通过如下两种方式获取
                      * 1. 通过引入对象获取: `import {mavonEditor} from ...` 等方式引入后，`$vm`为`mavonEditor`
                      * 2. 通过$refs获取: html声明ref : `<mavon-editor ref=md ></mavon-editor>，`$vm`为 `this.$refs.md`
                      */
-                    console.log(url);
-                    this.$refs.mdEditor.$img2Url(pos, url);
+                    // console.log(url);
+                    this.$refs.mdEditor.$img2Url(pos,response.data.data.url);
                 })
             }
         }
@@ -277,14 +334,21 @@
     }
     .address-container{
         display: flex;
-        justify-content: center;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    .address-select{
+        width: 30%;
     }
     .address-input{
-        margin-left: 10px;
+        width: 65%;
+        /*margin-left: 10px;*/
     }
-    .detail-address-input{
-        margin-top: 10px;
-    }
+    /*.detail-address-input{*/
+        /*display: block;*/
+
+    /*margin-top: 10px;*/
+    /*}*/
     .add-tag-button{
         margin-left: 10px;
     }

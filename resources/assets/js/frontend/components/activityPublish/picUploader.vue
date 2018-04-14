@@ -2,7 +2,7 @@
     <div class="pic-uploader-container">
         <el-upload
                 class="avatar-uploader"
-                action="https://jsonplaceholder.typicode.com/posts/"
+                action="/api/activity/publish/uploader/poster"
                 :show-file-list="false"
                 :on-success="handlePicSuccess"
                 :on-progress="handlePicUploading"
@@ -101,12 +101,13 @@
         },
         methods: {
             handlePicUploading(event,file){
-                console.log(event)
+                // console.log(event)
                 this.uploadPercent=event.percent;
             },
             handlePicSuccess(res, file) {
                 this.uploadStatus='success';
                 this.imageUrl = URL.createObjectURL(file.raw);
+                this.$emit('uploadSuccess');
             },
             handlePicError(){
                 this.uploadStatus='exception';
