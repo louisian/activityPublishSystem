@@ -11,7 +11,7 @@ use Storage;
 use Illuminate\Http\Request;
 
 class UploadController extends Controller{
-    public function uploadPic(Request $request){
+    private function uploadPic(Request $request){
         if($request->isMethod('post')){
             $file=$request->file('file');
             if($file->isValid()){
