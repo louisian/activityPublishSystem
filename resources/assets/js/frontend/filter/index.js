@@ -102,3 +102,9 @@ export function defaultValue(value, defaultString) {
     }
     return value;
 }
+
+/**
+ * 将对象转换为urlParams
+ * @param obj
+ * @returns {URLSearchParams}
+ */

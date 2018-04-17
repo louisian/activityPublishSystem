@@ -5,7 +5,8 @@
             <h1 class="title">{{activityData.title||'活动'}}</h1>
             <p class="secondary-text date">{{activityData.date||'2018-01-01'}}</p>
             <p class="secondary-text location">{{activityData.location||'杭州'}}</p>
-            <el-button @click="apply" type="primary" size="small" class="enter">报名</el-button>
+            <el-button v-if="!editMode&&!applied" @click="apply" type="primary" size="small" class="enter">报名</el-button>
+            <el-button v-if="editMode" @click="edit" type="primary" size="small" class="enter">编辑</el-button>
         </div>
 
     </div>
@@ -26,6 +27,12 @@
                     }
 
                 }
+            },
+            editMode:{
+                default:false
+            },
+            applied:{
+                default:false
             }
         },
         methods:{
@@ -35,6 +42,10 @@
             apply(e){
                 e.stopPropagation();
                 this.$emit('clickApply',this.activityData.id);
+            },
+            edit(e){
+              e.stopPropagation();
+              this.$emit('clickEdit',this.activityData.id);
             }
         }
     }

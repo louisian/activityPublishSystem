@@ -4,7 +4,11 @@
             <h1 class="title">最新活动</h1>
             <el-button class="submit-activity-button" size="small" @click="$router.push('/activity/publish')">新建活动</el-button>
         </div>
-
+        <el-carousel :interval="4000" class="activity-carousel" type="card" height="200px">
+            <el-carousel-item v-for="item in 6" :key="item">
+                <h3>{{ item }}</h3>
+            </el-carousel-item>
+        </el-carousel>
         <el-row class="activity-container" :gutter="20">
             <el-col :span="6" v-for="item,key in activityDataList" :key="key">
                 <activity-block @activityClick="handleActivityClick" :activity-data="item"></activity-block>
@@ -89,8 +93,36 @@
         }
     }
 </script>
+<style>
+    .el-carousel__item h3 {
+        color: #475669;
+        font-size: 14px;
+        opacity: 0.75;
+        line-height: 200px;
+        margin: 0;
+    }
 
+    .el-carousel__item:nth-child(2n) {
+        background-color: #99a9bf;
+    }
+
+    .el-carousel__item:nth-child(2n+1) {
+        background-color: #d3dce6;
+    }
+</style>
 <style scoped>
+
+    .main{
+        margin-bottom: 40px;
+    }
+    .title-container{
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eee;
+    }
+    .activity-carousel{
+        margin: 30px 0;
+    }
+
     .title{
         font-size: 24px;
         float: left;

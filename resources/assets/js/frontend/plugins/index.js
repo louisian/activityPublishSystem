@@ -1,4 +1,3 @@
-import Vue from 'vue';
 
 const plugins = {
     install: function(Vue, options) {
@@ -85,7 +84,14 @@ const plugins = {
             evt = evt || window.event;
             return Vue.mousePosition(evt).y;
         };
+        Vue.prototype.setUrlParams=function(obj){
+            let param = new URLSearchParams();
+            for(let item in obj){
+                param.append(item,obj[item]);
+            }
+            return param;
+        }
     }
 };
-Vue.use(plugins);
+
 export default plugins;

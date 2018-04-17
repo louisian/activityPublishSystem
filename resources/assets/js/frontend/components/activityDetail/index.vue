@@ -33,7 +33,7 @@
                             </tbody>
                         </table>
                         <div class="button-container">
-                            <el-button type="primary">立即报名</el-button>
+                            <el-button @click="applyNow" type="primary">立即报名</el-button>
                         </div>
                     </div>
                 </el-col>
@@ -50,6 +50,7 @@
         <div class="content-container" v-html="activityData.content">
 
         </div>
+
     </div>
 </template>
 
@@ -71,11 +72,13 @@
             }
         },
         mounted(){
-            console.log(this.$router,'para',this.$router.currentRoute.params.id)
+            // console.log(this.$router,'para',this.$router.currentRoute.params.id)
         },
 
         methods:{
+            applyNow(){
 
+            }
         }
 
     }
@@ -87,7 +90,10 @@
         border-bottom: 1px solid #e0e0e0;
     }
     .main-info-container{
-        margin-top: 30px;
+        border: 1px solid #eee;
+        padding: 5px;
+        border-radius: 10px;
+        margin: 30px 0;
     }
     .detail-info-container{
         padding: 25px 15px 0;

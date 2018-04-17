@@ -33,7 +33,7 @@
                                         :value="item.value">
                                 </el-option>
                             </el-select>
-                            <el-button type="primary" class="add-tag-button" @click="addTag">添加标签</el-button>
+                            <el-button type="primary" class="add-tag-button" @click="addTag"><i class="fa fa-plus fa-icon" aria-hidden="true"></i>添加标签</el-button>
                         </div>
 
                     </el-form-item>
@@ -99,6 +99,14 @@
                 </el-form>
             </div>
             <div v-if="activeStep===1" class="publish-detail-info-container">
+                <h1 class="input-title">报名所需信息</h1>
+                <div class="apply-info-container">
+                    <el-checkbox-group class="checkbox-container" v-model="publishInfo.applyInfo">
+                        <el-checkbox-button v-for="item,index in infoList" :label="item.value" :key="index">{{item.label}}</el-checkbox-button>
+                    </el-checkbox-group>
+                    <el-input placeholder="请输入备注标题" v-if="~publishInfo.applyInfo.indexOf('commit')" class="commit-title-input" v-model="publishInfo.commitTitle" ></el-input>
+                </div>
+
                 <h1 class="input-title">活动海报上传</h1>
                 <pic-uploader @upload-success="picUploadStatus='success'" class="pic-uploader"></pic-uploader>
                 <h1 class="input-title">活动详情撰写</h1>
@@ -114,7 +122,29 @@
                 </div>
             </div>
         </div>
+        <el-dialog
+                title="添加标签"
+                :visible.sync="tagDialogVisible"
+                label-width="80px"
+                :close-on-click-modal="false"
+                :close-on-press-escape="false">
+            <el-form ref="addTagForm" :model="addTagInfo">
+                <el-form-item label="标签名称">
+                    <el-input v-model="addTagInfo.name" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="标签简介">
+                    <el-input type="textarea"
+                              placeholder="简单的介绍一下标签的用处"
+                              v-model="addTagInfo.description">
 
+                    </el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="handleAddTagCancel">取 消</el-button>
+                <el-button type="primary" @click="handleAddTagSubmit">确 定</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -140,15 +170,30 @@
                 }
 
             }
-
-
             return {
                 activeStep: 0,
+                tagDialogVisible:false,
                 pickerOptions: {
                     disabledDate(time) {
                         return time.getTime() < new Date(new Date().getTime() - 24 * 60 * 60 * 1000);
                     }
                 },
+                infoList:[
+                    {
+                        label:'真实姓名',
+                        value:'realname'
+                    },
+                    {
+                        label:'手机号码',
+                        value:'phone'
+                    },
+                    {
+                        label: '备注信息',
+                        value:'commit'
+                    },
+
+
+                ],
                 publishRule:{
                     name:[
                         {required:true,message:'请填写活动名称',trigger:'blur'}
@@ -183,7 +228,14 @@
                     city: '',
                     cityName: '',
                     address: '',
-                    detailAddress: ''
+                    detailAddress: '',
+                    applyInfo:[],
+                    commitTitle:'',
+                },
+                addTagInfo:{
+                  name:'',
+                  description:'',
+
                 },
                 picUploadStatus:'',
                 publishDetail: '',
@@ -214,6 +266,13 @@
                 }
             },
             addTag() {
+
+                this.tagDialogVisible=true;
+                this.addTagInfo.name='';
+                this.addTagInfo.description='';
+                setTimeout(()=>{
+                    this.$refs['addTagForm'].resetFields();
+                },0)
 
             },
             setCityName() {
@@ -271,9 +330,22 @@
                 this.mapInstance.centerAndZoom(item.point, 18);
                 this.mapInstance.addOverlay(new BMap.Marker(item.point));
             },
+            handleAddTagSubmit(){
+
+            },
+            handleAddTagCancel(){
+                this.$confirm('确认取消添加标签？')
+                    .then(() => {
+                        this.tagDialogVisible=false;
+                    })
+                    .catch(() => {});
+            },
             handleCityChange() {
                 this.publishInfo.city = this.selectCityList[1];
 
+
+            },
+            imgDel(){
 
             },
             imgAdd(pos, $file) {
@@ -359,6 +431,22 @@
         height: 150px;
         margin-top: 15px;
         pointer-events: none;
+    }
+    .apply-info-container{
+        width: 80%;
+        margin: 20px auto 20px;
+        display: flex;
+        justify-content: space-around;
+        border: 1px solid #eee;
+        padding: 10px;
+        border-radius: 10px;
+    }
+    .checkbox-container{
+
+    }
+    .commit-title-input{
+        width: 40%;
+
     }
     .md-editor{
         width: 80%;

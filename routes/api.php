@@ -15,5 +15,8 @@ use Illuminate\Http\Request;
 Route::group(['middleware'=>'api'],function () {
     Route::post('/activity/publish/uploader/poster',"UploadController@posterUploader");
     Route::post('/activity/publish/uploader/md-pic',"UploadController@mdPicUploader");
+    Route::get('/user/login/status','UserController@getLoginStatus');
+    Route::post('/user/login','UserController@postLogin');
+    Route::post('/user/logout','UserController@postLogout');
 });
 

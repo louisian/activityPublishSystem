@@ -12,6 +12,6 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     public function apiResponse($code,$msg,$data=array()){
         $content = json_encode(array("code"=>$code,"message"=>$msg,"data"=>$data));
-        return response($content,$code);
+        return response($content,$code)->header("Access-Control-Allow-Credentials", "true");;
     }
 }

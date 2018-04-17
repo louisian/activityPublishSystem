@@ -12,5 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 class TagModel extends Model{
     protected $primaryKey='tid';
     protected $table='tag';
+    public function addTag(){
 
+    }
 }

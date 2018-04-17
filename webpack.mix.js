@@ -13,19 +13,12 @@ let mix = require('laravel-mix');
 /*
  * 前台
  */
-mix.styles([
-    'node_modules/font-awesome/css/font-awesome.min.css'
-], 'public/css/frontend/vendor.css');
-
 mix.sass('resources/assets/sass/frontend/app.scss', 'public/css/frontend/app.css');
 mix.js('resources/assets/js/frontend/app.js', 'public/js/frontend')
 
 /*
  * 后台
  */
-mix.styles([
-    'node_modules/font-awesome/css/font-awesome.min.css'
-], 'public/css/backend/vendor.css');
 
 mix.sass('resources/assets/sass/backend/app.scss', 'public/css/backend/app.css');
 mix.js('resources/assets/js/backend/app.js', 'public/js/backend')
