@@ -1,5 +1,5 @@
 <template>
-    <el-dialog width="40%"
+    <el-dialog width="660px"
                @close="$emit('update:dialogVisible',false)"
                :title="'用户'+(isRegister?'注册':'信息编辑')"
                :visible.sync="digVisible"
@@ -12,7 +12,7 @@
                     :model="registerInfo"
                     :rules="registerRules"
                     ref="registerForm"
-                    label-width="100px"
+                    label-width="120px"
                    >
                 <el-row>
                     <el-col :span="12">
@@ -25,12 +25,12 @@
                             <el-input v-model="registerInfo.realname"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col  v-if="isRegister" :span="12">
                         <el-form-item label="请输入密码" prop="password">
                             <el-input v-model="registerInfo.password" type="password"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col v-if="isRegister"  :span="12">
                         <el-form-item label="请重复密码" prop="rePassword">
                             <el-input v-model="registerInfo.rePassword" type="password"></el-input>
                         </el-form-item>
@@ -118,7 +118,6 @@
             }
             return{
                 selectCityList: [],
-                isReg:this.isRegister,
                 digVisible:false,
                 submitting:false,
                 registerRules:{
@@ -150,10 +149,11 @@
                         {required:true,message:'请选择每日空闲时间',trigger:'change'},
                     ],
                     tag:[
-                        {required:true,message:'请选择喜欢的标签',trigger:'blur'},
+                        // {required:true,message:'请选择喜欢的标签',trigger:'blur'},
                     ]
                 },
                 registerInfo:{
+                    uid:0,
                     username:'',
                     password:'',
                     rePassword:'',
@@ -212,9 +212,31 @@
             handleSubmit(){
                 this.submitting=true;
                 this.setCityName();
+
                 this.$refs['registerForm'].validate((valid)=>{
                   if(valid){
-                      this.submitting=false;
+                      let url='';
+                      if(this.registerInfo.uid){
+                          url=this.$apiAddress.postInfoEdit;
+                      }else{
+                          url=this.$apiAddress.postRegister;
+                      }
+                      axios({
+                          method:'post',
+                          url:url,
+                          data:this.setUrlParams(this.registerInfo)
+                      }).then((response)=>{
+                          this.$message({
+                              message:(this.isRegister?'注册':'更新')+'成功',
+                              type: 'success'
+                          });
+                          this.digVisible=false;
+                      }).finally(()=>{
+                          this.submitting=false;
+                      })
+
+
+
                   }
                   this.submitting=false;
                 })
@@ -238,15 +260,27 @@
             }
         },
         mounted(){
-          if(!this.isReg){
-              console.log('write edit')
-          }
+
+            console.log(this.isRegister);
+
+
+
         },
         watch:{
             'dialogVisible':function (val) {
 
                 this.digVisible=!!val;
                 if(!!val){
+                    if(!this.isRegister){
+                        // console.log('edit');
+                        axios({
+                            method:'get',
+                            url:this.$apiAddress.getLoggedUserInfo
+                        }).then((response)=>{
+                            this.registerInfo=response.data.data;
+                            this.selectCityList=[response.data.data.city.substr(0,2),response.data.data.city];
+                        })
+                    }
                     setTimeout(()=>{
                         this.$refs['registerForm'].resetFields();
                     },0)
