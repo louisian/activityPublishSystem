@@ -27,7 +27,12 @@ axios.interceptors.response.use(function(response) {
     return response;
 }, function(error) {
     NProgress.done();
-    Message.error(error.response.data.message);
+    Message.error({
+        message:error.response.data.message,
+        center:true,
+        duration:1500,
+        showClose:true
+    });
     // console.log(error.response);
     return Promise.reject(error);
 });

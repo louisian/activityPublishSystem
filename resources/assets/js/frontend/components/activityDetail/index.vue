@@ -1,6 +1,17 @@
 <template>
     <div class="main">
-        <h1 class="title">{{activityData.title}}</h1>
+        <h1 class="title clearfix">
+            {{activityData.title}}
+            <el-badge class="show-apply-info item" :value="applyCount">
+                <el-button v-if="isCreator"
+                           @click="handleShowApplyInfo"
+                           type="primary"
+                           :plain="true">
+                    查看报名信息
+
+                </el-button>
+            </el-badge>
+        </h1>
         <div class="main-info-container">
             <el-row>
                 <el-col :span="12">
@@ -8,27 +19,36 @@
                 </el-col>
                 <el-col :span="8">
                     <div class="detail-info-container">
-                        <table class="info-table">
+                        <table cellspacing="10" class="info-table">
                             <tbody>
-                            <tr>
-                                <td>开始时间:</td>
+                            <tr class="info-table-item">
+                                <td class="table-title">开始时间:</td>
                                 <td>{{activityData.timeStart}}</td>
                             </tr>
-                            <tr>
-                                <td>结束时间:</td>
+                            <tr class="info-table-item">
+                                <td class="table-title">结束时间:</td>
                                 <td>{{activityData.timeEnd}}</td>
                             </tr>
-                            <tr>
-                                <td>举办地点:</td>
+                            <tr class="info-table-item">
+                                <td class="table-title">举办地点:</td>
                                 <td>{{activityData.location}}</td>
                             </tr>
-                            <tr>
-                                <td>主办方:</td>
+                            <tr class="info-table-item" >
+                                <td class="table-title">主办方:</td>
                                 <td>{{activityData.organizer}}</td>
                             </tr>
-                            <tr>
-                                <td>报名截止:</td>
-                                <td></td>
+                            <tr class="info-table-item">
+                                <td class="table-title">报名截止:</td>
+                                <td class="date-item">
+                                    {{countDownObj.day}}
+                                    <p class="date-divider">天</p>
+                                    {{countDownObj.hour}}
+                                    <p class="date-divider">小时</p>
+                                    {{countDownObj.minute}}
+                                    <p class="date-divider">分</p>
+                                    {{countDownObj.second}}
+                                    <p class="date-divider">秒</p>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -50,7 +70,11 @@
         <div class="content-container" v-html="activityData.content">
 
         </div>
-
+        <el-dialog title="报名信息" :visible.sync="applyInfoVisible">
+            <el-table :data="applyData">
+                <el-table-column v-for="item,key in applyTableHeader" :key="key" :property="item.prop" :label="item.label"></el-table-column>
+            </el-table>
+        </el-dialog>
     </div>
 </template>
 
@@ -60,7 +84,7 @@
         data(){
             return{
                 activityData:{
-                    title:'',
+                    title:'test',
                     id:'',
                     banner:'',
                     timeStart:'',
@@ -68,16 +92,71 @@
                     location:'',
                     organizer:'',
                     content:'',
-                }
+                },
+                applyData:[
+
+                ],
+                countDownObj:{
+                    day: 0,
+                    hour: 0,
+                    minute: 0,
+                    second: 0
+                },
+                applyTableHeader:[
+                    {
+                        prop:'realname',
+                        label:'真实姓名'
+                    },
+                    {
+                        prop:'commit',
+                        label:'备注'
+                    }
+                ],
+                applyInfoVisible:false,
+                applyCount:100,
+                isCreator:true,
             }
         },
         mounted(){
+            this.countDown(new Date('2019/1/1'))
             // console.log(this.$router,'para',this.$router.currentRoute.params.id)
         },
 
         methods:{
+            countDown(target) {
+                var source = new Date();
+                var diff = target.getTime() - source.getTime();
+                var fullSecond = Math.ceil(diff / 1000);
+                var day = Math.floor(fullSecond / (60 * 60 * 24));
+                fullSecond = fullSecond - day * (60 * 60 * 24)
+                var hour = Math.floor(fullSecond / (60 * 60));
+                fullSecond = fullSecond - hour * (60 * 60)
+                var minute = Math.floor(fullSecond / 60);
+                fullSecond = fullSecond - minute * 60;
+                var second = fullSecond;
+                setInterval(() => {
+                    second--
+                    second < 0 && (minute--, second = 59);
+                    minute < 0 && (hour--, minute = 59);
+                    hour < 0 && (day--, hour = 23);
+                    this.countDownObj= {
+                        day: day,
+                        hour: hour,
+                        minute: minute,
+                        second: second
+                    }
+                    // console.log(day,hour,minute,second)
+                }, 1000)
+            },
             applyNow(){
-
+                axios({
+                    methods:'get',
+                    url:this.$apiAddress.getLoginStatus
+                }).then((response)=>{
+                })
+            },
+            handleShowApplyInfo(){
+                this.applyInfoVisible=true;
             }
         }
 
@@ -85,8 +164,31 @@
 </script>
 
 <style scoped>
+    .table-title{
+        padding-right: 10px;
+        text-align: right;
+    }
+    .date-item{
+        font-size: 18px;
+
+    }
+    .date-divider{
+        display: inline-block;
+        font-size: 15px;
+        margin: 0 2px;
+
+    }
+    .info-table{
+        border-collapse: separate;
+        border-spacing: 0px 10px;
+
+    }
+    .show-apply-info{
+        float: right;
+    }
     .title{
         padding: 20px 0;
+        line-height: 40px;
         border-bottom: 1px solid #e0e0e0;
     }
     .main-info-container{

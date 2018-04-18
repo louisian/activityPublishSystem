@@ -90,7 +90,7 @@
         </div>
         <span slot="footer" class="dialog-footer">
             <el-button @click="handleCancel">取 消</el-button>
-            <el-button type="primary" @click="handleSubmit">确 定</el-button>
+            <el-button :loading="submitting" type="primary" @click="handleSubmit">确 定</el-button>
         </span>
     </el-dialog>
 </template>
@@ -120,6 +120,7 @@
                 selectCityList: [],
                 isReg:this.isRegister,
                 digVisible:false,
+                submitting:false,
                 registerRules:{
                     username:[
                         {required:true,message:'请输入用户名',trigger:'blur'}
@@ -209,11 +210,13 @@
                 this.$emit('update:dialogVisible',false)
             },
             handleSubmit(){
+                this.submitting=true;
                 this.setCityName();
                 this.$refs['registerForm'].validate((valid)=>{
                   if(valid){
-
+                      this.submitting=false;
                   }
+                  this.submitting=false;
                 })
             },
             handleCityChange() {

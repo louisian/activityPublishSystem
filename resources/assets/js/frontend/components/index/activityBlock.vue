@@ -41,7 +41,13 @@
             },
             apply(e){
                 e.stopPropagation();
-                this.$emit('clickApply',this.activityData.id);
+                axios({
+                    methods:'get',
+                    url:this.$apiAddress.getLoginStatus
+                }).then((response)=>{
+                    this.$emit('clickApply',this.activityData.id);
+                })
+
             },
             edit(e){
               e.stopPropagation();

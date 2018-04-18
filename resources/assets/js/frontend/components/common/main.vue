@@ -9,7 +9,7 @@
 </template>
 <style type="text/scss" scope="scope">
     .app-main{
-        margin-top: 30px;
+        margin-top: 70px;
     }
 </style>
 <script type="text/javascript">

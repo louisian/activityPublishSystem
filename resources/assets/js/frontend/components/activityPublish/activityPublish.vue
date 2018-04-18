@@ -2,7 +2,7 @@
     <div class="main">
         <el-breadcrumb separator="/">
             <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item>创建活动</el-breadcrumb-item>
+            <el-breadcrumb-item>{{isCreate?'创建':'编辑'}}活动</el-breadcrumb-item>
         </el-breadcrumb>
         <div class="publish-container">
             <el-steps class="publish-step" align-center :active="activeStep" finish-status="success">
@@ -194,6 +194,7 @@
 
 
                 ],
+                isCreate:true,
                 publishRule:{
                     name:[
                         {required:true,message:'请填写活动名称',trigger:'blur'}
@@ -248,7 +249,14 @@
             }
         },
         mounted() {
+            // console.log(this.$router,'para',)
             this.mapInstance = new BMap.Map('map-container');
+            let aid=this.$router.currentRoute.params.id;
+            if(aid){
+                // console.log('fd')
+                this.isCreate=false;
+                //todo fetch activity data
+            }
         },
         methods: {
             tagRemoteMethod(query) {

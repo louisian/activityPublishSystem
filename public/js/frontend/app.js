@@ -79750,7 +79750,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'iconfont';\n  /* project id 630044 */\n  src: url(\"//at.alicdn.com/t/font_630044_p6mkxc3wbyq77gb9.eot\");\n  src: url(\"//at.alicdn.com/t/font_630044_p6mkxc3wbyq77gb9.eot?#iefix\") format(\"embedded-opentype\"), url(\"//at.alicdn.com/t/font_630044_p6mkxc3wbyq77gb9.woff\") format(\"woff\"), url(\"//at.alicdn.com/t/font_630044_p6mkxc3wbyq77gb9.ttf\") format(\"truetype\"), url(\"//at.alicdn.com/t/font_630044_p6mkxc3wbyq77gb9.svg#iconfont\") format(\"svg\"); }\n\n.iconfont {\n  font-family: \"iconfont\" !important;\n  font-size: 16px;\n  font-style: normal;\n  -webkit-font-smoothing: antialiased;\n  -webkit-text-stroke-width: 0.2px;\n  -moz-osx-font-smoothing: grayscale; }\n\n.clearfix:after {\n  clear: both;\n  content: '*';\n  display: block;\n  height: 0;\n  visibility: hidden; }\n\n.fa-icon {\n  padding-right: 5px; }\n", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'iconfont';\n  /* project id 630044 */\n  src: url(\"//at.alicdn.com/t/font_630044_7mdc7pl420lfpqfr.eot\");\n  src: url(\"//at.alicdn.com/t/font_630044_7mdc7pl420lfpqfr.eot?#iefix\") format(\"embedded-opentype\"), url(\"//at.alicdn.com/t/font_630044_7mdc7pl420lfpqfr.woff\") format(\"woff\"), url(\"//at.alicdn.com/t/font_630044_7mdc7pl420lfpqfr.ttf\") format(\"truetype\"), url(\"//at.alicdn.com/t/font_630044_7mdc7pl420lfpqfr.svg#iconfont\") format(\"svg\"); }\n\n.iconfont {\n  font-family: \"iconfont\" !important;\n  font-size: 16px;\n  font-style: normal;\n  -webkit-font-smoothing: antialiased;\n  -webkit-text-stroke-width: 0.2px;\n  -moz-osx-font-smoothing: grayscale; }\n\n.clearfix:after {\n  clear: both;\n  content: '*';\n  display: block;\n  height: 0;\n  visibility: hidden; }\n\n.fa-icon {\n  padding-right: 5px; }\n", ""]);
 
 // exports
 
@@ -79892,7 +79892,12 @@ axios.interceptors.response.use(function (response) {
     return response;
 }, function (error) {
     __WEBPACK_IMPORTED_MODULE_0_nprogress___default.a.done();
-    __WEBPACK_IMPORTED_MODULE_2_element_ui__["Message"].error(error.response.data.message);
+    __WEBPACK_IMPORTED_MODULE_2_element_ui__["Message"].error({
+        message: error.response.data.message,
+        center: true,
+        duration: 1500,
+        showClose: true
+    });
     // console.log(error.response);
     return Promise.reject(error);
 });
@@ -79963,7 +79968,7 @@ router.afterEach(function () {});
     path: '/',
     component: __WEBPACK_IMPORTED_MODULE_0__components_common_main_vue___default.a,
     name: 'skeleton',
-    children: [{ path: 'index', component: __WEBPACK_IMPORTED_MODULE_1__components_index_index_vue___default.a, name: '首页' }, { path: 'activity/publish', component: __WEBPACK_IMPORTED_MODULE_3__components_activityPublish_activityPublish_vue___default.a, name: '活动发布' }, { path: 'activity/:id', component: __WEBPACK_IMPORTED_MODULE_2__components_activityDetail_index_vue___default.a, name: '活动详情' }, { path: 'my-activity', component: __WEBPACK_IMPORTED_MODULE_4__components_myActivity_myActivity_vue___default.a, name: '我的活动' }]
+    children: [{ path: 'index', component: __WEBPACK_IMPORTED_MODULE_1__components_index_index_vue___default.a, name: '首页' }, { path: 'activity/publish', component: __WEBPACK_IMPORTED_MODULE_3__components_activityPublish_activityPublish_vue___default.a, name: '活动发布' }, { path: 'activity/publish/:id', component: __WEBPACK_IMPORTED_MODULE_3__components_activityPublish_activityPublish_vue___default.a, name: '活动编辑' }, { path: 'activity/:id', component: __WEBPACK_IMPORTED_MODULE_2__components_activityDetail_index_vue___default.a, name: '活动详情' }, { path: 'my-activity', component: __WEBPACK_IMPORTED_MODULE_4__components_myActivity_myActivity_vue___default.a, name: '我的活动' }]
 }]);
 
 /***/ }),
@@ -80053,7 +80058,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n.app-main{\n    margin-top: 30px;\n}\n", ""]);
+exports.push([module.i, "\n.app-main{\n    margin-top: 70px;\n}\n", ""]);
 
 // exports
 
@@ -80200,7 +80205,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n.nav-brand[data-v-15acea23]{\n    float: left;\n    line-height: 60px;\n    height: 60px;\n    margin-left: 10px;\n    margin-right: 20px;\n}\n\n", ""]);
+exports.push([module.i, "\n.nav-brand[data-v-15acea23]{\n    float: left;\n    line-height: 60px;\n    height: 60px;\n    margin-left: 10px;\n    margin-right: 20px;\n}\n.header[data-v-15acea23]{\n    width: 100%;\n    top: 0;\n    left: 0;\n    position: fixed;\n    z-index: 15;\n}\n\n", ""]);
 
 // exports
 
@@ -80544,6 +80549,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             selectCityList: [],
             isReg: this.isRegister,
             digVisible: false,
+            submitting: false,
             registerRules: {
                 username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
                 realname: [{ required: true, message: '请输入真实姓名', trigger: 'change' }],
@@ -80604,9 +80610,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.$emit('update:dialogVisible', false);
         },
         handleSubmit: function handleSubmit() {
+            var _this2 = this;
+
+            this.submitting = true;
             this.setCityName();
             this.$refs['registerForm'].validate(function (valid) {
-                if (valid) {}
+                if (valid) {
+                    _this2.submitting = false;
+                }
+                _this2.submitting = false;
             });
         },
         handleCityChange: function handleCityChange() {
@@ -80614,14 +80626,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         tagRemoteMethod: function tagRemoteMethod() {},
         setCityName: function setCityName() {
-            var _this2 = this;
+            var _this3 = this;
 
             if (this.selectCityList.length !== 2) return;
             this.registerInfo.cityName = this.provCityOptions.find(function (v) {
                 // console.log(v.code);
-                return v.code == _this2.selectCityList[0];
+                return v.code == _this3.selectCityList[0];
             })['children'].find(function (v) {
-                return v.code == _this2.selectCityList[1];
+                return v.code == _this3.selectCityList[1];
             })['name'];
         }
     },
@@ -80633,12 +80645,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     watch: {
         'dialogVisible': function dialogVisible(val) {
-            var _this3 = this;
+            var _this4 = this;
 
             this.digVisible = !!val;
             if (!!val) {
                 setTimeout(function () {
-                    _this3.$refs['registerForm'].resetFields();
+                    _this4.$refs['registerForm'].resetFields();
                 }, 0);
             }
         }
@@ -80962,7 +80974,10 @@ var render = function() {
           _vm._v(" "),
           _c(
             "el-button",
-            { attrs: { type: "primary" }, on: { click: _vm.handleSubmit } },
+            {
+              attrs: { loading: _vm.submitting, type: "primary" },
+              on: { click: _vm.handleSubmit }
+            },
             [_vm._v("确 定")]
           )
         ],
@@ -80995,7 +81010,7 @@ var render = function() {
       _c(
         "el-menu",
         {
-          staticClass: "el-menu-demo",
+          staticClass: "header",
           attrs: { "default-active": _vm.activeIndex, mode: "horizontal" },
           on: { select: _vm.handleSelect }
         },
@@ -81674,8 +81689,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.$emit('activityClick', this.activityData.id);
         },
         apply: function apply(e) {
+            var _this = this;
+
             e.stopPropagation();
-            this.$emit('clickApply', this.activityData.id);
+            axios({
+                methods: 'get',
+                url: this.$apiAddress.getLoginStatus
+            }).then(function (response) {
+                _this.$emit('clickApply', _this.activityData.id);
+            });
         },
         edit: function edit(e) {
             e.stopPropagation();
@@ -81938,7 +81960,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n.title[data-v-95a8681e]{\n    padding: 20px 0;\n    border-bottom: 1px solid #e0e0e0;\n}\n.main-info-container[data-v-95a8681e]{\n    border: 1px solid #eee;\n    padding: 5px;\n    border-radius: 10px;\n    margin: 30px 0;\n}\n.detail-info-container[data-v-95a8681e]{\n    padding: 25px 15px 0;\n}\n.info-table[data-v-95a8681e]{\n    font-size: 14px;\n}\n.info-table tr[data-v-95a8681e]{\n    padding-bottom: 5px;\n}\n.button-container[data-v-95a8681e]{\n    margin: 15px 0;\n}\n.map-container[data-v-95a8681e]{\n    height: 100%;\n}\n.content-container[data-v-95a8681e]{\n    width: 1200px;\n    padding: 15px;\n    margin: 0 auto;\n    border: 1px solid #eee;\n    border-radius: 10px;\n\n    min-height: 100px;\n}\n", ""]);
+exports.push([module.i, "\n.table-title[data-v-95a8681e]{\n    padding-right: 10px;\n    text-align: right;\n}\n.date-item[data-v-95a8681e]{\n    font-size: 18px;\n}\n.date-divider[data-v-95a8681e]{\n    display: inline-block;\n    font-size: 15px;\n    margin: 0 2px;\n}\n.info-table[data-v-95a8681e]{\n    border-collapse: separate;\n    border-spacing: 0px 10px;\n}\n.show-apply-info[data-v-95a8681e]{\n    float: right;\n}\n.title[data-v-95a8681e]{\n    padding: 20px 0;\n    line-height: 40px;\n    border-bottom: 1px solid #e0e0e0;\n}\n.main-info-container[data-v-95a8681e]{\n    border: 1px solid #eee;\n    padding: 5px;\n    border-radius: 10px;\n    margin: 30px 0;\n}\n.detail-info-container[data-v-95a8681e]{\n    padding: 25px 15px 0;\n}\n.info-table[data-v-95a8681e]{\n    font-size: 14px;\n}\n.info-table tr[data-v-95a8681e]{\n    padding-bottom: 5px;\n}\n.button-container[data-v-95a8681e]{\n    margin: 15px 0;\n}\n.map-container[data-v-95a8681e]{\n    height: 100%;\n}\n.content-container[data-v-95a8681e]{\n    width: 1200px;\n    padding: 15px;\n    margin: 0 auto;\n    border: 1px solid #eee;\n    border-radius: 10px;\n\n    min-height: 100px;\n}\n", ""]);
 
 // exports
 
@@ -82005,13 +82027,37 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "activityDetail",
     data: function data() {
         return {
             activityData: {
-                title: '',
+                title: 'test',
                 id: '',
                 banner: '',
                 timeStart: '',
@@ -82019,16 +82065,69 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 location: '',
                 organizer: '',
                 content: ''
-            }
+            },
+            applyData: [],
+            countDownObj: {
+                day: 0,
+                hour: 0,
+                minute: 0,
+                second: 0
+            },
+            applyTableHeader: [{
+                prop: 'realname',
+                label: '真实姓名'
+            }, {
+                prop: 'commit',
+                label: '备注'
+            }],
+            applyInfoVisible: false,
+            applyCount: 100,
+            isCreator: true
         };
     },
     mounted: function mounted() {
+        this.countDown(new Date('2019/1/1'));
         // console.log(this.$router,'para',this.$router.currentRoute.params.id)
     },
 
 
     methods: {
-        applyNow: function applyNow() {}
+        countDown: function countDown(target) {
+            var _this = this;
+
+            var source = new Date();
+            var diff = target.getTime() - source.getTime();
+            var fullSecond = Math.ceil(diff / 1000);
+            var day = Math.floor(fullSecond / (60 * 60 * 24));
+            fullSecond = fullSecond - day * (60 * 60 * 24);
+            var hour = Math.floor(fullSecond / (60 * 60));
+            fullSecond = fullSecond - hour * (60 * 60);
+            var minute = Math.floor(fullSecond / 60);
+            fullSecond = fullSecond - minute * 60;
+            var second = fullSecond;
+            setInterval(function () {
+                second--;
+                second < 0 && (minute--, second = 59);
+                minute < 0 && (hour--, minute = 59);
+                hour < 0 && (day--, hour = 23);
+                _this.countDownObj = {
+                    day: day,
+                    hour: hour,
+                    minute: minute,
+                    second: second
+                    // console.log(day,hour,minute,second)
+                };
+            }, 1000);
+        },
+        applyNow: function applyNow() {
+            axios({
+                methods: 'get',
+                url: this.$apiAddress.getLoginStatus
+            }).then(function (response) {});
+        },
+        handleShowApplyInfo: function handleShowApplyInfo() {
+            this.applyInfoVisible = true;
+        }
     }
 
 });
@@ -82041,94 +82140,196 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "main" }, [
-    _c("h1", { staticClass: "title" }, [
-      _vm._v(_vm._s(_vm.activityData.title))
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "main-info-container" },
-      [
-        _c(
-          "el-row",
-          [
-            _c("el-col", { attrs: { span: 12 } }, [
-              _c("img", {
-                staticClass: "banner",
-                attrs: { src: _vm.activityData.banner }
-              })
-            ]),
-            _vm._v(" "),
-            _c("el-col", { attrs: { span: 8 } }, [
-              _c("div", { staticClass: "detail-info-container" }, [
-                _c("table", { staticClass: "info-table" }, [
-                  _c("tbody", [
-                    _c("tr", [
-                      _c("td", [_vm._v("开始时间:")]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(_vm.activityData.timeStart))])
-                    ]),
-                    _vm._v(" "),
-                    _c("tr", [
-                      _c("td", [_vm._v("结束时间:")]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(_vm.activityData.timeEnd))])
-                    ]),
-                    _vm._v(" "),
-                    _c("tr", [
-                      _c("td", [_vm._v("举办地点:")]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(_vm.activityData.location))])
-                    ]),
-                    _vm._v(" "),
-                    _c("tr", [
-                      _c("td", [_vm._v("主办方:")]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(_vm.activityData.organizer))])
-                    ]),
-                    _vm._v(" "),
-                    _c("tr", [
-                      _c("td", [_vm._v("报名截止:")]),
-                      _vm._v(" "),
-                      _c("td")
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "button-container" },
-                  [
-                    _c(
-                      "el-button",
-                      {
-                        attrs: { type: "primary" },
-                        on: { click: _vm.applyNow }
-                      },
-                      [_vm._v("立即报名")]
-                    )
-                  ],
-                  1
-                )
+  return _c(
+    "div",
+    { staticClass: "main" },
+    [
+      _c(
+        "h1",
+        { staticClass: "title clearfix" },
+        [
+          _vm._v("\n        " + _vm._s(_vm.activityData.title) + "\n        "),
+          _c(
+            "el-badge",
+            {
+              staticClass: "show-apply-info item",
+              attrs: { value: _vm.applyCount }
+            },
+            [
+              _vm.isCreator
+                ? _c(
+                    "el-button",
+                    {
+                      attrs: { type: "primary", plain: true },
+                      on: { click: _vm.handleShowApplyInfo }
+                    },
+                    [_vm._v("\n                查看报名信息\n\n            ")]
+                  )
+                : _vm._e()
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "main-info-container" },
+        [
+          _c(
+            "el-row",
+            [
+              _c("el-col", { attrs: { span: 12 } }, [
+                _c("img", {
+                  staticClass: "banner",
+                  attrs: { src: _vm.activityData.banner }
+                })
+              ]),
+              _vm._v(" "),
+              _c("el-col", { attrs: { span: 8 } }, [
+                _c("div", { staticClass: "detail-info-container" }, [
+                  _c(
+                    "table",
+                    { staticClass: "info-table", attrs: { cellspacing: "10" } },
+                    [
+                      _c("tbody", [
+                        _c("tr", { staticClass: "info-table-item" }, [
+                          _c("td", { staticClass: "table-title" }, [
+                            _vm._v("开始时间:")
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(_vm.activityData.timeStart))])
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", { staticClass: "info-table-item" }, [
+                          _c("td", { staticClass: "table-title" }, [
+                            _vm._v("结束时间:")
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(_vm.activityData.timeEnd))])
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", { staticClass: "info-table-item" }, [
+                          _c("td", { staticClass: "table-title" }, [
+                            _vm._v("举办地点:")
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(_vm.activityData.location))])
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", { staticClass: "info-table-item" }, [
+                          _c("td", { staticClass: "table-title" }, [
+                            _vm._v("主办方:")
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(_vm.activityData.organizer))])
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", { staticClass: "info-table-item" }, [
+                          _c("td", { staticClass: "table-title" }, [
+                            _vm._v("报名截止:")
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "date-item" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.countDownObj.day) +
+                                "\n                                "
+                            ),
+                            _c("p", { staticClass: "date-divider" }, [
+                              _vm._v("天")
+                            ]),
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.countDownObj.hour) +
+                                "\n                                "
+                            ),
+                            _c("p", { staticClass: "date-divider" }, [
+                              _vm._v("小时")
+                            ]),
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.countDownObj.minute) +
+                                "\n                                "
+                            ),
+                            _c("p", { staticClass: "date-divider" }, [
+                              _vm._v("分")
+                            ]),
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.countDownObj.second) +
+                                "\n                                "
+                            ),
+                            _c("p", { staticClass: "date-divider" }, [
+                              _vm._v("秒")
+                            ])
+                          ])
+                        ])
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "button-container" },
+                    [
+                      _c(
+                        "el-button",
+                        {
+                          attrs: { type: "primary" },
+                          on: { click: _vm.applyNow }
+                        },
+                        [_vm._v("立即报名")]
+                      )
+                    ],
+                    1
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("el-col", { attrs: { span: 4 } }, [
+                _c("div", { staticClass: "map-container" })
               ])
-            ]),
-            _vm._v(" "),
-            _c("el-col", { attrs: { span: 4 } }, [
-              _c("div", { staticClass: "map-container" })
-            ])
-          ],
-          1
-        )
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c("div", {
-      staticClass: "content-container",
-      domProps: { innerHTML: _vm._s(_vm.activityData.content) }
-    })
-  ])
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("div", {
+        staticClass: "content-container",
+        domProps: { innerHTML: _vm._s(_vm.activityData.content) }
+      }),
+      _vm._v(" "),
+      _c(
+        "el-dialog",
+        {
+          attrs: { title: "报名信息", visible: _vm.applyInfoVisible },
+          on: {
+            "update:visible": function($event) {
+              _vm.applyInfoVisible = $event
+            }
+          }
+        },
+        [
+          _c(
+            "el-table",
+            { attrs: { data: _vm.applyData } },
+            _vm._l(_vm.applyTableHeader, function(item, key) {
+              return _c("el-table-column", {
+                key: key,
+                attrs: { property: item.prop, label: item.label }
+              })
+            })
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -82475,6 +82676,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 label: '备注信息',
                 value: 'commit'
             }],
+            isCreate: true,
             publishRule: {
                 name: [{ required: true, message: '请填写活动名称', trigger: 'blur' }],
                 tag: [{ required: true, message: '请填写活动标签', trigger: 'blur' }],
@@ -82517,7 +82719,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
     mounted: function mounted() {
+        // console.log(this.$router,'para',)
         this.mapInstance = new BMap.Map('map-container');
+        var aid = this.$router.currentRoute.params.id;
+        if (aid) {
+            // console.log('fd')
+            this.isCreate = false;
+            //todo fetch activity data
+        }
     },
 
     methods: {
@@ -83060,7 +83269,9 @@ var render = function() {
             _vm._v("首页")
           ]),
           _vm._v(" "),
-          _c("el-breadcrumb-item", [_vm._v("创建活动")])
+          _c("el-breadcrumb-item", [
+            _vm._v(_vm._s(_vm.isCreate ? "创建" : "编辑") + "活动")
+          ])
         ],
         1
       ),
@@ -84001,7 +84212,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -84083,6 +84294,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         _this.submitting = false;
                     });
                 }
+                _this.submitting = false;
             });
         },
         handleCancel: function handleCancel() {
@@ -84315,7 +84527,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n.container[data-v-65cded51]{\n    border: 1px solid #eee;\n    border-radius: 10px;\n    padding: 15px;\n    margin-bottom: 20px;\n}\n", ""]);
+exports.push([module.i, "\n.container[data-v-65cded51]{\n    border: 1px solid #eee;\n    border-radius: 10px;\n    padding: 15px;\n    margin-bottom: 20px;\n}\n.no-activity[data-v-65cded51]{\n    position: relative;\n    height: 300px;\n    width: 100%;\n}\n.no-activity-text[data-v-65cded51]{\n    position: absolute;\n    top:50%;\n    left: 50%;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-transform: translate(-50%,-50%);\n            transform: translate(-50%,-50%);\n    font-size: 20px;\n}\n.no-activity-text span[data-v-65cded51]{\n    display: inline-block;\n    height: 40px;\n    line-height: 40px;\n    margin-left: 10px;\n}\n.no-activity-text .icon[data-v-65cded51]{\n    font-size: 40px;\n}\n", ""]);
 
 // exports
 
@@ -84354,6 +84566,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -84366,6 +84591,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
 
+    computed: {
+        noCreateActivity: function noCreateActivity() {
+            return this.createActivityList.length === 0;
+        },
+        noApplyActivity: function noApplyActivity() {
+            return this.applyActivityList.length === 0;
+        }
+    },
     method: {
         handleActivityClick: function handleActivityClick(id) {
             this.$router.push('/activity/' + id);
@@ -84389,26 +84622,34 @@ var render = function() {
       [
         _c("h1", { staticClass: "title" }, [_vm._v("我发起的活动")]),
         _vm._v(" "),
-        _c(
-          "el-row",
-          { staticClass: "activity-container", attrs: { gutter: 20 } },
-          _vm._l(_vm.createActivityList, function(item, key) {
-            return _c(
-              "el-col",
-              { key: key, attrs: { span: 6 } },
-              [
-                _c("activity-block", {
-                  attrs: { "edit-mode": true, "activity-data": item },
-                  on: {
-                    clickEdit: _vm.handleEdit,
-                    activityClick: _vm.handleActivityClick
-                  }
-                })
-              ],
-              1
+        !_vm.noCreateActivity
+          ? _c(
+              "el-row",
+              { staticClass: "activity-container", attrs: { gutter: 20 } },
+              _vm._l(_vm.createActivityList, function(item, key) {
+                return _c(
+                  "el-col",
+                  { key: key, attrs: { span: 6 } },
+                  [
+                    _c("activity-block", {
+                      attrs: { "edit-mode": true, "activity-data": item },
+                      on: {
+                        clickEdit: _vm.handleEdit,
+                        activityClick: _vm.handleActivityClick
+                      }
+                    })
+                  ],
+                  1
+                )
+              })
             )
-          })
-        )
+          : _c("div", { staticClass: "no-activity" }, [
+              _c("p", { staticClass: "no-activity-text" }, [
+                _c("i", { staticClass: "icon iconfont" }, [_vm._v("")]),
+                _vm._v(" "),
+                _c("span", [_vm._v("暂无活动")])
+              ])
+            ])
       ],
       1
     ),
@@ -84419,23 +84660,31 @@ var render = function() {
       [
         _c("h1", { staticClass: "title" }, [_vm._v("我参与的活动")]),
         _vm._v(" "),
-        _c(
-          "el-row",
-          { staticClass: "activity-container", attrs: { gutter: 20 } },
-          _vm._l(_vm.applyActivityList, function(item, key) {
-            return _c(
-              "el-col",
-              { key: key, attrs: { span: 6 } },
-              [
-                _c("activity-block", {
-                  attrs: { applied: true, "activity-data": item },
-                  on: { activityClick: _vm.handleActivityClick }
-                })
-              ],
-              1
+        !_vm.noApplyActivity
+          ? _c(
+              "el-row",
+              { staticClass: "activity-container", attrs: { gutter: 20 } },
+              _vm._l(_vm.applyActivityList, function(item, key) {
+                return _c(
+                  "el-col",
+                  { key: key, attrs: { span: 6 } },
+                  [
+                    _c("activity-block", {
+                      attrs: { applied: true, "activity-data": item },
+                      on: { activityClick: _vm.handleActivityClick }
+                    })
+                  ],
+                  1
+                )
+              })
             )
-          })
-        )
+          : _c("div", { staticClass: "no-activity" }, [
+              _c("p", { staticClass: "no-activity-text" }, [
+                _c("i", { staticClass: "icon iconfont" }, [_vm._v("")]),
+                _vm._v(" "),
+                _c("span", [_vm._v("暂无活动")])
+              ])
+            ])
       ],
       1
     )

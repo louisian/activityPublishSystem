@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+        <el-menu :default-active="activeIndex" class="header" mode="horizontal" @select="handleSelect">
             <li class="nav-brand"><i class="iconfont aws-icon">&#xe605;</i> 活动</li>
             <el-submenu v-if="!isLogin" index="my">
                 <template slot="title">我的</template>
@@ -71,6 +71,13 @@
         height: 60px;
         margin-left: 10px;
         margin-right: 20px;
+    }
+    .header{
+        width: 100%;
+        top: 0;
+        left: 0;
+        position: fixed;
+        z-index: 15;
     }
 
 </style>
