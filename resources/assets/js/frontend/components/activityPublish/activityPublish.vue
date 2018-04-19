@@ -108,7 +108,7 @@
                 </div>
 
                 <h1 class="input-title">活动海报上传</h1>
-                <pic-uploader @upload-success="picUploadStatus='success'" class="pic-uploader"></pic-uploader>
+                <pic-uploader :data-object="{aid:detailSubmitAid}" @upload-success="picUploadStatus='success'" class="pic-uploader"></pic-uploader>
                 <h1 class="input-title">活动详情撰写</h1>
                 <mavon-editor class="md-editor"  ref="mdEditor" @imgAdd="imgAdd" @imgDel="imgDel" v-model="publishDetail"/>
                 <div class="button-container clearfix">
@@ -174,6 +174,7 @@
             return {
                 activeStep: 0,
                 tagDialogVisible:false,
+                detailSubmitAid:0,
                 pickerOptions: {
                     disabledDate(time) {
                         return time.getTime() < new Date(new Date().getTime() - 24 * 60 * 60 * 1000);

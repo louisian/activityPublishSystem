@@ -27,7 +27,7 @@ Route::group(['middleware'=>'api'],function () {
     Route::post('/user/register','UserController@postRegister');
     Route::get('/tag/search','TagController@searchTag');
     Route::get('/tag/get/list','TagController@getTagsByTidList');
-
+//    Route::get('/user/te','UserController@postTagEnter');//todo temp must be delete
 
 });
 

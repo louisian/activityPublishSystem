@@ -4,6 +4,7 @@
                 class="avatar-uploader"
                 action="/api/activity/publish/uploader/poster"
                 :show-file-list="false"
+                :data="dataObject"
                 :on-success="handlePicSuccess"
                 :on-progress="handlePicUploading"
                 :on-error="handlePicError"
@@ -92,6 +93,11 @@
 <script>
     export default {
         name: "picUploader",
+        props:{
+            dataObject:{
+                require:true,
+            }
+        },
         data() {
             return {
                 imageUrl: '',

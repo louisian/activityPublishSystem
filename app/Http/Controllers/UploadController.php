@@ -7,6 +7,7 @@
  */
 
 namespace App\Http\Controllers;
+use App\Model\ActivityModel;
 use Storage;
 use Illuminate\Http\Request;
 
@@ -32,11 +33,18 @@ class UploadController extends Controller{
         return false;
     }
     public function posterUploader(Request $request){
-       if($this->uploadPic($request)){
-           return $this->apiResponse(200,'');
-       }else{
-           return $this->apiResponse(500,'系统错误');
+        $aid=$request->input('aid');
+        if(!$aid){
+            return $this->apiResponse(400,'没有活动ID,上传失败');
+        }
+       if($filename=$this->uploadPic($request)) {
+           // write to database
+           if (ActivityModel::updatePosterPathByAid($filename,$aid)){
+               return $this->apiResponse(200, '');
+           }
        }
+           return $this->apiResponse(400,'系统错误');
+
 
     }
     public function mdPicUploader(Request $request){

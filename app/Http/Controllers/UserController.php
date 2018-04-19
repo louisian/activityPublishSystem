@@ -8,6 +8,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\UserModel;
+use App\User;
 use Illuminate\Http\Request;
 class UserController extends Controller{
     public function getLoginStatus(Request $request){
@@ -90,6 +91,15 @@ class UserController extends Controller{
         }
         return $this->apiResponse(500,'系统错误');
 
+
+    }
+    public function postTagEnter(Request $request){//todo move to ActivityEnterController
+        $tidString=$request->input('tid');
+        $uid=$request->session()->get('logged_uid');
+        if(UserModel::updateTagEnterByTidListUid($tidString,$uid)){
+            return $this->apiResponse(200,'数据更新成功');
+        }
+        return $this->apiResponse(400,'系统错误');
 
     }
 }

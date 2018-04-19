@@ -47,6 +47,7 @@ class UserModel extends Model{
         $um->city=$userObj['city'];
         $um->city_name=$userObj['cityName'];
         $um->tag=$userObj['tag'];
+        $um->tag_enter=json_encode((object)array());
         $um->save();
         return true;
 
@@ -58,6 +59,30 @@ class UserModel extends Model{
             return null;
         }
         return $user->toArray();
+    }
+    public static function getTagEnterByUid($uid){
+        $te=UserModel::where('uid',$uid)->select('tag_enter')->first();
+        if($te->tag_enter==null){
+            return [];
+        }
+//        var_dump( json_decode($te,true));
+        return json_decode($te->tag_enter,true);
+    }
+    public static function updateTagEnterByTidListUid($tidString,$uid){//因为是写入，for持续写入性能问题
+        $tidList=explode(',',$tidString);
+        $teObject=self::getTagEnterByUid($uid);
+//        $teObjectNew=array();
+
+        foreach ($tidList as $value){
+            if(array_key_exists($value,$teObject)){
+                $teObject[$value]=++ $teObject[$value];
+            }else{
+                $teObject[$value]=1;
+            }
+        }
+//        var_dump((object)$teObject);
+        UserModel::where('uid',$uid)->update(['tag_enter'=>json_encode((object)$teObject)]);
+        return true;
     }
 
 }
