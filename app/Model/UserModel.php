@@ -53,6 +53,7 @@ class UserModel extends Model{
     }
     public static function getUserByUsername($username){
         $user=UserModel::where('username',$username)->first();
+//        var_dump($user);
         if($user==null){
             return null;
         }

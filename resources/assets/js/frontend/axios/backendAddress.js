@@ -6,6 +6,9 @@ let address={
     postRegister:'/user/register',
     postInfoEdit:'/user/login/info/edit',
     getLoggedUserInfo:'/user/login/info',
+    postAddTag:'/tag/add',
+    searchTag:'/tag/search',
+    getTagByTidList:'/tag/get/list',
 
 }
 for(let i in address){

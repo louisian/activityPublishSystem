@@ -216,10 +216,11 @@
     .content-container{
         width: 1200px;
         padding: 15px;
-        margin: 0 auto;
+        margin: 0 auto 30px;
         border: 1px solid #eee;
         border-radius: 10px;
 
         min-height: 100px;
+
     }
 </style>

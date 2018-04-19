@@ -28,9 +28,9 @@
                                     :loading="tagLoading">
                                 <el-option
                                         v-for="item in tagOptions"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.value">
+                                        :key="item.tid"
+                                        :label="item.name"
+                                        :value="item.tid">
                                 </el-option>
                             </el-select>
                             <el-button type="primary" class="add-tag-button" @click="addTag"><i class="fa fa-plus fa-icon" aria-hidden="true"></i>添加标签</el-button>
@@ -128,12 +128,13 @@
                 label-width="80px"
                 :close-on-click-modal="false"
                 :close-on-press-escape="false">
-            <el-form ref="addTagForm" :model="addTagInfo">
-                <el-form-item label="标签名称">
+            <el-form ref="addTagForm" :rules="addTagRule" :model="addTagInfo">
+                <el-form-item label="标签名称" prop="name">
                     <el-input v-model="addTagInfo.name" auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="标签简介">
+                <el-form-item label="标签简介" prop="description">
                     <el-input type="textarea"
+                              :maxlength="255"
                               placeholder="简单的介绍一下标签的用处"
                               v-model="addTagInfo.description">
 
@@ -220,6 +221,14 @@
 
 
                 },
+                addTagRule:{
+                    name:[
+                        {required:true,message:'请填写标签名称',trigger:'blur'},
+                    ],
+                    description:[
+                        {required:true,message:'请填写标签描述',trigger:'blur'}
+                    ]
+                },
                 selectCityList: [],
                 publishInfo: {
                     name: '',
@@ -262,13 +271,16 @@
             tagRemoteMethod(query) {
                 if (query !== '') {
                     this.tagLoading = true;
-                    setTimeout(() => {
+                    axios({
+                        method:'get',
+                        url:this.$apiAddress.searchTag,
+                        params:this.setUrlParams({query:query})
+                    }).then((response)=>{
+                        this.tagOptions = response.data.data;
+                    }).finally(()=>{
                         this.tagLoading = false;
-                        this.tagOptions = [{
-                            label: '1',
-                            value: '1'
-                        }]
-                    }, 200);
+                    })
+
                 } else {
                     this.tagOptions = [];
                 }
@@ -339,6 +351,21 @@
                 this.mapInstance.addOverlay(new BMap.Marker(item.point));
             },
             handleAddTagSubmit(){
+                this.$refs['addTagForm'].validate((valid)=>{
+                    if(valid){
+                        axios({
+                            method:'post',
+                            url:this.$apiAddress.postAddTag,
+                            data:this.setUrlParams(this.addTagInfo)
+                        }).then((response)=>{
+                            this.$message({
+                                message:'标签添加成功',
+                                type: 'success'
+                            });
+                            this.tagDialogVisible=false;
+                        })
+                    }
+                })
 
             },
             handleAddTagCancel(){

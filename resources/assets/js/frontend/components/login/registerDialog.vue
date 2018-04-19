@@ -6,8 +6,9 @@
                :close-on-click-modal="false"
                :close-on-press-escape="false"
                 top="5vh">
-        <div class="register-form">
+        <div   class="register-form">
             <el-form
+                    v-loading="loading"
                     status-icon
                     :model="registerInfo"
                     :rules="registerRules"
@@ -80,9 +81,9 @@
                             :loading="tagLoading">
                         <el-option
                                 v-for="item in tagOptions"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
+                                :key="item.tid"
+                                :label="item.name"
+                                :value="item.tid">
                         </el-option>
                     </el-select>
                 </el-form-item>
@@ -119,6 +120,7 @@
             return{
                 selectCityList: [],
                 digVisible:false,
+                loading:false,
                 submitting:false,
                 registerRules:{
                     username:[
@@ -149,7 +151,7 @@
                         {required:true,message:'请选择每日空闲时间',trigger:'change'},
                     ],
                     tag:[
-                        // {required:true,message:'请选择喜欢的标签',trigger:'blur'},
+                        {required:true,message:'请选择喜欢的标签',trigger:'blur'},
                     ]
                 },
                 registerInfo:{
@@ -246,8 +248,22 @@
 
 
             },
-            tagRemoteMethod(){
+            tagRemoteMethod(query){
+                if (query !== '') {
+                    this.tagLoading = true;
+                    axios({
+                        method:'get',
+                        url:this.$apiAddress.searchTag,
+                        params:this.setUrlParams({query:query})
+                    }).then((response)=>{
+                        this.tagOptions = response.data.data;
+                    }).finally(()=>{
+                        this.tagLoading = false;
+                    })
 
+                } else {
+                    this.tagOptions = [];
+                }
             },
             setCityName() {
                 if (this.selectCityList.length !== 2) return;
@@ -273,13 +289,24 @@
                 if(!!val){
                     if(!this.isRegister){
                         // console.log('edit');
+                        this.loading=true;
                         axios({
                             method:'get',
                             url:this.$apiAddress.getLoggedUserInfo
                         }).then((response)=>{
                             this.registerInfo=response.data.data;
                             this.selectCityList=[response.data.data.city.substr(0,2),response.data.data.city];
+                            axios({
+                                method:'get',
+                                url:this.$apiAddress.getTagByTidList,
+                                params:this.setUrlParams(this.registerInfo.tag),
+                            }).then((response)=>{
+                                this.tagOptions=response.data.data;
+                            })
+                        }).finally(()=>{
+                            this.loading=false;
                         })
+
                     }
                     setTimeout(()=>{
                         this.$refs['registerForm'].resetFields();

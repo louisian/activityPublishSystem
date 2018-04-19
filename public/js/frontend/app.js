@@ -11655,13 +11655,19 @@ module.exports = {
 
 /***/ }),
 /* 5 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (immutable) */ __webpack_exports__["default"] = addStylesClient;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__listToStyles__ = __webpack_require__(188);
 /*
   MIT License http://www.opensource.org/licenses/mit-license.php
   Author Tobias Koppers @sokra
   Modified by Evan You @yyx990803
 */
+
+
 
 var hasDocument = typeof document !== 'undefined'
 
@@ -11672,8 +11678,6 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
     "Use { target: 'node' } in your Webpack config to indicate a server-rendering environment."
   ) }
 }
-
-var listToStyles = __webpack_require__(188)
 
 /*
 type StyleObject = {
@@ -11708,12 +11712,12 @@ var ssrIdKey = 'data-vue-ssr-id'
 // tags it will allow on a page
 var isOldIE = typeof navigator !== 'undefined' && /msie [6-9]\b/.test(navigator.userAgent.toLowerCase())
 
-module.exports = function (parentId, list, _isProduction, _options) {
+function addStylesClient (parentId, list, _isProduction, _options) {
   isProduction = _isProduction
 
   options = _options || {}
 
-  var styles = listToStyles(parentId, list)
+  var styles = Object(__WEBPACK_IMPORTED_MODULE_0__listToStyles__["a" /* default */])(parentId, list)
   addStylesToDom(styles)
 
   return function update (newList) {
@@ -11725,7 +11729,7 @@ module.exports = function (parentId, list, _isProduction, _options) {
       mayRemove.push(domStyle)
     }
     if (newList) {
-      styles = listToStyles(parentId, newList)
+      styles = Object(__WEBPACK_IMPORTED_MODULE_0__listToStyles__["a" /* default */])(parentId, newList)
       addStylesToDom(styles)
     } else {
       styles = []
@@ -12449,39 +12453,19 @@ var isOldIE = memoize(function () {
 	return window && document && document.all && !window.atob;
 });
 
-var getTarget = function (target) {
-  return document.querySelector(target);
-};
-
 var getElement = (function (fn) {
 	var memo = {};
 
-	return function(target) {
-                // If passing function in options, then use it for resolve "head" element.
-                // Useful for Shadow Root style i.e
-                // {
-                //   insertInto: function () { return document.querySelector("#foo").shadowRoot }
-                // }
-                if (typeof target === 'function') {
-                        return target();
-                }
-                if (typeof memo[target] === "undefined") {
-			var styleTarget = getTarget.call(this, target);
-			// Special case to return head of iframe instead of iframe itself
-			if (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {
-				try {
-					// This will throw an exception if access to iframe is blocked
-					// due to cross-origin restrictions
-					styleTarget = styleTarget.contentDocument.head;
-				} catch(e) {
-					styleTarget = null;
-				}
-			}
-			memo[target] = styleTarget;
+	return function(selector) {
+		if (typeof memo[selector] === "undefined") {
+			memo[selector] = fn.call(this, selector);
 		}
-		return memo[target]
+
+		return memo[selector]
 	};
-})();
+})(function (target) {
+	return document.querySelector(target)
+});
 
 var singleton = null;
 var	singletonCounter = 0;
@@ -12500,10 +12484,10 @@ module.exports = function(list, options) {
 
 	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
 	// tags it will allow on a page
-	if (!options.singleton && typeof options.singleton !== "boolean") options.singleton = isOldIE();
+	if (!options.singleton) options.singleton = isOldIE();
 
 	// By default, add <style> tags to the <head> element
-        if (!options.insertInto) options.insertInto = "head";
+	if (!options.insertInto) options.insertInto = "head";
 
 	// By default, add <style> tags to the bottom of the target
 	if (!options.insertAt) options.insertAt = "bottom";
@@ -12606,11 +12590,8 @@ function insertStyleElement (options, style) {
 		stylesInsertedAtTop.push(style);
 	} else if (options.insertAt === "bottom") {
 		target.appendChild(style);
-	} else if (typeof options.insertAt === "object" && options.insertAt.before) {
-		var nextSibling = getElement(options.insertInto + " " + options.insertAt.before);
-		target.insertBefore(style, nextSibling);
 	} else {
-		throw new Error("[Style Loader]\n\n Invalid value for parameter 'insertAt' ('options.insertAt') found.\n Must be 'top', 'bottom', or Object.\n (https://github.com/webpack-contrib/style-loader#insertat)\n");
+		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
 	}
 }
 
@@ -47995,49 +47976,30 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
+// style-loader: Adds some css to the DOM by adding a <style> tag
 
+// load the styles
 var content = __webpack_require__(189);
-
 if(typeof content === 'string') content = [[module.i, content, '']];
-
+// Prepare cssTransformation
 var transform;
-var insertInto;
 
-
-
-var options = {"hmr":true}
-
+var options = {}
 options.transform = transform
-options.insertInto = undefined;
-
+// add the styles to the DOM
 var update = __webpack_require__(17)(content, options);
-
 if(content.locals) module.exports = content.locals;
-
+// Hot Module Replacement
 if(false) {
-	module.hot.accept("!!../../../node_modules/css-loader/index.js!./reset.css", function() {
-		var newContent = require("!!../../../node_modules/css-loader/index.js!./reset.css");
-
-		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-
-		var locals = (function(a, b) {
-			var key, idx = 0;
-
-			for(key in a) {
-				if(!b || a[key] !== b[key]) return false;
-				idx++;
-			}
-
-			for(key in b) idx--;
-
-			return idx === 0;
-		}(content.locals, newContent.locals));
-
-		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
-
-		update(newContent);
-	});
-
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../node_modules/css-loader/index.js!./reset.css", function() {
+			var newContent = require("!!../../../node_modules/css-loader/index.js!./reset.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
 	module.hot.dispose(function() { update(); });
 }
 
@@ -66812,49 +66774,30 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/* NProgress, 
 /* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
+// style-loader: Adds some css to the DOM by adding a <style> tag
 
+// load the styles
 var content = __webpack_require__(105);
-
 if(typeof content === 'string') content = [[module.i, content, '']];
-
+// Prepare cssTransformation
 var transform;
-var insertInto;
 
-
-
-var options = {"hmr":true}
-
+var options = {}
 options.transform = transform
-options.insertInto = undefined;
-
+// add the styles to the DOM
 var update = __webpack_require__(17)(content, options);
-
 if(content.locals) module.exports = content.locals;
-
+// Hot Module Replacement
 if(false) {
-	module.hot.accept("!!../css-loader/index.js!./nprogress.css", function() {
-		var newContent = require("!!../css-loader/index.js!./nprogress.css");
-
-		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-
-		var locals = (function(a, b) {
-			var key, idx = 0;
-
-			for(key in a) {
-				if(!b || a[key] !== b[key]) return false;
-				idx++;
-			}
-
-			for(key in b) idx--;
-
-			return idx === 0;
-		}(content.locals, newContent.locals));
-
-		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
-
-		update(newContent);
-	});
-
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../css-loader/index.js!./nprogress.css", function() {
+			var newContent = require("!!../css-loader/index.js!./nprogress.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
 	module.hot.dispose(function() { update(); });
 }
 
@@ -66940,7 +66883,7 @@ module.exports = function (css) {
 			.replace(/^'(.*)'$/, function(o, $1){ return $1; });
 
 		// already a full url? no change
-		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/|\s*$)/i.test(unquotedOrigUrl)) {
+		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/)/i.test(unquotedOrigUrl)) {
 		  return fullMatch;
 		}
 
@@ -79580,13 +79523,15 @@ if (inBrowser && window.Vue) {
 
 /***/ }),
 /* 188 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = listToStyles;
 /**
  * Translates the list format produced by css-loader into something
  * easier to manipulate.
  */
-module.exports = function listToStyles (parentId, list) {
+function listToStyles (parentId, list) {
   var styles = []
   var newStyles = {}
   for (var i = 0; i < list.length; i++) {
@@ -79629,49 +79574,30 @@ exports.push([module.i, "\r\n/* KISSY CSS Reset\r\n理念：清除和重置是�
 /* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
+// style-loader: Adds some css to the DOM by adding a <style> tag
 
+// load the styles
 var content = __webpack_require__(191);
-
 if(typeof content === 'string') content = [[module.i, content, '']];
-
+// Prepare cssTransformation
 var transform;
-var insertInto;
 
-
-
-var options = {"hmr":true}
-
+var options = {}
 options.transform = transform
-options.insertInto = undefined;
-
+// add the styles to the DOM
 var update = __webpack_require__(17)(content, options);
-
 if(content.locals) module.exports = content.locals;
-
+// Hot Module Replacement
 if(false) {
-	module.hot.accept("!!../../css-loader/index.js!./font-awesome.min.css", function() {
-		var newContent = require("!!../../css-loader/index.js!./font-awesome.min.css");
-
-		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-
-		var locals = (function(a, b) {
-			var key, idx = 0;
-
-			for(key in a) {
-				if(!b || a[key] !== b[key]) return false;
-				idx++;
-			}
-
-			for(key in b) idx--;
-
-			return idx === 0;
-		}(content.locals, newContent.locals));
-
-		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
-
-		update(newContent);
-	});
-
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../css-loader/index.js!./font-awesome.min.css", function() {
+			var newContent = require("!!../../css-loader/index.js!./font-awesome.min.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
 	module.hot.dispose(function() { update(); });
 }
 
@@ -79730,49 +79656,30 @@ module.exports = "/fonts/vendor/font-awesome/fontawesome-webfont.svg?912ec66d757
 /* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
+// style-loader: Adds some css to the DOM by adding a <style> tag
 
+// load the styles
 var content = __webpack_require__(199);
-
 if(typeof content === 'string') content = [[module.i, content, '']];
-
+// Prepare cssTransformation
 var transform;
-var insertInto;
 
-
-
-var options = {"hmr":true}
-
+var options = {}
 options.transform = transform
-options.insertInto = undefined;
-
+// add the styles to the DOM
 var update = __webpack_require__(17)(content, options);
-
 if(content.locals) module.exports = content.locals;
-
+// Hot Module Replacement
 if(false) {
-	module.hot.accept("!!../../../css-loader/index.js!./index.css", function() {
-		var newContent = require("!!../../../css-loader/index.js!./index.css");
-
-		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-
-		var locals = (function(a, b) {
-			var key, idx = 0;
-
-			for(key in a) {
-				if(!b || a[key] !== b[key]) return false;
-				idx++;
-			}
-
-			for(key in b) idx--;
-
-			return idx === 0;
-		}(content.locals, newContent.locals));
-
-		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
-
-		update(newContent);
-	});
-
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../css-loader/index.js!./index.css", function() {
+			var newContent = require("!!../../../css-loader/index.js!./index.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
 	module.hot.dispose(function() { update(); });
 }
 
@@ -79807,49 +79714,30 @@ module.exports = "/fonts/vendor/element-ui/lib/theme-chalk/element-icons.ttf?6f0
 /* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
+// style-loader: Adds some css to the DOM by adding a <style> tag
 
+// load the styles
 var content = __webpack_require__(203);
-
 if(typeof content === 'string') content = [[module.i, content, '']];
-
+// Prepare cssTransformation
 var transform;
-var insertInto;
 
-
-
-var options = {"hmr":true}
-
+var options = {}
 options.transform = transform
-options.insertInto = undefined;
-
+// add the styles to the DOM
 var update = __webpack_require__(17)(content, options);
-
 if(content.locals) module.exports = content.locals;
-
+// Hot Module Replacement
 if(false) {
-	module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/sass-loader/lib/loader.js!./app.scss", function() {
-		var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/sass-loader/lib/loader.js!./app.scss");
-
-		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-
-		var locals = (function(a, b) {
-			var key, idx = 0;
-
-			for(key in a) {
-				if(!b || a[key] !== b[key]) return false;
-				idx++;
-			}
-
-			for(key in b) idx--;
-
-			return idx === 0;
-		}(content.locals, newContent.locals));
-
-		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
-
-		update(newContent);
-	});
-
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/sass-loader/lib/loader.js!./app.scss", function() {
+			var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/sass-loader/lib/loader.js!./app.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
 	module.hot.dispose(function() { update(); });
 }
 
@@ -80196,7 +80084,8 @@ var content = __webpack_require__(216);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("33cf488d", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("dc7fe5e6", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -80342,7 +80231,8 @@ var content = __webpack_require__(220);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("0ec2f8dc", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("190a1cd2", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -80508,7 +80398,8 @@ var content = __webpack_require__(224);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("31f08f3e", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("a24ef73e", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -80548,7 +80439,8 @@ var content = __webpack_require__(226);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("45029d31", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("48d34531", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -80682,6 +80574,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -80707,6 +80600,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             selectCityList: [],
             digVisible: false,
+            loading: false,
             submitting: false,
             registerRules: {
                 username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
@@ -80717,9 +80611,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 city: [{ required: true, message: '请选择常住城市', trigger: 'change' }],
                 freeDay: [{ required: true, message: '请选择每周空闲时间', trigger: 'change' }],
                 freeTime: [{ required: true, message: '请选择每日空闲时间', trigger: 'change' }],
-                tag: [
-                    // {required:true,message:'请选择喜欢的标签',trigger:'blur'},
-                ]
+                tag: [{ required: true, message: '请选择喜欢的标签', trigger: 'blur' }]
             },
             registerInfo: {
                 uid: 0,
@@ -80804,16 +80696,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         handleCityChange: function handleCityChange() {
             this.registerInfo.city = this.selectCityList[1];
         },
-        tagRemoteMethod: function tagRemoteMethod() {},
-        setCityName: function setCityName() {
+        tagRemoteMethod: function tagRemoteMethod(query) {
             var _this3 = this;
+
+            if (query !== '') {
+                this.tagLoading = true;
+                axios({
+                    method: 'get',
+                    url: this.$apiAddress.searchTag,
+                    params: this.setUrlParams({ query: query })
+                }).then(function (response) {
+                    _this3.tagOptions = response.data.data;
+                }).finally(function () {
+                    _this3.tagLoading = false;
+                });
+            } else {
+                this.tagOptions = [];
+            }
+        },
+        setCityName: function setCityName() {
+            var _this4 = this;
 
             if (this.selectCityList.length !== 2) return;
             this.registerInfo.cityName = this.provCityOptions.find(function (v) {
                 // console.log(v.code);
-                return v.code == _this3.selectCityList[0];
+                return v.code == _this4.selectCityList[0];
             })['children'].find(function (v) {
-                return v.code == _this3.selectCityList[1];
+                return v.code == _this4.selectCityList[1];
             })['name'];
         }
     },
@@ -80824,22 +80733,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     watch: {
         'dialogVisible': function dialogVisible(val) {
-            var _this4 = this;
+            var _this5 = this;
 
             this.digVisible = !!val;
             if (!!val) {
                 if (!this.isRegister) {
                     // console.log('edit');
+                    this.loading = true;
                     axios({
                         method: 'get',
                         url: this.$apiAddress.getLoggedUserInfo
                     }).then(function (response) {
-                        _this4.registerInfo = response.data.data;
-                        _this4.selectCityList = [response.data.data.city.substr(0, 2), response.data.data.city];
+                        _this5.registerInfo = response.data.data;
+                        _this5.selectCityList = [response.data.data.city.substr(0, 2), response.data.data.city];
+                        axios({
+                            method: 'get',
+                            url: _this5.$apiAddress.getTagByTidList,
+                            params: _this5.setUrlParams(_this5.registerInfo.tag)
+                        }).then(function (response) {
+                            _this5.tagOptions = response.data.data;
+                        });
+                    }).finally(function () {
+                        _this5.loading = false;
                     });
                 }
                 setTimeout(function () {
-                    _this4.$refs['registerForm'].resetFields();
+                    _this5.$refs['registerForm'].resetFields();
                 }, 0);
             }
         }
@@ -80882,6 +80801,14 @@ var render = function() {
           _c(
             "el-form",
             {
+              directives: [
+                {
+                  name: "loading",
+                  rawName: "v-loading",
+                  value: _vm.loading,
+                  expression: "loading"
+                }
+              ],
               ref: "registerForm",
               attrs: {
                 "status-icon": "",
@@ -81146,8 +81073,8 @@ var render = function() {
                     },
                     _vm._l(_vm.tagOptions, function(item) {
                       return _c("el-option", {
-                        key: item.value,
-                        attrs: { label: item.label, value: item.value }
+                        key: item.tid,
+                        attrs: { label: item.name, value: item.tid }
                       })
                     })
                   )
@@ -81259,7 +81186,8 @@ var content = __webpack_require__(231);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("503b1087", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("266dc987", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -81710,7 +81638,8 @@ var content = __webpack_require__(237);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("132d7713", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("75498293", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -81880,7 +81809,8 @@ var content = __webpack_require__(243);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("45e43b9c", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("6a241e48", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -81920,7 +81850,8 @@ var content = __webpack_require__(245);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("5d862a48", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("03a35088", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -82057,7 +81988,8 @@ var content = __webpack_require__(248);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("c982519a", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("220aae9a", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -82379,7 +82311,8 @@ var content = __webpack_require__(254);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("15d676f3", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("3f54f31a", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -82403,7 +82336,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n.table-title[data-v-95a8681e]{\n    padding-right: 10px;\n    text-align: right;\n}\n.date-item[data-v-95a8681e]{\n    font-size: 18px;\n}\n.date-divider[data-v-95a8681e]{\n    display: inline-block;\n    font-size: 15px;\n    margin: 0 2px;\n}\n.info-table[data-v-95a8681e]{\n    border-collapse: separate;\n    border-spacing: 0px 10px;\n}\n.show-apply-info[data-v-95a8681e]{\n    float: right;\n}\n.title[data-v-95a8681e]{\n    padding: 20px 0;\n    line-height: 40px;\n    border-bottom: 1px solid #e0e0e0;\n}\n.main-info-container[data-v-95a8681e]{\n    border: 1px solid #eee;\n    padding: 5px;\n    border-radius: 10px;\n    margin: 30px 0;\n}\n.detail-info-container[data-v-95a8681e]{\n    padding: 25px 15px 0;\n}\n.info-table[data-v-95a8681e]{\n    font-size: 14px;\n}\n.info-table tr[data-v-95a8681e]{\n    padding-bottom: 5px;\n}\n.button-container[data-v-95a8681e]{\n    margin: 15px 0;\n}\n.map-container[data-v-95a8681e]{\n    height: 100%;\n}\n.content-container[data-v-95a8681e]{\n    width: 1200px;\n    padding: 15px;\n    margin: 0 auto;\n    border: 1px solid #eee;\n    border-radius: 10px;\n\n    min-height: 100px;\n}\n", ""]);
+exports.push([module.i, "\n.table-title[data-v-95a8681e]{\n    padding-right: 10px;\n    text-align: right;\n}\n.date-item[data-v-95a8681e]{\n    font-size: 18px;\n}\n.date-divider[data-v-95a8681e]{\n    display: inline-block;\n    font-size: 15px;\n    margin: 0 2px;\n}\n.info-table[data-v-95a8681e]{\n    border-collapse: separate;\n    border-spacing: 0px 10px;\n}\n.show-apply-info[data-v-95a8681e]{\n    float: right;\n}\n.title[data-v-95a8681e]{\n    padding: 20px 0;\n    line-height: 40px;\n    border-bottom: 1px solid #e0e0e0;\n}\n.main-info-container[data-v-95a8681e]{\n    border: 1px solid #eee;\n    padding: 5px;\n    border-radius: 10px;\n    margin: 30px 0;\n}\n.detail-info-container[data-v-95a8681e]{\n    padding: 25px 15px 0;\n}\n.info-table[data-v-95a8681e]{\n    font-size: 14px;\n}\n.info-table tr[data-v-95a8681e]{\n    padding-bottom: 5px;\n}\n.button-container[data-v-95a8681e]{\n    margin: 15px 0;\n}\n.map-container[data-v-95a8681e]{\n    height: 100%;\n}\n.content-container[data-v-95a8681e]{\n    width: 1200px;\n    padding: 15px;\n    margin: 0 auto 30px;\n    border: 1px solid #eee;\n    border-radius: 10px;\n\n    min-height: 100px;\n}\n", ""]);
 
 // exports
 
@@ -82847,7 +82780,8 @@ var content = __webpack_require__(259);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("feb777b0", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("65305d68", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -82887,7 +82821,8 @@ var content = __webpack_require__(261);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("cd0ffda0", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("ba8eff20", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -82926,6 +82861,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__json_prov_city_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__json_prov_city_json__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__picUploader__ = __webpack_require__(263);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__picUploader___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__picUploader__);
+//
 //
 //
 //
@@ -83131,6 +83067,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }]
 
             },
+            addTagRule: {
+                name: [{ required: true, message: '请填写标签名称', trigger: 'blur' }],
+                description: [{ required: true, message: '请填写标签描述', trigger: 'blur' }]
+            },
             selectCityList: [],
             publishInfo: {
                 name: '',
@@ -83176,13 +83116,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             if (query !== '') {
                 this.tagLoading = true;
-                setTimeout(function () {
+                axios({
+                    method: 'get',
+                    url: this.$apiAddress.searchTag,
+                    params: this.setUrlParams({ query: query })
+                }).then(function (response) {
+                    _this2.tagOptions = response.data.data;
+                }).finally(function () {
                     _this2.tagLoading = false;
-                    _this2.tagOptions = [{
-                        label: '1',
-                        value: '1'
-                    }];
-                }, 200);
+                });
             } else {
                 this.tagOptions = [];
             }
@@ -83252,12 +83194,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.mapInstance.centerAndZoom(item.point, 18);
             this.mapInstance.addOverlay(new BMap.Marker(item.point));
         },
-        handleAddTagSubmit: function handleAddTagSubmit() {},
-        handleAddTagCancel: function handleAddTagCancel() {
+        handleAddTagSubmit: function handleAddTagSubmit() {
             var _this6 = this;
 
+            this.$refs['addTagForm'].validate(function (valid) {
+                if (valid) {
+                    axios({
+                        method: 'post',
+                        url: _this6.$apiAddress.postAddTag,
+                        data: _this6.setUrlParams(_this6.addTagInfo)
+                    }).then(function (response) {
+                        _this6.$message({
+                            message: '标签添加成功',
+                            type: 'success'
+                        });
+                        _this6.tagDialogVisible = false;
+                    });
+                }
+            });
+        },
+        handleAddTagCancel: function handleAddTagCancel() {
+            var _this7 = this;
+
             this.$confirm('确认取消添加标签？').then(function () {
-                _this6.tagDialogVisible = false;
+                _this7.tagDialogVisible = false;
             }).catch(function () {});
         },
         handleCityChange: function handleCityChange() {
@@ -83265,7 +83225,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         imgDel: function imgDel() {},
         imgAdd: function imgAdd(pos, $file) {
-            var _this7 = this;
+            var _this8 = this;
 
             // 第一步.将图片上传到服务器.
             var formdata = new FormData();
@@ -83283,7 +83243,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                  * 2. 通过$refs获取: html声明ref : `<mavon-editor ref=md ></mavon-editor>，`$vm`为 `this.$refs.md`
                  */
                 // console.log(url);
-                _this7.$refs.mdEditor.$img2Url(pos, response.data.data.url);
+                _this8.$refs.mdEditor.$img2Url(pos, response.data.data.url);
             });
         }
     }
@@ -83353,7 +83313,8 @@ var content = __webpack_require__(265);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("7ca2dc64", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("d8c57eb8", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -83393,7 +83354,8 @@ var content = __webpack_require__(267);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("01070c58", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("2b95b214", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -83433,7 +83395,8 @@ var content = __webpack_require__(269);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("036fbae6", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("19e8aeb4", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -83802,11 +83765,8 @@ var render = function() {
                                 },
                                 _vm._l(_vm.tagOptions, function(item) {
                                   return _c("el-option", {
-                                    key: item.value,
-                                    attrs: {
-                                      label: item.label,
-                                      value: item.value
-                                    }
+                                    key: item.tid,
+                                    attrs: { label: item.name, value: item.tid }
                                   })
                                 })
                               ),
@@ -84143,11 +84103,14 @@ var render = function() {
         [
           _c(
             "el-form",
-            { ref: "addTagForm", attrs: { model: _vm.addTagInfo } },
+            {
+              ref: "addTagForm",
+              attrs: { rules: _vm.addTagRule, model: _vm.addTagInfo }
+            },
             [
               _c(
                 "el-form-item",
-                { attrs: { label: "标签名称" } },
+                { attrs: { label: "标签名称", prop: "name" } },
                 [
                   _c("el-input", {
                     attrs: { "auto-complete": "off" },
@@ -84165,11 +84128,12 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "el-form-item",
-                { attrs: { label: "标签简介" } },
+                { attrs: { label: "标签简介", prop: "description" } },
                 [
                   _c("el-input", {
                     attrs: {
                       type: "textarea",
+                      maxlength: 255,
                       placeholder: "简单的介绍一下标签的用处"
                     },
                     model: {
@@ -84289,7 +84253,8 @@ var content = __webpack_require__(275);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("27035634", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("e960fab4", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -84623,49 +84588,30 @@ function defaultValue(value, defaultString) {
 /* 280 */
 /***/ (function(module, exports, __webpack_require__) {
 
+// style-loader: Adds some css to the DOM by adding a <style> tag
 
+// load the styles
 var content = __webpack_require__(281);
-
 if(typeof content === 'string') content = [[module.i, content, '']];
-
+// Prepare cssTransformation
 var transform;
-var insertInto;
 
-
-
-var options = {"hmr":true}
-
+var options = {}
 options.transform = transform
-options.insertInto = undefined;
-
+// add the styles to the DOM
 var update = __webpack_require__(17)(content, options);
-
 if(content.locals) module.exports = content.locals;
-
+// Hot Module Replacement
 if(false) {
-	module.hot.accept("!!../../../css-loader/index.js!./index.css", function() {
-		var newContent = require("!!../../../css-loader/index.js!./index.css");
-
-		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-
-		var locals = (function(a, b) {
-			var key, idx = 0;
-
-			for(key in a) {
-				if(!b || a[key] !== b[key]) return false;
-				idx++;
-			}
-
-			for(key in b) idx--;
-
-			return idx === 0;
-		}(content.locals, newContent.locals));
-
-		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
-
-		update(newContent);
-	});
-
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../css-loader/index.js!./index.css", function() {
+			var newContent = require("!!../../../css-loader/index.js!./index.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
 	module.hot.dispose(function() { update(); });
 }
 
@@ -84720,7 +84666,10 @@ var address = {
     postLogout: '/user/logout',
     postRegister: '/user/register',
     postInfoEdit: '/user/login/info/edit',
-    getLoggedUserInfo: '/user/login/info'
+    getLoggedUserInfo: '/user/login/info',
+    postAddTag: '/tag/add',
+    searchTag: '/tag/search',
+    getTagByTidList: '/tag/get/list'
 
 };
 for (var i in address) {

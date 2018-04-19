@@ -24,6 +24,7 @@ class UserController extends Controller{
         if($um){
             if(md5($password)==$um['password']){
                 $request->session()->put('logged',$username);
+                $request->session()->put('logged_uid',$um['uid']);
                 return $this->apiResponse(200,'登录成功');
             }
         }
@@ -48,6 +49,10 @@ class UserController extends Controller{
                         break;
                     case'password':
                         $umj['password']='';
+                        break;
+                    case'tag':
+                        $tagList=explode(',',$value);
+                        $umj['tag']=$value==null?[]:$tagList;
                         break;
                     default:
                         if($value==null){
