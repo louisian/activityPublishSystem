@@ -1,10 +1,10 @@
 <template>
     <div class="activity-container" @click="handleClick">
-        <img class="img" :src="activityData.bannner"/>
+        <img class="img" :src="activityData.poster"/>
         <div class="activity-info">
-            <h1 class="title">{{activityData.title||'活动'}}</h1>
-            <p class="secondary-text date">{{activityData.date||'2018-01-01'}}</p>
-            <p class="secondary-text location">{{activityData.location||'杭州'}}</p>
+            <h1 class="title">{{activityData.name||'活动'}}</h1>
+            <p class="secondary-text date">{{activityData.activityStartTime||'2018-01-01'}}</p>
+            <p class="secondary-text location">{{activityData.cityName||'杭州'}}</p>
             <el-button v-if="!editMode&&!applied" @click="apply" type="primary" size="small" class="enter">报名</el-button>
             <el-button v-if="editMode" @click="edit" type="primary" size="small" class="enter">编辑</el-button>
         </div>
@@ -19,11 +19,11 @@
             activityData:{
                 default:()=>{
                     return{
-                        id:'',
-                        banner:'',
-                        title:'',
-                        date:'',
-                        location:'',
+                        aid:'',
+                        poster:'',
+                        name:'',
+                        activityStartTime:'',
+                        cityName:'',
                     }
 
                 }
@@ -37,7 +37,7 @@
         },
         methods:{
             handleClick(){
-                this.$emit('activityClick',this.activityData.id);
+                this.$emit('activityClick',this.activityData.aid);
             },
             apply(e){
                 e.stopPropagation();
@@ -45,13 +45,13 @@
                     methods:'get',
                     url:this.$apiAddress.getLoginStatus
                 }).then((response)=>{
-                    this.$emit('clickApply',this.activityData.id);
+                    this.$emit('clickApply',this.activityData.aid);
                 })
 
             },
             edit(e){
               e.stopPropagation();
-              this.$emit('clickEdit',this.activityData.id);
+              this.$emit('clickEdit',this.activityData.aid);
             }
         }
     }

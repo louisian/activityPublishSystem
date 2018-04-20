@@ -1,9 +1,9 @@
 <template>
     <div class="main">
         <h1 class="title clearfix">
-            {{activityData.title}}
-            <el-badge class="show-apply-info item" :value="applyCount">
-                <el-button v-if="isCreator"
+            {{activityData.name}}
+            <el-badge v-if="isCreator" class="show-apply-info item" :value="applyCount">
+                <el-button
                            @click="handleShowApplyInfo"
                            type="primary"
                            :plain="true">
@@ -15,7 +15,7 @@
         <div class="main-info-container">
             <el-row>
                 <el-col :span="12">
-                    <img class="banner" :src="activityData.banner"/>
+                    <img class="banner" :src="activityData.poster"/>
                 </el-col>
                 <el-col :span="8">
                     <div class="detail-info-container">
@@ -23,19 +23,15 @@
                             <tbody>
                             <tr class="info-table-item">
                                 <td class="table-title">开始时间:</td>
-                                <td>{{activityData.timeStart}}</td>
+                                <td>{{activityData.activityStartTime}}</td>
                             </tr>
                             <tr class="info-table-item">
                                 <td class="table-title">结束时间:</td>
-                                <td>{{activityData.timeEnd}}</td>
+                                <td>{{activityData.activityStopTime}}</td>
                             </tr>
                             <tr class="info-table-item">
                                 <td class="table-title">举办地点:</td>
-                                <td>{{activityData.location}}</td>
-                            </tr>
-                            <tr class="info-table-item" >
-                                <td class="table-title">主办方:</td>
-                                <td>{{activityData.organizer}}</td>
+                                <td>{{activityData.cityName}}</td>
                             </tr>
                             <tr class="info-table-item">
                                 <td class="table-title">报名截止:</td>
@@ -67,7 +63,7 @@
 
 
         </div>
-        <div class="content-container" v-html="activityData.content">
+        <div class="content-container" v-html="activityData.description">
 
         </div>
         <el-dialog title="报名信息" :visible.sync="applyInfoVisible">
@@ -84,14 +80,13 @@
         data(){
             return{
                 activityData:{
-                    title:'test',
-                    id:'',
-                    banner:'',
-                    timeStart:'',
-                    timeEnd:'',
-                    location:'',
-                    organizer:'',
-                    content:'',
+                    name:'test',
+                    aid:'',
+                    poster:'',
+                    activityStartTime:'',
+                    activityStopTime:'',
+                    cityName:'',
+                    description:'',
                 },
                 applyData:[
 
@@ -118,7 +113,17 @@
             }
         },
         mounted(){
-            this.countDown(new Date('2019/1/1'))
+            // this.countDown(new Date('2019/1/1'))
+
+            let aid=this.$router.currentRoute.params.id;
+            axios(this.$apiAddress.getActivityDetail,{params:{aid:aid}}).then((response)=>{
+                let data=response.data.data.activityInfo;
+                for(let i in this.activityData){
+                    this.activityData[i]=data[i];
+                }
+                this.countDown(new Date(data.applyStopTime));
+                this.isCreator=!!response.data.data.admin;
+            })
             // console.log(this.$router,'para',this.$router.currentRoute.params.id)
         },
 
@@ -164,6 +169,10 @@
 </script>
 
 <style scoped>
+    .banner{
+        width: 100%;
+        height: 200px;
+    }
     .table-title{
         padding-right: 10px;
         text-align: right;

@@ -39,13 +39,13 @@ class UserController extends Controller{
             $umj=[];
             foreach ($um as $key=>$value){
                 switch ($key){
-                    case 'free_day':
+                    case 'freeDay':
                         $umj['freeDay']=explode(',',$value);
                         break;
-                    case 'free_time':
+                    case 'freeTime':
                         $umj['freeTime']=explode(',',$value);
                         break;
-                    case 'city_name':
+                    case 'cityName':
                         $umj['cityName']=$value;
                         break;
                     case'password':

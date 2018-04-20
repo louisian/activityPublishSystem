@@ -17,6 +17,8 @@ Route::group(['middleware'=>'api'],function () {
         Route::get('/user/login/info','UserController@getLoggedUserInfo');
         Route::post('/user/login/info/edit','UserController@postInfoEdit');
         Route::post('/tag/add','TagController@postAddTag');
+        Route::post('/activity/info/basic','ActivityController@postAddActivityBasic');
+        Route::post('/activity/info/detail','ActivityController@postAddActivityDetail');
 
     });
     Route::post('/activity/publish/uploader/poster',"UploadController@posterUploader");
@@ -27,6 +29,9 @@ Route::group(['middleware'=>'api'],function () {
     Route::post('/user/register','UserController@postRegister');
     Route::get('/tag/search','TagController@searchTag');
     Route::get('/tag/get/list','TagController@getTagsByTidList');
+    Route::get('/activity/info/all','ActivityController@getAllActivity');
+    Route::get('/activity/info/detail','ActivityController@getActivityDetail');
+
 //    Route::get('/user/te','UserController@postTagEnter');//todo temp must be delete
 
 });

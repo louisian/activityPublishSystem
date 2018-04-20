@@ -41,13 +41,13 @@ class UserModel extends Model{
         $um=UserModel::where('uid',$userObj['uid'])->first();
         $um->username=$userObj['username'];
         $um->phone=$userObj['phone'];
-        $um->free_day=$userObj['freeDay'];
-        $um->free_time=$userObj['freeTime'];
+        $um->freeDay=$userObj['freeDay'];
+        $um->freeTime=$userObj['freeTime'];
         $um->realname=$userObj['realname'];
         $um->city=$userObj['city'];
-        $um->city_name=$userObj['cityName'];
+        $um->cityName=$userObj['cityName'];
         $um->tag=$userObj['tag'];
-        $um->tag_enter=json_encode((object)array());
+        $um->tagEnter=json_encode((object)array());
         $um->save();
         return true;
 
@@ -61,12 +61,12 @@ class UserModel extends Model{
         return $user->toArray();
     }
     public static function getTagEnterByUid($uid){
-        $te=UserModel::where('uid',$uid)->select('tag_enter')->first();
+        $te=UserModel::where('uid',$uid)->select('tagEnter')->first();
         if($te->tag_enter==null){
             return [];
         }
 //        var_dump( json_decode($te,true));
-        return json_decode($te->tag_enter,true);
+        return json_decode($te->tagEnter,true);
     }
     public static function updateTagEnterByTidListUid($tidString,$uid){//因为是写入，for持续写入性能问题
         $tidList=explode(',',$tidString);
@@ -81,7 +81,7 @@ class UserModel extends Model{
             }
         }
 //        var_dump((object)$teObject);
-        UserModel::where('uid',$uid)->update(['tag_enter'=>json_encode((object)$teObject)]);
+        UserModel::where('uid',$uid)->update(['tagEnter'=>json_encode((object)$teObject)]);
         return true;
     }
 

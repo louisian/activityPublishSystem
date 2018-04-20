@@ -108,9 +108,9 @@
                 </div>
 
                 <h1 class="input-title">活动海报上传</h1>
-                <pic-uploader :data-object="{aid:detailSubmitAid}" @upload-success="picUploadStatus='success'" class="pic-uploader"></pic-uploader>
+                <pic-uploader :data-object="{aid:detailSubmitAid}" @uploadSuccess="picUploadStatus='success'" class="pic-uploader"></pic-uploader>
                 <h1 class="input-title">活动详情撰写</h1>
-                <mavon-editor class="md-editor"  ref="mdEditor" @imgAdd="imgAdd" @imgDel="imgDel" v-model="publishDetail"/>
+                <mavon-editor @save="handleMdSave" class="md-editor" @change="handleMdChange"  ref="mdEditor" @imgAdd="imgAdd" @imgDel="imgDel" v-model="descriptionSource"/>
                 <div class="button-container clearfix">
                     <el-button type="primary" class="next-step-button" :plain="true" @click="onSubmitDetail">提交详细信息</el-button>
                 </div>
@@ -118,7 +118,7 @@
             <div v-if="activeStep===2" class="publish-success-container">
                 <div class="success-button-container">
                     <el-button class="go-index" type="primary" :plain="true"  @click="$router.push('/index')">去往首页</el-button>
-                    <el-button class="go-activity-page" type="success" :plain="true">去往活动详情页</el-button>
+                    <el-button class="go-activity-page" type="success" :plain="true" @click="$router.push('/activity/'+detailSubmitAid)">去往活动详情页</el-button>
                 </div>
             </div>
         </div>
@@ -231,6 +231,7 @@
                     ]
                 },
                 selectCityList: [],
+
                 publishInfo: {
                     name: '',
                     tag: [],
@@ -250,6 +251,7 @@
                 },
                 picUploadStatus:'',
                 publishDetail: '',
+                descriptionSource:'',
                 mapInstance: null,
                 localSearchInstance: null,
                 tagLoading: false,
@@ -261,11 +263,25 @@
         mounted() {
             // console.log(this.$router,'para',)
             this.mapInstance = new BMap.Map('map-container');
+
+            //如果参数中有aid那么进入编辑模式
             let aid=this.$router.currentRoute.params.id;
             if(aid){
                 // console.log('fd')
                 this.isCreate=false;
                 //todo fetch activity data
+
+                return;
+            }
+            //如果localStorage中有aid 进入编辑详细信息模式
+            let sAid=localStorage.getItem('aid');
+            if(sAid){
+                this.detailSubmitAid=+sAid;
+                this.activeStep++;
+                let md=localStorage.getItem('md');
+                if(md){
+                    this.publishDetail=md;
+                }
             }
         },
         methods: {
@@ -286,6 +302,14 @@
                     this.tagOptions = [];
                 }
             },
+            handleMdChange(val,render){
+
+              this.publishDetail=render;
+            },
+            handleMdSave(){
+                localStorage.setItem('md',this.descriptionSource);
+            },
+
             addTag() {
 
                 this.tagDialogVisible=true;
@@ -306,20 +330,82 @@
                 })['name'];
             },
             onSubmitBasic() {
+                let params={};
                 this.$refs['publishForm'].validate((valid)=>{
                     if(valid){
-                        this.activeStep++;
+                        for(let i in this.publishInfo){
+                            switch (i){
+                                case'applyTime':
+                                    params['applyStartTime']=this.publishInfo[i][0].getTime()/1000;
+                                    params['applyStopTime']=this.publishInfo[i][1].getTime()/1000;
+                                    break;
+                                case'activityTime':
+                                    params['activityStartTime']=this.publishInfo[i][0].getTime()/1000;
+                                    params['activityStopTime']=this.publishInfo[i][1].getTime()/1000;
+                                    break;
+                                case'applyInfo':
+                                case'commitTitle':
+                                    break;
+                                default:
+                                    params[i]=this.publishInfo[i];
+                            }
+                        }
+                        axios({
+                            method:'post',
+                            url:this.$apiAddress.postBasicActivityInfo,
+                            data:this.setUrlParams(params),
+                        }).then((response)=>{
+                            this.$message({
+                                message:'基本信息提交成功',
+                                type: 'success'
+                            });
+                            this.detailSubmitAid=response.data.data.aid;
+                            localStorage.setItem('aid',this.detailSubmitAid);
+                            this.activeStep++;
+                        })
+
                     }
                 })
                 // console.log(this.publishInfo)
 
             },
             onSubmitDetail(){
-                if(this.uploadStatus!=='success'){
+                if(!this.detailSubmitAid){
+                    this.$alert('基本信息上传未成功，无法上传详细信息');
+                }
+                if(this.picUploadStatus!=='success'){
                     this.$alert('请上传海报照片!');
                     return;
                 }
-                this.activeStep++;
+                if(this.publishInfo.applyInfo){
+                        if(~this.publishInfo.applyInfo.indexOf('commit')&&(!this.applyInfo.commitTitle)) {
+                            this.$alert('请填写备注标题!');
+                            return;
+                        }
+                        let params={
+                            description:this.publishDetail,
+                            descriptionSource:this.descriptionSource,
+                            applyInfo:this.publishInfo.applyInfo,
+                            commitTitle:this.publishInfo.commitTitle,
+                            aid:this.detailSubmitAid
+                        }
+                        axios({
+                            method:'post',
+                            url:this.$apiAddress.postDetailActivityInfo,
+                            data:this.setUrlParams(params),
+                        }).then((response)=>{
+                            this.$message({
+                                message:'详细信息提交成功',
+                                type: 'success'
+                            });
+                            localStorage.setItem('aid','');
+                            localStorage.setItem('md','');
+                            this.activeStep++;
+                        })
+                }else{
+                    this.$alert('请选择报名所需信息');
+                }
+
 
             },
             fetchAddress(query, cb) {

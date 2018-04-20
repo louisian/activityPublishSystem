@@ -11655,13 +11655,19 @@ module.exports = {
 
 /***/ }),
 /* 5 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (immutable) */ __webpack_exports__["default"] = addStylesClient;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__listToStyles__ = __webpack_require__(188);
 /*
   MIT License http://www.opensource.org/licenses/mit-license.php
   Author Tobias Koppers @sokra
   Modified by Evan You @yyx990803
 */
+
+
 
 var hasDocument = typeof document !== 'undefined'
 
@@ -11672,8 +11678,6 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
     "Use { target: 'node' } in your Webpack config to indicate a server-rendering environment."
   ) }
 }
-
-var listToStyles = __webpack_require__(188)
 
 /*
 type StyleObject = {
@@ -11708,12 +11712,12 @@ var ssrIdKey = 'data-vue-ssr-id'
 // tags it will allow on a page
 var isOldIE = typeof navigator !== 'undefined' && /msie [6-9]\b/.test(navigator.userAgent.toLowerCase())
 
-module.exports = function (parentId, list, _isProduction, _options) {
+function addStylesClient (parentId, list, _isProduction, _options) {
   isProduction = _isProduction
 
   options = _options || {}
 
-  var styles = listToStyles(parentId, list)
+  var styles = Object(__WEBPACK_IMPORTED_MODULE_0__listToStyles__["a" /* default */])(parentId, list)
   addStylesToDom(styles)
 
   return function update (newList) {
@@ -11725,7 +11729,7 @@ module.exports = function (parentId, list, _isProduction, _options) {
       mayRemove.push(domStyle)
     }
     if (newList) {
-      styles = listToStyles(parentId, newList)
+      styles = Object(__WEBPACK_IMPORTED_MODULE_0__listToStyles__["a" /* default */])(parentId, newList)
       addStylesToDom(styles)
     } else {
       styles = []
@@ -12449,39 +12453,19 @@ var isOldIE = memoize(function () {
 	return window && document && document.all && !window.atob;
 });
 
-var getTarget = function (target) {
-  return document.querySelector(target);
-};
-
 var getElement = (function (fn) {
 	var memo = {};
 
-	return function(target) {
-                // If passing function in options, then use it for resolve "head" element.
-                // Useful for Shadow Root style i.e
-                // {
-                //   insertInto: function () { return document.querySelector("#foo").shadowRoot }
-                // }
-                if (typeof target === 'function') {
-                        return target();
-                }
-                if (typeof memo[target] === "undefined") {
-			var styleTarget = getTarget.call(this, target);
-			// Special case to return head of iframe instead of iframe itself
-			if (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {
-				try {
-					// This will throw an exception if access to iframe is blocked
-					// due to cross-origin restrictions
-					styleTarget = styleTarget.contentDocument.head;
-				} catch(e) {
-					styleTarget = null;
-				}
-			}
-			memo[target] = styleTarget;
+	return function(selector) {
+		if (typeof memo[selector] === "undefined") {
+			memo[selector] = fn.call(this, selector);
 		}
-		return memo[target]
+
+		return memo[selector]
 	};
-})();
+})(function (target) {
+	return document.querySelector(target)
+});
 
 var singleton = null;
 var	singletonCounter = 0;
@@ -12500,10 +12484,10 @@ module.exports = function(list, options) {
 
 	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
 	// tags it will allow on a page
-	if (!options.singleton && typeof options.singleton !== "boolean") options.singleton = isOldIE();
+	if (!options.singleton) options.singleton = isOldIE();
 
 	// By default, add <style> tags to the <head> element
-        if (!options.insertInto) options.insertInto = "head";
+	if (!options.insertInto) options.insertInto = "head";
 
 	// By default, add <style> tags to the bottom of the target
 	if (!options.insertAt) options.insertAt = "bottom";
@@ -12606,11 +12590,8 @@ function insertStyleElement (options, style) {
 		stylesInsertedAtTop.push(style);
 	} else if (options.insertAt === "bottom") {
 		target.appendChild(style);
-	} else if (typeof options.insertAt === "object" && options.insertAt.before) {
-		var nextSibling = getElement(options.insertInto + " " + options.insertAt.before);
-		target.insertBefore(style, nextSibling);
 	} else {
-		throw new Error("[Style Loader]\n\n Invalid value for parameter 'insertAt' ('options.insertAt') found.\n Must be 'top', 'bottom', or Object.\n (https://github.com/webpack-contrib/style-loader#insertat)\n");
+		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
 	}
 }
 
@@ -47995,49 +47976,30 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
+// style-loader: Adds some css to the DOM by adding a <style> tag
 
+// load the styles
 var content = __webpack_require__(189);
-
 if(typeof content === 'string') content = [[module.i, content, '']];
-
+// Prepare cssTransformation
 var transform;
-var insertInto;
 
-
-
-var options = {"hmr":true}
-
+var options = {}
 options.transform = transform
-options.insertInto = undefined;
-
+// add the styles to the DOM
 var update = __webpack_require__(17)(content, options);
-
 if(content.locals) module.exports = content.locals;
-
+// Hot Module Replacement
 if(false) {
-	module.hot.accept("!!../../../node_modules/css-loader/index.js!./reset.css", function() {
-		var newContent = require("!!../../../node_modules/css-loader/index.js!./reset.css");
-
-		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-
-		var locals = (function(a, b) {
-			var key, idx = 0;
-
-			for(key in a) {
-				if(!b || a[key] !== b[key]) return false;
-				idx++;
-			}
-
-			for(key in b) idx--;
-
-			return idx === 0;
-		}(content.locals, newContent.locals));
-
-		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
-
-		update(newContent);
-	});
-
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../node_modules/css-loader/index.js!./reset.css", function() {
+			var newContent = require("!!../../../node_modules/css-loader/index.js!./reset.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
 	module.hot.dispose(function() { update(); });
 }
 
@@ -66812,49 +66774,30 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/* NProgress, 
 /* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
+// style-loader: Adds some css to the DOM by adding a <style> tag
 
+// load the styles
 var content = __webpack_require__(105);
-
 if(typeof content === 'string') content = [[module.i, content, '']];
-
+// Prepare cssTransformation
 var transform;
-var insertInto;
 
-
-
-var options = {"hmr":true}
-
+var options = {}
 options.transform = transform
-options.insertInto = undefined;
-
+// add the styles to the DOM
 var update = __webpack_require__(17)(content, options);
-
 if(content.locals) module.exports = content.locals;
-
+// Hot Module Replacement
 if(false) {
-	module.hot.accept("!!../css-loader/index.js!./nprogress.css", function() {
-		var newContent = require("!!../css-loader/index.js!./nprogress.css");
-
-		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-
-		var locals = (function(a, b) {
-			var key, idx = 0;
-
-			for(key in a) {
-				if(!b || a[key] !== b[key]) return false;
-				idx++;
-			}
-
-			for(key in b) idx--;
-
-			return idx === 0;
-		}(content.locals, newContent.locals));
-
-		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
-
-		update(newContent);
-	});
-
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../css-loader/index.js!./nprogress.css", function() {
+			var newContent = require("!!../css-loader/index.js!./nprogress.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
 	module.hot.dispose(function() { update(); });
 }
 
@@ -66940,7 +66883,7 @@ module.exports = function (css) {
 			.replace(/^'(.*)'$/, function(o, $1){ return $1; });
 
 		// already a full url? no change
-		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/|\s*$)/i.test(unquotedOrigUrl)) {
+		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/)/i.test(unquotedOrigUrl)) {
 		  return fullMatch;
 		}
 
@@ -79580,13 +79523,15 @@ if (inBrowser && window.Vue) {
 
 /***/ }),
 /* 188 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = listToStyles;
 /**
  * Translates the list format produced by css-loader into something
  * easier to manipulate.
  */
-module.exports = function listToStyles (parentId, list) {
+function listToStyles (parentId, list) {
   var styles = []
   var newStyles = {}
   for (var i = 0; i < list.length; i++) {
@@ -79629,49 +79574,30 @@ exports.push([module.i, "\r\n/* KISSY CSS Reset\r\n理念：清除和重置是�
 /* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
+// style-loader: Adds some css to the DOM by adding a <style> tag
 
+// load the styles
 var content = __webpack_require__(191);
-
 if(typeof content === 'string') content = [[module.i, content, '']];
-
+// Prepare cssTransformation
 var transform;
-var insertInto;
 
-
-
-var options = {"hmr":true}
-
+var options = {}
 options.transform = transform
-options.insertInto = undefined;
-
+// add the styles to the DOM
 var update = __webpack_require__(17)(content, options);
-
 if(content.locals) module.exports = content.locals;
-
+// Hot Module Replacement
 if(false) {
-	module.hot.accept("!!../../css-loader/index.js!./font-awesome.min.css", function() {
-		var newContent = require("!!../../css-loader/index.js!./font-awesome.min.css");
-
-		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-
-		var locals = (function(a, b) {
-			var key, idx = 0;
-
-			for(key in a) {
-				if(!b || a[key] !== b[key]) return false;
-				idx++;
-			}
-
-			for(key in b) idx--;
-
-			return idx === 0;
-		}(content.locals, newContent.locals));
-
-		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
-
-		update(newContent);
-	});
-
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../css-loader/index.js!./font-awesome.min.css", function() {
+			var newContent = require("!!../../css-loader/index.js!./font-awesome.min.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
 	module.hot.dispose(function() { update(); });
 }
 
@@ -79730,49 +79656,30 @@ module.exports = "/fonts/vendor/font-awesome/fontawesome-webfont.svg?912ec66d757
 /* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
+// style-loader: Adds some css to the DOM by adding a <style> tag
 
+// load the styles
 var content = __webpack_require__(199);
-
 if(typeof content === 'string') content = [[module.i, content, '']];
-
+// Prepare cssTransformation
 var transform;
-var insertInto;
 
-
-
-var options = {"hmr":true}
-
+var options = {}
 options.transform = transform
-options.insertInto = undefined;
-
+// add the styles to the DOM
 var update = __webpack_require__(17)(content, options);
-
 if(content.locals) module.exports = content.locals;
-
+// Hot Module Replacement
 if(false) {
-	module.hot.accept("!!../../../css-loader/index.js!./index.css", function() {
-		var newContent = require("!!../../../css-loader/index.js!./index.css");
-
-		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-
-		var locals = (function(a, b) {
-			var key, idx = 0;
-
-			for(key in a) {
-				if(!b || a[key] !== b[key]) return false;
-				idx++;
-			}
-
-			for(key in b) idx--;
-
-			return idx === 0;
-		}(content.locals, newContent.locals));
-
-		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
-
-		update(newContent);
-	});
-
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../css-loader/index.js!./index.css", function() {
+			var newContent = require("!!../../../css-loader/index.js!./index.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
 	module.hot.dispose(function() { update(); });
 }
 
@@ -79807,49 +79714,30 @@ module.exports = "/fonts/vendor/element-ui/lib/theme-chalk/element-icons.ttf?6f0
 /* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
+// style-loader: Adds some css to the DOM by adding a <style> tag
 
+// load the styles
 var content = __webpack_require__(203);
-
 if(typeof content === 'string') content = [[module.i, content, '']];
-
+// Prepare cssTransformation
 var transform;
-var insertInto;
 
-
-
-var options = {"hmr":true}
-
+var options = {}
 options.transform = transform
-options.insertInto = undefined;
-
+// add the styles to the DOM
 var update = __webpack_require__(17)(content, options);
-
 if(content.locals) module.exports = content.locals;
-
+// Hot Module Replacement
 if(false) {
-	module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/sass-loader/lib/loader.js!./app.scss", function() {
-		var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/sass-loader/lib/loader.js!./app.scss");
-
-		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-
-		var locals = (function(a, b) {
-			var key, idx = 0;
-
-			for(key in a) {
-				if(!b || a[key] !== b[key]) return false;
-				idx++;
-			}
-
-			for(key in b) idx--;
-
-			return idx === 0;
-		}(content.locals, newContent.locals));
-
-		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
-
-		update(newContent);
-	});
-
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/sass-loader/lib/loader.js!./app.scss", function() {
+			var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/sass-loader/lib/loader.js!./app.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
 	module.hot.dispose(function() { update(); });
 }
 
@@ -80196,7 +80084,8 @@ var content = __webpack_require__(216);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("33cf488d", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("dc7fe5e6", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -80342,7 +80231,8 @@ var content = __webpack_require__(220);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("0ec2f8dc", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("190a1cd2", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -80508,7 +80398,8 @@ var content = __webpack_require__(224);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("31f08f3e", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("a24ef73e", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -80548,7 +80439,8 @@ var content = __webpack_require__(226);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("45029d31", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("48d34531", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -81294,7 +81186,8 @@ var content = __webpack_require__(231);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("503b1087", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("266dc987", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -81745,7 +81638,8 @@ var content = __webpack_require__(237);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("132d7713", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("75498293", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -81915,7 +81809,8 @@ var content = __webpack_require__(243);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("45e43b9c", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("6a241e48", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -81955,7 +81850,8 @@ var content = __webpack_require__(245);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("5d862a48", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("03a35088", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -82027,43 +81923,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     components: { ActivityBlock: __WEBPACK_IMPORTED_MODULE_0__activityBlock___default.a },
     data: function data() {
         return {
-            activityDataList: [{
-                id: 1,
-                banner: '',
-                title: '',
-                date: '',
-                location: ''
-            }, {
-                id: 2,
-                banner: '',
-                title: '',
-                date: '',
-                location: ''
-            }, {
-                id: 3,
-                banner: '',
-                title: '',
-                date: '',
-                location: ''
-            }, {
-                id: 4,
-                banner: '',
-                title: '',
-                date: '',
-                location: ''
-            }, {
-                id: 5,
-                banner: '',
-                title: '',
-                date: '',
-                location: ''
-            }, {
-                id: 6,
-                banner: '',
-                title: '',
-                date: '',
-                location: ''
-            }],
+            activityDataList: [],
             pageInfo: {
                 size: 20,
                 sizes: [12, 16, 20, 24],
@@ -82072,11 +81932,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         };
     },
+    mounted: function mounted() {
+        var _this = this;
+
+        axios({
+            method: 'get',
+            url: this.$apiAddress.getAllActivity
+        }).then(function (response) {
+            _this.activityDataList = response.data.data;
+        });
+    },
 
     methods: {
         handleActivityClick: function handleActivityClick(id) {
             this.$router.push('/activity/' + id);
             // console.log(id);
+        },
+        handleNewActivity: function handleNewActivity() {
+            localStorage.setItem('aid', ''); //清空以防止跳转
+            localStorage.setItem('md', '');
+            this.$router.push('/activity/publish');
         }
     }
 });
@@ -82092,7 +81967,8 @@ var content = __webpack_require__(248);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("c982519a", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("220aae9a", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -82148,11 +82024,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         activityData: {
             default: function _default() {
                 return {
-                    id: '',
-                    banner: '',
-                    title: '',
-                    date: '',
-                    location: ''
+                    aid: '',
+                    poster: '',
+                    name: '',
+                    activityStartTime: '',
+                    cityName: ''
                 };
             }
         },
@@ -82165,7 +82041,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         handleClick: function handleClick() {
-            this.$emit('activityClick', this.activityData.id);
+            this.$emit('activityClick', this.activityData.aid);
         },
         apply: function apply(e) {
             var _this = this;
@@ -82175,12 +82051,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 methods: 'get',
                 url: this.$apiAddress.getLoginStatus
             }).then(function (response) {
-                _this.$emit('clickApply', _this.activityData.id);
+                _this.$emit('clickApply', _this.activityData.aid);
             });
         },
         edit: function edit(e) {
             e.stopPropagation();
-            this.$emit('clickEdit', this.activityData.id);
+            this.$emit('clickEdit', this.activityData.aid);
         }
     }
 });
@@ -82199,7 +82075,7 @@ var render = function() {
     [
       _c("img", {
         staticClass: "img",
-        attrs: { src: _vm.activityData.bannner }
+        attrs: { src: _vm.activityData.poster }
       }),
       _vm._v(" "),
       _c(
@@ -82207,15 +82083,15 @@ var render = function() {
         { staticClass: "activity-info" },
         [
           _c("h1", { staticClass: "title" }, [
-            _vm._v(_vm._s(_vm.activityData.title || "活动"))
+            _vm._v(_vm._s(_vm.activityData.name || "活动"))
           ]),
           _vm._v(" "),
           _c("p", { staticClass: "secondary-text date" }, [
-            _vm._v(_vm._s(_vm.activityData.date || "2018-01-01"))
+            _vm._v(_vm._s(_vm.activityData.activityStartTime || "2018-01-01"))
           ]),
           _vm._v(" "),
           _c("p", { staticClass: "secondary-text location" }, [
-            _vm._v(_vm._s(_vm.activityData.location || "杭州"))
+            _vm._v(_vm._s(_vm.activityData.cityName || "杭州"))
           ]),
           _vm._v(" "),
           !_vm.editMode && !_vm.applied
@@ -82280,11 +82156,7 @@ var render = function() {
             {
               staticClass: "submit-activity-button",
               attrs: { size: "small" },
-              on: {
-                click: function($event) {
-                  _vm.$router.push("/activity/publish")
-                }
-              }
+              on: { click: _vm.handleNewActivity }
             },
             [_vm._v("新建活动")]
           )
@@ -82414,7 +82286,8 @@ var content = __webpack_require__(254);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("15d676f3", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("3f54f31a", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -82438,7 +82311,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n.table-title[data-v-95a8681e]{\n    padding-right: 10px;\n    text-align: right;\n}\n.date-item[data-v-95a8681e]{\n    font-size: 18px;\n}\n.date-divider[data-v-95a8681e]{\n    display: inline-block;\n    font-size: 15px;\n    margin: 0 2px;\n}\n.info-table[data-v-95a8681e]{\n    border-collapse: separate;\n    border-spacing: 0px 10px;\n}\n.show-apply-info[data-v-95a8681e]{\n    float: right;\n}\n.title[data-v-95a8681e]{\n    padding: 20px 0;\n    line-height: 40px;\n    border-bottom: 1px solid #e0e0e0;\n}\n.main-info-container[data-v-95a8681e]{\n    border: 1px solid #eee;\n    padding: 5px;\n    border-radius: 10px;\n    margin: 30px 0;\n}\n.detail-info-container[data-v-95a8681e]{\n    padding: 25px 15px 0;\n}\n.info-table[data-v-95a8681e]{\n    font-size: 14px;\n}\n.info-table tr[data-v-95a8681e]{\n    padding-bottom: 5px;\n}\n.button-container[data-v-95a8681e]{\n    margin: 15px 0;\n}\n.map-container[data-v-95a8681e]{\n    height: 100%;\n}\n.content-container[data-v-95a8681e]{\n    width: 1200px;\n    padding: 15px;\n    margin: 0 auto 30px;\n    border: 1px solid #eee;\n    border-radius: 10px;\n\n    min-height: 100px;\n}\n", ""]);
+exports.push([module.i, "\n.banner[data-v-95a8681e]{\n    width: 100%;\n    height: 200px;\n}\n.table-title[data-v-95a8681e]{\n    padding-right: 10px;\n    text-align: right;\n}\n.date-item[data-v-95a8681e]{\n    font-size: 18px;\n}\n.date-divider[data-v-95a8681e]{\n    display: inline-block;\n    font-size: 15px;\n    margin: 0 2px;\n}\n.info-table[data-v-95a8681e]{\n    border-collapse: separate;\n    border-spacing: 0px 10px;\n}\n.show-apply-info[data-v-95a8681e]{\n    float: right;\n}\n.title[data-v-95a8681e]{\n    padding: 20px 0;\n    line-height: 40px;\n    border-bottom: 1px solid #e0e0e0;\n}\n.main-info-container[data-v-95a8681e]{\n    border: 1px solid #eee;\n    padding: 5px;\n    border-radius: 10px;\n    margin: 30px 0;\n}\n.detail-info-container[data-v-95a8681e]{\n    padding: 25px 15px 0;\n}\n.info-table[data-v-95a8681e]{\n    font-size: 14px;\n}\n.info-table tr[data-v-95a8681e]{\n    padding-bottom: 5px;\n}\n.button-container[data-v-95a8681e]{\n    margin: 15px 0;\n}\n.map-container[data-v-95a8681e]{\n    height: 100%;\n}\n.content-container[data-v-95a8681e]{\n    width: 1200px;\n    padding: 15px;\n    margin: 0 auto 30px;\n    border: 1px solid #eee;\n    border-radius: 10px;\n\n    min-height: 100px;\n}\n", ""]);
 
 // exports
 
@@ -82525,24 +82398,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "activityDetail",
     data: function data() {
         return {
             activityData: {
-                title: 'test',
-                id: '',
-                banner: '',
-                timeStart: '',
-                timeEnd: '',
-                location: '',
-                organizer: '',
-                content: ''
+                name: 'test',
+                aid: '',
+                poster: '',
+                activityStartTime: '',
+                activityStopTime: '',
+                cityName: '',
+                description: ''
             },
             applyData: [],
             countDownObj: {
@@ -82564,14 +82432,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
     mounted: function mounted() {
-        this.countDown(new Date('2019/1/1'));
+        var _this = this;
+
+        // this.countDown(new Date('2019/1/1'))
+
+        var aid = this.$router.currentRoute.params.id;
+        axios(this.$apiAddress.getActivityDetail, { params: { aid: aid } }).then(function (response) {
+            var data = response.data.data.activityInfo;
+            for (var i in _this.activityData) {
+                _this.activityData[i] = data[i];
+            }
+            _this.countDown(new Date(data.applyStopTime));
+            _this.isCreator = !!response.data.data.admin;
+        });
         // console.log(this.$router,'para',this.$router.currentRoute.params.id)
     },
 
 
     methods: {
         countDown: function countDown(target) {
-            var _this = this;
+            var _this2 = this;
 
             var source = new Date();
             var diff = target.getTime() - source.getTime();
@@ -82588,7 +82468,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 second < 0 && (minute--, second = 59);
                 minute < 0 && (hour--, minute = 59);
                 hour < 0 && (day--, hour = 23);
-                _this.countDownObj = {
+                _this2.countDownObj = {
                     day: day,
                     hour: hour,
                     minute: minute,
@@ -82626,16 +82506,16 @@ var render = function() {
         "h1",
         { staticClass: "title clearfix" },
         [
-          _vm._v("\n        " + _vm._s(_vm.activityData.title) + "\n        "),
-          _c(
-            "el-badge",
-            {
-              staticClass: "show-apply-info item",
-              attrs: { value: _vm.applyCount }
-            },
-            [
-              _vm.isCreator
-                ? _c(
+          _vm._v("\n        " + _vm._s(_vm.activityData.name) + "\n        "),
+          _vm.isCreator
+            ? _c(
+                "el-badge",
+                {
+                  staticClass: "show-apply-info item",
+                  attrs: { value: _vm.applyCount }
+                },
+                [
+                  _c(
                     "el-button",
                     {
                       attrs: { type: "primary", plain: true },
@@ -82643,10 +82523,10 @@ var render = function() {
                     },
                     [_vm._v("\n                查看报名信息\n\n            ")]
                   )
-                : _vm._e()
-            ],
-            1
-          )
+                ],
+                1
+              )
+            : _vm._e()
         ],
         1
       ),
@@ -82661,7 +82541,7 @@ var render = function() {
               _c("el-col", { attrs: { span: 12 } }, [
                 _c("img", {
                   staticClass: "banner",
-                  attrs: { src: _vm.activityData.banner }
+                  attrs: { src: _vm.activityData.poster }
                 })
               ]),
               _vm._v(" "),
@@ -82677,7 +82557,9 @@ var render = function() {
                             _vm._v("开始时间:")
                           ]),
                           _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(_vm.activityData.timeStart))])
+                          _c("td", [
+                            _vm._v(_vm._s(_vm.activityData.activityStartTime))
+                          ])
                         ]),
                         _vm._v(" "),
                         _c("tr", { staticClass: "info-table-item" }, [
@@ -82685,7 +82567,9 @@ var render = function() {
                             _vm._v("结束时间:")
                           ]),
                           _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(_vm.activityData.timeEnd))])
+                          _c("td", [
+                            _vm._v(_vm._s(_vm.activityData.activityStopTime))
+                          ])
                         ]),
                         _vm._v(" "),
                         _c("tr", { staticClass: "info-table-item" }, [
@@ -82693,15 +82577,7 @@ var render = function() {
                             _vm._v("举办地点:")
                           ]),
                           _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(_vm.activityData.location))])
-                        ]),
-                        _vm._v(" "),
-                        _c("tr", { staticClass: "info-table-item" }, [
-                          _c("td", { staticClass: "table-title" }, [
-                            _vm._v("主办方:")
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(_vm.activityData.organizer))])
+                          _c("td", [_vm._v(_vm._s(_vm.activityData.cityName))])
                         ]),
                         _vm._v(" "),
                         _c("tr", { staticClass: "info-table-item" }, [
@@ -82778,7 +82654,7 @@ var render = function() {
       _vm._v(" "),
       _c("div", {
         staticClass: "content-container",
-        domProps: { innerHTML: _vm._s(_vm.activityData.content) }
+        domProps: { innerHTML: _vm._s(_vm.activityData.description) }
       }),
       _vm._v(" "),
       _c(
@@ -82882,7 +82758,8 @@ var content = __webpack_require__(259);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("feb777b0", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("65305d68", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -82922,7 +82799,8 @@ var content = __webpack_require__(261);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("cd0ffda0", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("ba8eff20", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -83173,6 +83051,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 description: [{ required: true, message: '请填写标签描述', trigger: 'blur' }]
             },
             selectCityList: [],
+
             publishInfo: {
                 name: '',
                 tag: [],
@@ -83192,6 +83071,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             },
             picUploadStatus: '',
             publishDetail: '',
+            descriptionSource: '',
             mapInstance: null,
             localSearchInstance: null,
             tagLoading: false,
@@ -83203,11 +83083,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         // console.log(this.$router,'para',)
         this.mapInstance = new BMap.Map('map-container');
+
+        //如果参数中有aid那么进入编辑模式
         var aid = this.$router.currentRoute.params.id;
         if (aid) {
             // console.log('fd')
             this.isCreate = false;
             //todo fetch activity data
+
+            return;
+        }
+        //如果localStorage中有aid 进入编辑详细信息模式
+        var sAid = localStorage.getItem('aid');
+        if (sAid) {
+            this.detailSubmitAid = +sAid;
+            this.activeStep++;
+            var md = localStorage.getItem('md');
+            if (md) {
+                this.publishDetail = md;
+            }
         }
     },
 
@@ -83229,6 +83123,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             } else {
                 this.tagOptions = [];
             }
+        },
+        handleMdChange: function handleMdChange(val, render) {
+
+            this.publishDetail = render;
+        },
+        handleMdSave: function handleMdSave() {
+            localStorage.setItem('md', this.descriptionSource);
         },
         addTag: function addTag() {
             var _this3 = this;
@@ -83254,19 +83155,81 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         onSubmitBasic: function onSubmitBasic() {
             var _this5 = this;
 
+            var params = {};
             this.$refs['publishForm'].validate(function (valid) {
                 if (valid) {
-                    _this5.activeStep++;
+                    for (var i in _this5.publishInfo) {
+                        switch (i) {
+                            case 'applyTime':
+                                params['applyStartTime'] = _this5.publishInfo[i][0].getTime() / 1000;
+                                params['applyStopTime'] = _this5.publishInfo[i][1].getTime() / 1000;
+                                break;
+                            case 'activityTime':
+                                params['activityStartTime'] = _this5.publishInfo[i][0].getTime() / 1000;
+                                params['activityStopTime'] = _this5.publishInfo[i][1].getTime() / 1000;
+                                break;
+                            case 'applyInfo':
+                            case 'commitTitle':
+                                break;
+                            default:
+                                params[i] = _this5.publishInfo[i];
+                        }
+                    }
+                    axios({
+                        method: 'post',
+                        url: _this5.$apiAddress.postBasicActivityInfo,
+                        data: _this5.setUrlParams(params)
+                    }).then(function (response) {
+                        _this5.$message({
+                            message: '基本信息提交成功',
+                            type: 'success'
+                        });
+                        _this5.detailSubmitAid = response.data.data.aid;
+                        localStorage.setItem('aid', _this5.detailSubmitAid);
+                        _this5.activeStep++;
+                    });
                 }
             });
             // console.log(this.publishInfo)
         },
         onSubmitDetail: function onSubmitDetail() {
-            if (this.uploadStatus !== 'success') {
+            var _this6 = this;
+
+            if (!this.detailSubmitAid) {
+                this.$alert('基本信息上传未成功，无法上传详细信息');
+            }
+            if (this.picUploadStatus !== 'success') {
                 this.$alert('请上传海报照片!');
                 return;
             }
-            this.activeStep++;
+            if (this.publishInfo.applyInfo) {
+                if (~this.publishInfo.applyInfo.indexOf('commit') && !this.applyInfo.commitTitle) {
+                    this.$alert('请填写备注标题!');
+                    return;
+                }
+                var params = {
+                    description: this.publishDetail,
+                    descriptionSource: this.descriptionSource,
+                    applyInfo: this.publishInfo.applyInfo,
+                    commitTitle: this.publishInfo.commitTitle,
+                    aid: this.detailSubmitAid
+                };
+                axios({
+                    method: 'post',
+                    url: this.$apiAddress.postDetailActivityInfo,
+                    data: this.setUrlParams(params)
+                }).then(function (response) {
+                    _this6.$message({
+                        message: '详细信息提交成功',
+                        type: 'success'
+                    });
+                    localStorage.setItem('aid', '');
+                    localStorage.setItem('md', '');
+                    _this6.activeStep++;
+                });
+            } else {
+                this.$alert('请选择报名所需信息');
+            }
         },
         fetchAddress: function fetchAddress(query, cb) {
             if (!query) return;
@@ -83296,29 +83259,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.mapInstance.addOverlay(new BMap.Marker(item.point));
         },
         handleAddTagSubmit: function handleAddTagSubmit() {
-            var _this6 = this;
+            var _this7 = this;
 
             this.$refs['addTagForm'].validate(function (valid) {
                 if (valid) {
                     axios({
                         method: 'post',
-                        url: _this6.$apiAddress.postAddTag,
-                        data: _this6.setUrlParams(_this6.addTagInfo)
+                        url: _this7.$apiAddress.postAddTag,
+                        data: _this7.setUrlParams(_this7.addTagInfo)
                     }).then(function (response) {
-                        _this6.$message({
+                        _this7.$message({
                             message: '标签添加成功',
                             type: 'success'
                         });
-                        _this6.tagDialogVisible = false;
+                        _this7.tagDialogVisible = false;
                     });
                 }
             });
         },
         handleAddTagCancel: function handleAddTagCancel() {
-            var _this7 = this;
+            var _this8 = this;
 
             this.$confirm('确认取消添加标签？').then(function () {
-                _this7.tagDialogVisible = false;
+                _this8.tagDialogVisible = false;
             }).catch(function () {});
         },
         handleCityChange: function handleCityChange() {
@@ -83326,7 +83289,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         imgDel: function imgDel() {},
         imgAdd: function imgAdd(pos, $file) {
-            var _this8 = this;
+            var _this9 = this;
 
             // 第一步.将图片上传到服务器.
             var formdata = new FormData();
@@ -83344,7 +83307,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                  * 2. 通过$refs获取: html声明ref : `<mavon-editor ref=md ></mavon-editor>，`$vm`为 `this.$refs.md`
                  */
                 // console.log(url);
-                _this8.$refs.mdEditor.$img2Url(pos, response.data.data.url);
+                _this9.$refs.mdEditor.$img2Url(pos, response.data.data.url);
             });
         }
     }
@@ -83414,7 +83377,8 @@ var content = __webpack_require__(265);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("7ca2dc64", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("d8c57eb8", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -83454,7 +83418,8 @@ var content = __webpack_require__(267);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("01070c58", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("2b95b214", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -83494,7 +83459,8 @@ var content = __webpack_require__(269);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("036fbae6", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("19e8aeb4", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -84109,7 +84075,7 @@ var render = function() {
                     staticClass: "pic-uploader",
                     attrs: { "data-object": { aid: _vm.detailSubmitAid } },
                     on: {
-                      "upload-success": function($event) {
+                      uploadSuccess: function($event) {
                         _vm.picUploadStatus = "success"
                       }
                     }
@@ -84122,13 +84088,18 @@ var render = function() {
                   _c("mavon-editor", {
                     ref: "mdEditor",
                     staticClass: "md-editor",
-                    on: { imgAdd: _vm.imgAdd, imgDel: _vm.imgDel },
+                    on: {
+                      save: _vm.handleMdSave,
+                      change: _vm.handleMdChange,
+                      imgAdd: _vm.imgAdd,
+                      imgDel: _vm.imgDel
+                    },
                     model: {
-                      value: _vm.publishDetail,
+                      value: _vm.descriptionSource,
                       callback: function($$v) {
-                        _vm.publishDetail = $$v
+                        _vm.descriptionSource = $$v
                       },
-                      expression: "publishDetail"
+                      expression: "descriptionSource"
                     }
                   }),
                   _vm._v(" "),
@@ -84177,7 +84148,12 @@ var render = function() {
                       "el-button",
                       {
                         staticClass: "go-activity-page",
-                        attrs: { type: "success", plain: true }
+                        attrs: { type: "success", plain: true },
+                        on: {
+                          click: function($event) {
+                            _vm.$router.push("/activity/" + _vm.detailSubmitAid)
+                          }
+                        }
                       },
                       [_vm._v("去往活动详情页")]
                     )
@@ -84359,7 +84335,8 @@ var content = __webpack_require__(275);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("27035634", content, false, {});
+var add = __webpack_require__(5).default
+var update = add("e960fab4", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -84693,49 +84670,30 @@ function defaultValue(value, defaultString) {
 /* 280 */
 /***/ (function(module, exports, __webpack_require__) {
 
+// style-loader: Adds some css to the DOM by adding a <style> tag
 
+// load the styles
 var content = __webpack_require__(281);
-
 if(typeof content === 'string') content = [[module.i, content, '']];
-
+// Prepare cssTransformation
 var transform;
-var insertInto;
 
-
-
-var options = {"hmr":true}
-
+var options = {}
 options.transform = transform
-options.insertInto = undefined;
-
+// add the styles to the DOM
 var update = __webpack_require__(17)(content, options);
-
 if(content.locals) module.exports = content.locals;
-
+// Hot Module Replacement
 if(false) {
-	module.hot.accept("!!../../../css-loader/index.js!./index.css", function() {
-		var newContent = require("!!../../../css-loader/index.js!./index.css");
-
-		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-
-		var locals = (function(a, b) {
-			var key, idx = 0;
-
-			for(key in a) {
-				if(!b || a[key] !== b[key]) return false;
-				idx++;
-			}
-
-			for(key in b) idx--;
-
-			return idx === 0;
-		}(content.locals, newContent.locals));
-
-		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
-
-		update(newContent);
-	});
-
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../css-loader/index.js!./index.css", function() {
+			var newContent = require("!!../../../css-loader/index.js!./index.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
 	module.hot.dispose(function() { update(); });
 }
 
@@ -84786,15 +84744,30 @@ module.exports = "/fonts/vendor/mavon-editor/dist/fontello.svg?9354499c282424851
 var prefix = '/api';
 var address = {
     getLoginStatus: '/user/login/status',
-    postLogin: '/user/login',
-    postLogout: '/user/logout',
-    postRegister: '/user/register',
-    postInfoEdit: '/user/login/info/edit',
-    getLoggedUserInfo: '/user/login/info',
-    postAddTag: '/tag/add',
-    searchTag: '/tag/search',
-    getTagByTidList: '/tag/get/list'
 
+    postLogin: '/user/login',
+
+    postLogout: '/user/logout',
+
+    postRegister: '/user/register',
+
+    postInfoEdit: '/user/login/info/edit',
+
+    getLoggedUserInfo: '/user/login/info',
+
+    postAddTag: '/tag/add',
+
+    searchTag: '/tag/search',
+
+    getTagByTidList: '/tag/get/list',
+
+    postBasicActivityInfo: '/activity/info/basic',
+
+    postDetailActivityInfo: '/activity/info/detail',
+
+    getAllActivity: '/activity/info/all',
+
+    getActivityDetail: '/activity/info/detail'
 };
 for (var i in address) {
     address[i] = prefix + address[i];

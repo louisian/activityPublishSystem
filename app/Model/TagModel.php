@@ -16,7 +16,7 @@ class TagModel extends Model{
         $tm=new TagModel();
         $tm->name=$tagObj['name'];
         $tm->description=$tagObj['description'];
-        $tm->creator_uid=$uid;
+        $tm->creatorUid=$uid;
         $tm->save();
         return true;
     }

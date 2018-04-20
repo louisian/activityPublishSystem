@@ -2,7 +2,7 @@
     <div class="main">
         <div class="title-container clearfix">
             <h1 class="title">最新活动</h1>
-            <el-button class="submit-activity-button" size="small" @click="$router.push('/activity/publish')">新建活动</el-button>
+            <el-button class="submit-activity-button" size="small" @click="handleNewActivity">新建活动</el-button>
         </div>
         <el-carousel :interval="4000" class="activity-carousel" type="card" height="200px">
             <el-carousel-item v-for="item in 6" :key="item">
@@ -34,48 +34,7 @@
         data(){
             return{
                 activityDataList:[
-                    {
-                        id:1,
-                        banner:'',
-                        title:'',
-                        date:'',
-                        location:'',
-                    },
-                    {
-                        id:2,
-                        banner:'',
-                        title:'',
-                        date:'',
-                        location:'',
-                    },
-                    {
-                        id:3,
-                        banner:'',
-                        title:'',
-                        date:'',
-                        location:'',
-                    },
-                    {
-                        id:4,
-                        banner:'',
-                        title:'',
-                        date:'',
-                        location:'',
-                    },
-                    {
-                        id:5,
-                        banner:'',
-                        title:'',
-                        date:'',
-                        location:'',
-                    },
-                    {
-                        id:6,
-                        banner:'',
-                        title:'',
-                        date:'',
-                        location:'',
-                    }
+
                 ],
                 pageInfo:{
                     size:20,
@@ -85,10 +44,24 @@
                 }
             }
         },
+        mounted(){
+          axios({
+              method:'get',
+              url:this.$apiAddress.getAllActivity
+          }).then((response)=>{
+              this.activityDataList=response.data.data
+          })
+        },
         methods:{
             handleActivityClick(id){
                this.$router.push('/activity/'+id);
                 // console.log(id);
+            },
+            handleNewActivity(){
+                localStorage.setItem('aid','');//清空以防止跳转
+                localStorage.setItem('md','');
+                this.$router.push('/activity/publish');
+
             }
         }
     }
