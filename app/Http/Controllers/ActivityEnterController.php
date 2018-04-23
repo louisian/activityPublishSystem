@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Model\ActivityEnterModel;
+use App\Model\ActivityModel;
+use App\Model\UserModel;
 use Illuminate\Http\Request;
 
 class ActivityEnterController extends Controller
@@ -16,12 +18,13 @@ class ActivityEnterController extends Controller
             if(ActivityEnterModel::existEnterByAidUid($aid,$uid)){
                 return $this->apiResponse(400,'您已经报名这个活动，请勿重复报名');
             }
-            ActivityEnterModel::addActivityEnter($aid,$uid,$applyInfo);
-            return $this->apiResponse(200,"报名成功");
-        }else{
-            return $this->apiResponse(400,'参数错误');
+            $tidList=ActivityModel::getTidStringByAid($aid);
+            if(UserModel::updateTagEnterByTidListUid($tidList,$uid)){
+                ActivityEnterModel::addActivityEnter($aid,$uid,$applyInfo);
+                return $this->apiResponse(200,"报名成功");
+            }
         }
-
+        return $this->apiResponse(400,'系统错误');
     }
 
 }

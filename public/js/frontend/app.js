@@ -79890,6 +79890,7 @@ window.Vue = __webpack_require__(3);
 
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.prototype.$apiAddress = __WEBPACK_IMPORTED_MODULE_12__axios_backendAddress_js__["a" /* default */];
+// window.$isLogin=false;
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_13__plugins_index_js__["a" /* default */]);
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_5_element_ui___default.a);
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_7_mavon_editor___default.a);
@@ -79901,7 +79902,12 @@ Object.keys(__WEBPACK_IMPORTED_MODULE_4__filter__).forEach(function (key) {
 var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     beforeCreate: function beforeCreate() {},
 
-    router: __WEBPACK_IMPORTED_MODULE_2__router__["a" /* default */]
+    router: __WEBPACK_IMPORTED_MODULE_2__router__["a" /* default */],
+    data: function data() {
+        return {
+            isLogin: false
+        };
+    }
 }).$mount('#app');
 
 /***/ }),
@@ -80138,6 +80144,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -80148,15 +80156,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         'Footer-component': __WEBPACK_IMPORTED_MODULE_1__footer_component_vue___default.a
     },
     data: function data() {
-        return {
-            isLogin: false
-        };
+        return {};
     },
     mounted: function mounted() {
         var _this = this;
 
         axios.get(this.$apiAddress.getLoginStatus).then(function (response) {
-            _this.isLogin = true;
+            _this.$root.isLogin = true;
+            // this.isLogin=true;
         }).catch(function (response) {
             // console.log(response)
         });
@@ -80164,7 +80171,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         handleLoginSuccess: function handleLoginSuccess() {
-            this.isLogin = true;
+            this.$root.isLogin = true;
+            // $isLogin=true;
+            // this.isLogin=true;
+        },
+        handleLogout: function handleLogout() {
+            this.$root.isLogin = false;
+            // this.isLogin=false;
         }
     }
 });
@@ -81715,13 +81728,8 @@ var render = function() {
     "div",
     [
       _c("Header-component", {
-        attrs: { "is-login": _vm.isLogin },
-        on: {
-          loginSuccess: _vm.handleLoginSuccess,
-          logout: function($event) {
-            _vm.isLogin = false
-          }
-        }
+        attrs: { "is-login": _vm.$root.isLogin },
+        on: { loginSuccess: _vm.handleLoginSuccess, logout: _vm.handleLogout }
       }),
       _vm._v(" "),
       _c(
@@ -81938,18 +81946,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             applyAid: 0
         };
     },
-    mounted: function mounted() {
-        var _this = this;
 
-        axios({
-            method: 'get',
-            url: this.$apiAddress.getAllActivity
-        }).then(function (response) {
-            _this.activityDataList = response.data.data;
-        });
+    watch: {
+        '$root.isLogin': function $rootIsLogin(val) {
+            console.log('change');
+            this.getAllActivity();
+        }
+    },
+    mounted: function mounted() {
+        this.getAllActivity();
     },
 
     methods: {
+        getAllActivity: function getAllActivity() {
+            var _this = this;
+
+            axios({
+                method: 'get',
+                url: this.$apiAddress.getAllActivity
+            }).then(function (response) {
+                _this.activityDataList = response.data.data;
+            });
+        },
         handleActivityClick: function handleActivityClick(id) {
             this.$router.push('/activity/' + id);
             // console.log(id);
@@ -82241,6 +82259,7 @@ var render = function() {
       _c("apply-dialog", {
         attrs: { "dialog-visible": _vm.applyVisible, aid: _vm.applyAid },
         on: {
+          applySuccess: _vm.getAllActivity,
           "update:dialogVisible": function($event) {
             _vm.applyVisible = $event
           }
@@ -82358,6 +82377,9 @@ exports.push([module.i, "\n.banner-container[data-v-95a8681e]{\n    position: re
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index_applyDialog__ = __webpack_require__(312);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index_applyDialog___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__index_applyDialog__);
+//
 //
 //
 //
@@ -82436,8 +82458,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "activityDetail",
+    components: { ApplyDialog: __WEBPACK_IMPORTED_MODULE_0__index_applyDialog___default.a },
     data: function data() {
         return {
             activityData: {
@@ -82466,6 +82490,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 label: '备注'
             }],
             applyInfoVisible: false,
+            applyVisible: false,
             applyCount: 100,
             isCreator: true
         };
@@ -82522,10 +82547,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }, 1000);
         },
         applyNow: function applyNow() {
+            var _this3 = this;
+
             axios({
                 methods: 'get',
                 url: this.$apiAddress.getLoginStatus
-            }).then(function (response) {});
+            }).then(function (response) {
+                _this3.applyVisible = true;
+            });
         },
         handleShowApplyInfo: function handleShowApplyInfo() {
             this.applyInfoVisible = true;
@@ -82741,7 +82770,22 @@ var render = function() {
           )
         ],
         1
-      )
+      ),
+      _vm._v(" "),
+      _c("apply-dialog", {
+        attrs: {
+          "dialog-visible": _vm.applyVisible,
+          aid: _vm.activityData.aid
+        },
+        on: {
+          "update:dialogVisible": function($event) {
+            _vm.applyVisible = $event
+          },
+          applySuccess: function($event) {
+            _vm.activityData.applied = true
+          }
+        }
+      })
     ],
     1
   )
@@ -85080,7 +85124,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -85138,7 +85182,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 'phone': '电话号码',
                 'realname': '真实姓名',
                 'commit': ''
-            }
+            },
+            popLoading: false,
+            popError: false
         };
     },
     mounted: function mounted() {},
@@ -85147,6 +85193,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         handleConfirm: function handleConfirm() {
             var _this = this;
 
+            this.popLoading = true;
             axios({
                 method: 'post',
                 url: this.$apiAddress.postActivityEnter,
@@ -85160,8 +85207,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     message: '报名成功',
                     type: 'success'
                 });
+                //emit applySuccess 来刷新列表
+                _this.$emit('applySuccess');
                 _this.$emit('update:dialogVisible', false);
                 _this.digVisible = false;
+            }).catch(function () {}).finally(function () {
+                _this.popLoading = false;
             });
         },
         handleCancel: function handleCancel() {
@@ -85175,6 +85226,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.digVisible = !!val;
             if (!!val) {
+                this.popLoading = true;
                 axios(this.$apiAddress.getApplyInfo, { params: { aid: this.aid } }).then(function (response) {
                     var data = response.data.data;
                     for (var i in data.applyInfo) {
@@ -85186,6 +85238,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     }
                     // this.$set(this.applyInfo,data.applyInfo);
                     _this2.applyLabel.commit = data.commitTitle;
+                }).catch(function () {
+                    _this2.popError = true;
+                }).finally(function () {
+                    _this2.popLoading = false;
                 });
             }
         }
@@ -85269,7 +85325,14 @@ var render = function() {
           _vm._v(" "),
           _c(
             "el-button",
-            { attrs: { type: "primary" }, on: { click: _vm.handleConfirm } },
+            {
+              attrs: {
+                type: "primary",
+                loading: _vm.popLoading,
+                disabled: _vm.popError
+              },
+              on: { click: _vm.handleConfirm }
+            },
             [_vm._v("确 认")]
           )
         ],

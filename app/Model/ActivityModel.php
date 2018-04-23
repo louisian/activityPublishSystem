@@ -101,4 +101,12 @@ class ActivityModel extends Model{
         $am['applyInfo']=explode(',',$am['applyInfo']);
         return $am;
     }
+    public static function getTidStringByAid($aid){
+        $am=ActivityModel::where('aid',$aid)->select('tag')->first();
+        if($am==null){
+            return null;
+        }
+        return json_decode($am->tag,true);
+
+    }
 }

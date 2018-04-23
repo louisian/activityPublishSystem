@@ -1,6 +1,8 @@
 <template>
     <div >
-        <Header-component @loginSuccess="handleLoginSuccess" @logout="isLogin=false" :is-login="isLogin"></Header-component>
+        <Header-component @loginSuccess="handleLoginSuccess"
+                          @logout="handleLogout"
+                          :is-login="$root.isLogin"></Header-component>
         <div class="app-main" style="clear: both;">
             <router-view></router-view>
         </div>
@@ -23,19 +25,26 @@
         },
         data() {
             return {
-                isLogin:false
-            };
+
+            }
         },
         mounted() {
             axios.get(this.$apiAddress.getLoginStatus).then((response)=>{
-               this.isLogin=true;
+               this.$root.isLogin=true
+               // this.isLogin=true;
             }).catch((response)=>{
                 // console.log(response)
             })
         },
         methods: {
             handleLoginSuccess(){
-                this.isLogin=true;
+                this.$root.isLogin=true
+                // $isLogin=true;
+                // this.isLogin=true;
+            },
+            handleLogout(){
+                this.$root.isLogin=false
+                // this.isLogin=false;
             }
         }
     }

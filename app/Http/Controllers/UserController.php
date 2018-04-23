@@ -75,6 +75,7 @@ class UserController extends Controller{
     }
     public function postLogout(Request $request){
         $username=$request->session()->pull('logged');
+        $request->session()->forget('logged_uid');
 //        var_dump($username);
         if($username){
             return $this->apiResponse(200,'登出成功');

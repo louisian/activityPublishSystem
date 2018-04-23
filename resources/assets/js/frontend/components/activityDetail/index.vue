@@ -72,12 +72,15 @@
                 <el-table-column v-for="item,key in applyTableHeader" :key="key" :property="item.prop" :label="item.label"></el-table-column>
             </el-table>
         </el-dialog>
+        <apply-dialog :dialog-visible.sync="applyVisible" @applySuccess="activityData.applied=true" :aid="activityData.aid"></apply-dialog>
     </div>
 </template>
 
 <script>
+    import ApplyDialog from "../index/applyDialog";
     export default {
         name: "activityDetail",
+        components: {ApplyDialog},
         data(){
             return{
                 activityData:{
@@ -111,6 +114,7 @@
                     }
                 ],
                 applyInfoVisible:false,
+                applyVisible:false,
                 applyCount:100,
                 isCreator:true,
             }
@@ -166,6 +170,7 @@
                     methods:'get',
                     url:this.$apiAddress.getLoginStatus
                 }).then((response)=>{
+                    this.applyVisible=true;
                 })
             },
             handleShowApplyInfo(){

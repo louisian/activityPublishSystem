@@ -62,20 +62,21 @@ class UserModel extends Model{
     }
     public static function getTagEnterByUid($uid){
         $te=UserModel::where('uid',$uid)->select('tagEnter')->first();
-        if($te->tag_enter==null){
+        if($te->tagEnter==null){
             return [];
         }
 //        var_dump( json_decode($te,true));
         return json_decode($te->tagEnter,true);
     }
-    public static function updateTagEnterByTidListUid($tidString,$uid){//因为是写入，for持续写入性能问题
-        $tidList=explode(',',$tidString);
+    public static function updateTagEnterByTidListUid($tidList,$uid){//因为是写入，for持续写入性能问题
+//        $tidList=explode(',',$tidString);
+//        var_dump($uid);
         $teObject=self::getTagEnterByUid($uid);
 //        $teObjectNew=array();
-
+//        var_dump($teObject);
         foreach ($tidList as $value){
             if(array_key_exists($value,$teObject)){
-                $teObject[$value]=++ $teObject[$value];
+                $teObject[$value]=++$teObject[$value];
             }else{
                 $teObject[$value]=1;
             }

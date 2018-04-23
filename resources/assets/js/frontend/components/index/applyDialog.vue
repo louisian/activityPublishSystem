@@ -22,7 +22,7 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
             <el-button @click="handleCancel">取 消</el-button>
-            <el-button type="primary" @click="handleConfirm">确 认</el-button>
+            <el-button type="primary" :loading="popLoading" :disabled="popError" @click="handleConfirm">确 认</el-button>
         </span>
     </el-dialog>
 </template>
@@ -48,7 +48,9 @@
                     'phone':'电话号码',
                     'realname':'真实姓名',
                     'commit':'',
-                }
+                },
+                popLoading:false,
+                popError:false,
             }
         },
         mounted(){
@@ -56,6 +58,7 @@
         },
         methods:{
             handleConfirm(){
+                this.popLoading=true;
                 axios({
                     method:'post',
                     url:this.$apiAddress.postActivityEnter,
@@ -69,8 +72,14 @@
                         message: '报名成功',
                         type: 'success'
                     });
+                    //emit applySuccess 来刷新列表
+                    this.$emit('applySuccess');
                     this.$emit('update:dialogVisible',false);
                     this.digVisible=false;
+                }).catch(()=>{
+
+                }).finally(()=>{
+                    this.popLoading=false;
                 })
 
             },
@@ -84,6 +93,7 @@
 
                 this.digVisible=!!val;
                 if(!!val){
+                    this.popLoading=true;
                     axios(this.$apiAddress.getApplyInfo,{params:{aid:this.aid}}).then((response)=>{
                         let data=response.data.data;
                         for(let i in data.applyInfo){
@@ -96,6 +106,10 @@
                         }
                         // this.$set(this.applyInfo,data.applyInfo);
                         this.applyLabel.commit=data.commitTitle;
+                    }).catch(()=>{
+                        this.popError=true;
+                    }).finally(()=>{
+                        this.popLoading=false;
                     })
                 }
             }

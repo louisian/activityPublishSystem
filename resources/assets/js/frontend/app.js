@@ -20,6 +20,7 @@ import '../../sass/frontend/app.scss';
 import address from  './axios/backendAddress.js';
 import plugins from "./plugins/index.js";
 Vue.prototype.$apiAddress=address;
+// window.$isLogin=false;
 Vue.use(plugins);
 Vue.use(ElementUI);
 Vue.use(mavonEditor);
@@ -31,4 +32,10 @@ Object.keys(filters).forEach(key => {
 const app = new Vue({
     beforeCreate() {},
     router,
+    data(){
+        return{
+            isLogin:false,
+        }
+    }
+
 }).$mount('#app');

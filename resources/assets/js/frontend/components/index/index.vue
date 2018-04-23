@@ -23,7 +23,7 @@
                 :page-size="pageInfo.size"
                 :current-page.sync="pageInfo.current">
         </el-pagination>
-        <apply-dialog :dialog-visible.sync="applyVisible" :aid="applyAid"></apply-dialog>
+        <apply-dialog @applySuccess="getAllActivity" :dialog-visible.sync="applyVisible" :aid="applyAid"></apply-dialog>
     </div>
 </template>
 
@@ -48,15 +48,26 @@
                 applyAid:0,
             }
         },
+        watch:{
+          '$root.isLogin':function (val) {
+              console.log('change')
+              this.getAllActivity();
+
+
+          }
+        },
         mounted(){
-          axios({
-              method:'get',
-              url:this.$apiAddress.getAllActivity
-          }).then((response)=>{
-              this.activityDataList=response.data.data
-          })
+         this.getAllActivity();
         },
         methods:{
+            getAllActivity(){
+                axios({
+                    method:'get',
+                    url:this.$apiAddress.getAllActivity
+                }).then((response)=>{
+                    this.activityDataList=response.data.data
+                })
+            },
             handleActivityClick(id){
                this.$router.push('/activity/'+id);
                 // console.log(id);
