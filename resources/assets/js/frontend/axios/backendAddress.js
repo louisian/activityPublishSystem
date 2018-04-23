@@ -24,7 +24,16 @@ let address={
 
     getAllActivity:'/activity/info/all',
 
-    getActivityDetail:'/activity/info/detail'
+    getActivityDetail:'/activity/info/detail',
+
+    getApplyInfo:'/activity/apply/info',
+
+    postActivityEnter:'/activity/enter/add',
+
+    getAppliedActivity:'/activity/info/applied',
+
+    getCreateActivity:'/activity/info/create',
+
 }
 for(let i in address){
     address[i]=prefix+address[i]

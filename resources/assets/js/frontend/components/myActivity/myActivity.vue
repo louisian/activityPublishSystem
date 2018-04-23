@@ -56,7 +56,22 @@
                 return this.applyActivityList.length===0;
             }
         },
-        method:{
+        mounted(){
+            const loading = this.$loading({
+                lock: true,
+                text: '数据加载中',
+                spinner: 'el-icon-loading',
+                background: 'rgba(0, 0, 0, 0.8)'
+            });
+            axios.all([axios(this.$apiAddress.getCreateActivity),axios(this.$apiAddress.getAppliedActivity)])
+                .then(axios.spread((cad,aad)=>{
+                    this.createActivityList=cad.data.data;
+                    this.applyActivityList=aad.data.data;
+                    loading.close();
+                }))
+
+        },
+        methods:{
             handleActivityClick(id){
                 this.$router.push('/activity/'+id);
             },
@@ -68,6 +83,9 @@
 </script>
 
 <style scoped>
+    .activity-container{
+        margin-top: 15px;
+    }
     .container{
         border: 1px solid #eee;
         border-radius: 10px;

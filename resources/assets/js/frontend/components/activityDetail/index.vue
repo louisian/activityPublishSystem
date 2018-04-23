@@ -14,7 +14,7 @@
         </h1>
         <div class="main-info-container">
             <el-row>
-                <el-col :span="12">
+                <el-col class="banner-container" :span="12">
                     <img class="banner" :src="activityData.poster"/>
                 </el-col>
                 <el-col :span="8">
@@ -49,7 +49,8 @@
                             </tbody>
                         </table>
                         <div class="button-container">
-                            <el-button @click="applyNow" type="primary">立即报名</el-button>
+                            <el-button :disabled="true" v-if="activityData.applied" type="success">已报名</el-button>
+                            <el-button v-else @click="applyNow" :disabled="isOutdate" type="primary">{{isOutdate?'报名截止':'立即报名'}}</el-button>
                         </div>
                     </div>
                 </el-col>
@@ -87,7 +88,9 @@
                     activityStopTime:'',
                     cityName:'',
                     description:'',
+                    applied:false,
                 },
+                isOutdate:false,
                 applyData:[
 
                 ],
@@ -121,7 +124,12 @@
                 for(let i in this.activityData){
                     this.activityData[i]=data[i];
                 }
-                this.countDown(new Date(data.applyStopTime));
+                if(new Date(data.applyStopTime).getTime()<new Date().getTime()){
+                    this.isOutdate=true;
+                }else{
+                    this.countDown(new Date(data.applyStopTime));
+                }
+
                 this.isCreator=!!response.data.data.admin;
             })
             // console.log(this.$router,'para',this.$router.currentRoute.params.id)
@@ -169,9 +177,17 @@
 </script>
 
 <style scoped>
+    .banner-container{
+        position: relative;
+    }
     .banner{
-        width: 100%;
-        height: 200px;
+        /*position: absolute;*/
+        width: 480px;
+        margin-left:60px;
+        height: 270px;
+        /*top: 50%;*/
+        /*left:50%;*/
+        /*transform: translate(-50% -50%);*/
     }
     .table-title{
         padding-right: 10px;

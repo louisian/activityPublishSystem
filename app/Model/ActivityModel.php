@@ -51,13 +51,14 @@ class ActivityModel extends Model{
         return $am->toArray();
 
     }
-    public static function getActivityList($selectListArray=['aid','name','cityName','activityStartTime','poster']){
-        $am=ActivityModel::all();
-        if($am==null){
-            return null;
-        }
 
-        $aml=$am->toArray();
+    /**
+     * 对活动结果进行筛选
+     * @param $aml
+     * @param array $selectListArray
+     * @return array
+     */
+    private static function activityListFilter($aml,$selectListArray=['aid','name','cityName','activityStartTime','poster']){
         $amlr=array();
         foreach ($aml as $key=>$value){
             foreach ($selectListArray as $sl){
@@ -73,5 +74,31 @@ class ActivityModel extends Model{
             }
         }
         return $amlr;
+    }
+    public static function getCreateActivityListByUid($uid){
+        $aml=ActivityModel::where('creatorUid',$uid)->get();
+        return self::activityListFilter($aml->toArray());
+    }
+    public static function getAppliedActivityListByAidList($aidList){
+        $aml=ActivityModel::whereIn('aid',$aidList)->get();
+        return self::activityListFilter($aml->toArray());
+    }
+    public static function getActivityList($selectListArray=['aid','name','cityName','activityStartTime','poster','creatorUid']){
+        $am=ActivityModel::all();
+        if($am==null){
+            return null;
+        }
+        $aml=$am->toArray();
+        return self::activityListFilter($aml,$selectListArray);
+    }
+
+    public static function getApplyInfoByAid($aid){
+        $am=ActivityModel::where('aid',$aid)->select('applyInfo','commitTitle')->first();
+        if($am==null){
+            return null;
+        }
+        $am=$am->toArray();
+        $am['applyInfo']=explode(',',$am['applyInfo']);
+        return $am;
     }
 }

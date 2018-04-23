@@ -11,7 +11,7 @@
         </el-carousel>
         <el-row class="activity-container" :gutter="20">
             <el-col :span="6" v-for="item,key in activityDataList" :key="key">
-                <activity-block @activityClick="handleActivityClick" :activity-data="item"></activity-block>
+                <activity-block :applied="item.applied" @activityClick="handleActivityClick" @applyClick="handleApplyClick" :activity-data="item"></activity-block>
             </el-col>
 
         </el-row>
@@ -23,14 +23,16 @@
                 :page-size="pageInfo.size"
                 :current-page.sync="pageInfo.current">
         </el-pagination>
+        <apply-dialog :dialog-visible.sync="applyVisible" :aid="applyAid"></apply-dialog>
     </div>
 </template>
 
 <script>
     import ActivityBlock from "./activityBlock";
+    import ApplyDialog from "./applyDialog";
     export default {
         name: "index",
-        components: {ActivityBlock},
+        components: {ApplyDialog, ActivityBlock},
         data(){
             return{
                 activityDataList:[
@@ -41,7 +43,9 @@
                     sizes:[12,16,20,24],
                     total:20,
                     current:1
-                }
+                },
+                applyVisible:false,
+                applyAid:0,
             }
         },
         mounted(){
@@ -56,6 +60,10 @@
             handleActivityClick(id){
                this.$router.push('/activity/'+id);
                 // console.log(id);
+            },
+            handleApplyClick(id){
+                this.applyAid=id;
+                this.applyVisible=true;
             },
             handleNewActivity(){
                 localStorage.setItem('aid','');//清空以防止跳转

@@ -5,16 +5,17 @@
             <h1 class="title">{{activityData.name||'活动'}}</h1>
             <p class="secondary-text date">{{activityData.activityStartTime||'2018-01-01'}}</p>
             <p class="secondary-text location">{{activityData.cityName||'杭州'}}</p>
-            <el-button v-if="!editMode&&!applied" @click="apply" type="primary" size="small" class="enter">报名</el-button>
+            <el-button v-if="!editMode" @click="apply" :disabled="applied" type="primary" size="small" class="enter">{{applied?'已报名':'报名'}}</el-button>
             <el-button v-if="editMode" @click="edit" type="primary" size="small" class="enter">编辑</el-button>
         </div>
-
     </div>
 </template>
 
 <script>
+    import ApplyDialog from "./applyDialog";
     export default {
         name: "activityBlock",
+        components: {ApplyDialog},
         props:{
             activityData:{
                 default:()=>{
@@ -35,6 +36,11 @@
                 default:false
             }
         },
+        data(){
+            return{
+                // applyVisible:false,
+            }
+        },
         methods:{
             handleClick(){
                 this.$emit('activityClick',this.activityData.aid);
@@ -45,7 +51,8 @@
                     methods:'get',
                     url:this.$apiAddress.getLoginStatus
                 }).then((response)=>{
-                    this.$emit('clickApply',this.activityData.aid);
+                    // this.applyVisible=true;
+                    this.$emit('applyClick',this.activityData.aid);
                 })
 
             },

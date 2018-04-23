@@ -19,6 +19,10 @@ Route::group(['middleware'=>'api'],function () {
         Route::post('/tag/add','TagController@postAddTag');
         Route::post('/activity/info/basic','ActivityController@postAddActivityBasic');
         Route::post('/activity/info/detail','ActivityController@postAddActivityDetail');
+        Route::get('/activity/apply/info','ActivityController@getApplyInfo');
+        Route::post('/activity/enter/add','ActivityEnterController@postActivityEnter');
+        Route::get('/activity/info/applied','ActivityController@getAppliedActivity');
+        Route::get('/activity/info/create','ActivityController@getCreateActivity');
 
     });
     Route::post('/activity/publish/uploader/poster',"UploadController@posterUploader");
