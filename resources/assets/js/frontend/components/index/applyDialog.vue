@@ -94,6 +94,7 @@
                 this.digVisible=!!val;
                 if(!!val){
                     this.popLoading=true;
+                    this.popError=false;
                     axios(this.$apiAddress.getApplyInfo,{params:{aid:this.aid}}).then((response)=>{
                         let data=response.data.data;
                         for(let i in data.applyInfo){

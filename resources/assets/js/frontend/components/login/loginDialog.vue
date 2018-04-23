@@ -18,7 +18,7 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
             <el-button @click="handleCancel">取 消</el-button>
-            <el-button :loading="submitting" type="primary" @click="handleSubmit">登 录</el-button>
+            <el-button :loading="submitting"  type="primary" @click="handleSubmit">登 录</el-button>
         </span>
     </el-dialog>
 </template>
@@ -34,6 +34,7 @@
                     username:'',
                     password:'',
                 },
+                loginLoading:false,
                 loginRules:{
                     username:[
                         {required:true,message:'请输入用户昵称',trigger:'blur'}

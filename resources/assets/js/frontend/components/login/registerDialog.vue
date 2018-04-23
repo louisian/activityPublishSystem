@@ -294,14 +294,14 @@
                             method:'get',
                             url:this.$apiAddress.getLoggedUserInfo
                         }).then((response)=>{
-                            this.registerInfo=response.data.data;
                             this.selectCityList=[response.data.data.city.substr(0,2),response.data.data.city];
                             axios({
                                 method:'get',
                                 url:this.$apiAddress.getTagByTidList,
-                                params:this.setUrlParams(this.registerInfo.tag),
-                            }).then((response)=>{
-                                this.tagOptions=response.data.data;
+                                params:this.setUrlParams({tidList:response.data.data.tag}),
+                            }).then((res)=>{
+                                this.tagOptions=res.data.data;
+                                this.registerInfo=response.data.data;
                             })
                         }).finally(()=>{
                             this.loading=false;

@@ -19,7 +19,7 @@ class ActivityEnterController extends Controller
                 return $this->apiResponse(400,'您已经报名这个活动，请勿重复报名');
             }
             $tidList=ActivityModel::getTidStringByAid($aid);
-            if(UserModel::updateTagEnterByTidListUid($tidList,$uid)){
+            if(UserModel::updateTagEnterTagScoreByTidListUid($tidList,$uid)){
                 ActivityEnterModel::addActivityEnter($aid,$uid,$applyInfo);
                 return $this->apiResponse(200,"报名成功");
             }

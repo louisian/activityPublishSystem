@@ -28,17 +28,21 @@ class UserModel extends Model{
         $um->username=$userObj['username'];
         $um->password=$password_md5;
         $um->phone=$userObj['phone'];
-        $um->free_day=$userObj['freeDay'];
-        $um->free_time=$userObj['freeTime'];
+        $um->freeDay=$userObj['freeDay'];
+        $um->freeTime=$userObj['freeTime'];
         $um->realname=$userObj['realname'];
         $um->city=$userObj['city'];
-        $um->city_name=$userObj['cityName'];
+        $um->cityName=$userObj['cityName'];
         $um->tag=$userObj['tag'];
+        $um->tagEnter=json_encode((object)array());
+        $um->tagScore=json_encode((object)array());
         $um->save();
+        self::updateTagEnterTagScoreByTidListUid(explode(',',$userObj['tag']),$um->uid,2);
         return true;
     }
     public static function updateUser($userObj){
         $um=UserModel::where('uid',$userObj['uid'])->first();
+        self::updateTagEnterTagScoreByTidListUid(explode(',',$um->tag),$um->uid,-2);
         $um->username=$userObj['username'];
         $um->phone=$userObj['phone'];
         $um->freeDay=$userObj['freeDay'];
@@ -47,8 +51,8 @@ class UserModel extends Model{
         $um->city=$userObj['city'];
         $um->cityName=$userObj['cityName'];
         $um->tag=$userObj['tag'];
-        $um->tagEnter=json_encode((object)array());
         $um->save();
+        self::updateTagEnterTagScoreByTidListUid(explode(',',$userObj['tag']),$um->uid,2);
         return true;
 
     }
@@ -68,21 +72,32 @@ class UserModel extends Model{
 //        var_dump( json_decode($te,true));
         return json_decode($te->tagEnter,true);
     }
-    public static function updateTagEnterByTidListUid($tidList,$uid){//因为是写入，for持续写入性能问题
+    public static function updateTagEnterTagScoreByTidListUid($tidList,$uid,$coefficient=1){//因为是写入，for持续写入性能问题
 //        $tidList=explode(',',$tidString);
 //        var_dump($uid);
         $teObject=self::getTagEnterByUid($uid);
+        $tsObject=array();
 //        $teObjectNew=array();
 //        var_dump($teObject);
+        $totalCount=0;
         foreach ($tidList as $value){
             if(array_key_exists($value,$teObject)){
-                $teObject[$value]=++$teObject[$value];
+                $teObject[$value]=$teObject[$value]+$coefficient;
             }else{
-                $teObject[$value]=1;
+                $teObject[$value]=$coefficient;
             }
         }
+
+        foreach ($teObject as $key=>$value){
+            $totalCount+=$value;
+        }
+        var_dump($totalCount);
+        foreach ($teObject as $key=>$value){
+            $tsObject[$key]=$value*100/$totalCount;//计算每个tag的分数，执行推荐算法
+        }
+
 //        var_dump((object)$teObject);
-        UserModel::where('uid',$uid)->update(['tagEnter'=>json_encode((object)$teObject)]);
+        UserModel::where('uid',$uid)->update(['tagEnter'=>json_encode((object)$teObject),'tagScore'=>json_encode((object)$tsObject)]);
         return true;
     }
 

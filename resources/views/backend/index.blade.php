@@ -13,7 +13,7 @@
 <div id="app">
     <router-view></router-view>
 </div>
-
+<script src="./js/commons.js"></script>
 <script src="./js/frontend/app.js"></script>
 </body>
 </html>

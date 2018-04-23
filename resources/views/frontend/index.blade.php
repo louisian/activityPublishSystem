@@ -13,6 +13,7 @@
 <div id="app">
     <router-view></router-view>
 </div>
+<script src="./js/commons.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=V1h9uXiiQEGTLSBmeP2bBChjeKku5tNY"></script>
 <script src="./js/frontend/app.js"></script>
 

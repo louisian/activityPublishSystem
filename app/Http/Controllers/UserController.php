@@ -52,7 +52,7 @@ class UserController extends Controller{
                         $umj['password']='';
                         break;
                     case'tag':
-                        $tagList=explode(',',$value);
+                        $tagList=$this->convStringListToIntList(explode(',',$value));
                         $umj['tag']=$value==null?[]:$tagList;
                         break;
                     default:

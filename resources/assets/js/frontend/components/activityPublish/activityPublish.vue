@@ -378,7 +378,7 @@
                     return;
                 }
                 if(this.publishInfo.applyInfo){
-                        if(~this.publishInfo.applyInfo.indexOf('commit')&&(!this.applyInfo.commitTitle)) {
+                        if(~this.publishInfo.applyInfo.indexOf('commit')&&(!this.publishInfo.commitTitle)) {
                             this.$alert('请填写备注标题!');
                             return;
                         }

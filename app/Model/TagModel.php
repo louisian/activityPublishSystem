@@ -12,6 +12,11 @@ use Illuminate\Database\Eloquent\Model;
 class TagModel extends Model{
     protected $primaryKey='tid';
     protected $table='tag';
+    public static function convTidToString($tagList){
+        foreach ($tagList as $key=> $value){
+            $tagList[$key]['tid']=(string)$value['tid'];
+        }
+    }
     public static function addTag($tagObj,$uid){
         $tm=new TagModel();
         $tm->name=$tagObj['name'];
@@ -28,7 +33,7 @@ class TagModel extends Model{
     }
     public static function getTagByQuery($query){
 //        var_dump($query);
-        $tml=TagModel::where('name','like',"%{$query}%")->select('name','tid')->get();    //->select('tid','name','description');
+        $tml=TagModel::where('name','like',"%{$query}%")->select('name','tid')->limit(10)->get();    //->select('tid','name','description');
 //        var_dump($tml);
         if($tml==null){
             return [];
@@ -42,5 +47,13 @@ class TagModel extends Model{
         }
         return $tm->toArray();
 
+    }
+    public static function getTagByTidList($tidList){
+//        var_dump($tidList);
+        $tml=TagModel::whereIn('tid',$tidList)->get();
+        if($tml==null){
+            return [];
+        }
+        return $tml->toArray();
     }
 }

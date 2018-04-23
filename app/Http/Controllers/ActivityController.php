@@ -12,6 +12,7 @@ class ActivityController extends Controller
     public function postAddActivityBasic(Request $request){
         $bActivityInfo=$request->all();
         $uid=$request->session()->get('logged_uid');
+        $bActivityInfo['tag']=$this->convStringListToIntList(explode(',',$bActivityInfo['tag']));
         $aid=ActivityModel::addBasicActivityInfo($bActivityInfo,$uid);
         if($aid){
             return $this->apiResponse(200,'活动数据添加成功',['aid'=>$aid]);
@@ -20,6 +21,7 @@ class ActivityController extends Controller
     }
     public function postAddActivityDetail(Request $request){
         $dActivityInfo=$request->all();
+
         if(ActivityModel::updateDetailActivityInfoByAid($dActivityInfo,$dActivityInfo['aid'])){
             return $this->apiResponse(200,'数据更新成功');
         }
@@ -44,19 +46,22 @@ class ActivityController extends Controller
 
     }
     public function getAllActivity(Request $request){
-        $aml=ActivityModel::getActivityList();
-        $aml_ret=array();
+        $pageSize=$request->input('pageSize');
+        $page=$request->input('page');
         $uid=$request->session()->get('logged_uid');
+        $aml=ActivityModel::getActivityListNotUid($uid);
+
+
         $aidl=ActivityEnterModel::getAidByUid($uid);
 //        var_dump($aidl);
         foreach ($aml as $key=>$value){
-            if($value['creatorUid']!=$uid){
-                $aml_ret[$key]=$value;
-                $aml_ret[$key]['applied']=in_array($value['aid'],$aidl);
-            }
-
+                $aml[$key]['applied']=in_array($value['aid'],$aidl);
+            //            if($value['creatorUid']!=$uid){
+            //                $aml_ret[$key]=$value;
         }
-        return $this->apiResponse(200,'数据获取成功',$aml_ret);
+
+
+        return $this->apiResponse(200,'数据获取成功',$aml);
     }
     public function getPosterActivity(Request $request){
 
@@ -85,6 +90,10 @@ class ActivityController extends Controller
         $am_ret=array();
 //        var_dump($am);
         foreach ($am['applyInfo'] as $value){
+            if($value=='commit'){
+                $am_ret['applyInfo'][$value]=$am['commitTitle'];
+                continue;
+            }
             $am_ret['applyInfo'][$value]=$um[$value];
         }
         $am_ret['commitTitle']=$am['commitTitle'];

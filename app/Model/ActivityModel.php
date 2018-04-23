@@ -19,7 +19,7 @@ class ActivityModel extends Model{
     public static function addBasicActivityInfo($bActivityInfo,$uid){
         $am=new ActivityModel();
         $am->name=$bActivityInfo['name'];
-        $am->tag=json_encode(explode(',',$bActivityInfo['tag']));
+        $am->tag=json_encode($bActivityInfo['tag']);
         $am->cityCode=$bActivityInfo['city'];
         $am->cityName=$bActivityInfo['cityName'];
         $am->address=$bActivityInfo['address'];
@@ -83,10 +83,10 @@ class ActivityModel extends Model{
         $aml=ActivityModel::whereIn('aid',$aidList)->get();
         return self::activityListFilter($aml->toArray());
     }
-    public static function getActivityList($selectListArray=['aid','name','cityName','activityStartTime','poster','creatorUid']){
-        $am=ActivityModel::all();
+    public static function getActivityListNotUid($uid,$selectListArray=['aid','name','cityName','activityStartTime','poster','creatorUid']){
+        $am=ActivityModel::where('creatorUid','<>',$uid)->where('applyStopTime','>',date('Y-m-d h:i:s'))->get();
         if($am==null){
-            return null;
+            return [];
         }
         $aml=$am->toArray();
         return self::activityListFilter($aml,$selectListArray);

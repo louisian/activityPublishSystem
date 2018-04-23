@@ -9,20 +9,28 @@
                 <h3>{{ item }}</h3>
             </el-carousel-item>
         </el-carousel>
-        <el-row class="activity-container" :gutter="20">
-            <el-col :span="6" v-for="item,key in activityDataList" :key="key">
-                <activity-block :applied="item.applied" @activityClick="handleActivityClick" @applyClick="handleApplyClick" :activity-data="item"></activity-block>
-            </el-col>
+        <div class="activity-container-box">
+            <div v-if="!activityLoading" class="activity-container-box-inner">
+                <el-row class="activity-container" :gutter="20">
+                    <el-col :span="6" v-for="item,key in activityDataList" :key="key">
+                        <activity-block :applied="item.applied" @activityClick="handleActivityClick" @applyClick="handleApplyClick" :activity-data="item"></activity-block>
+                    </el-col>
 
-        </el-row>
-        <el-pagination
-                background
-                layout="prev, pager, next , sizes , total"
-                :total="pageInfo.total"
-                :page-sizes="pageInfo.sizes"
-                :page-size="pageInfo.size"
-                :current-page.sync="pageInfo.current">
-        </el-pagination>
+                </el-row>
+                <el-pagination
+                        background
+                        layout="prev, pager, next , sizes , total"
+                        :total="pageInfo.total"
+                        :page-sizes="pageInfo.sizes"
+                        :page-size="pageInfo.size"
+                        :current-page.sync="pageInfo.current">
+                </el-pagination>
+            </div>
+
+                <div class="rotate-loader center-div" v-else></div>
+
+        </div>
+
         <apply-dialog @applySuccess="getAllActivity" :dialog-visible.sync="applyVisible" :aid="applyAid"></apply-dialog>
     </div>
 </template>
@@ -46,26 +54,32 @@
                 },
                 applyVisible:false,
                 applyAid:0,
+                activityLoading:false,
             }
         },
         watch:{
           '$root.isLogin':function (val) {
-              console.log('change')
               this.getAllActivity();
-
-
           }
         },
         mounted(){
-         this.getAllActivity();
+            this.$nextTick(()=>{
+                if(!this.activityLoading){
+                    this.getAllActivity();
+                }
+            })
+
         },
         methods:{
             getAllActivity(){
+                this.activityLoading=true;
                 axios({
                     method:'get',
                     url:this.$apiAddress.getAllActivity
                 }).then((response)=>{
                     this.activityDataList=response.data.data
+                }).finally(()=>{
+                    this.activityLoading=false;
                 })
             },
             handleActivityClick(id){
@@ -114,7 +128,25 @@
     .activity-carousel{
         margin: 30px 0;
     }
-
+    .activity-container-box{
+        width: 100%;
+        min-height: 400px;
+        border: 1px solid #eee;
+        padding: 15px;
+        border-radius: 10px;
+        position: relative;
+    }
+    .activity-container-box-loading{
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+    .center-div{
+        position: absolute;
+        top:50%;
+        left:50%;
+        transform: translate(-50%,-50%);
+    }
     .title{
         font-size: 24px;
         float: left;

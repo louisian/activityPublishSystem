@@ -24,3 +24,45 @@
 .fa-icon{
   padding-right: 5px;
 }
+// COLORS
+
+$color-1: #ECD078;
+$color-2: #C02942;
+$color-3: #542437;
+$color-4: #53777A;
+.rotate-loader {
+
+  &:before,
+  &:after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    border-radius: 50%;
+    border-style: solid;
+    border-top-color: $color-1;
+    border-right-color: $color-2;
+    border-bottom-color: $color-3;
+    border-left-color: $color-4;
+
+    content: '';
+
+    transform: translate(-50%, -50%);
+    animation: rotate 1.5s  infinite ease-in-out;
+  }
+
+  &:before { border-width: 30px; }
+
+  &:after {
+    width:  90px;
+    height: 90px;
+    border-width:7.5px;
+    animation-direction: reverse;
+  }
+}
+
+
+@keyframes rotate {
+  0% { transform: translate(-50%, -50%) rotate(0); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}

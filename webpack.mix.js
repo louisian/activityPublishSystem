@@ -1,4 +1,5 @@
 let mix = require('laravel-mix');
+let webpack=require('webpack');
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -22,3 +23,12 @@ mix.js('resources/assets/js/frontend/app.js', 'public/js/frontend')
 
 mix.sass('resources/assets/sass/backend/app.scss', 'public/css/backend/app.css');
 mix.js('resources/assets/js/backend/app.js', 'public/js/backend')
+mix.webpackConfig({
+    plugins: [
+        new webpack.optimize.CommonsChunkPlugin({
+            name: "commons",
+            filename: "js/commons.js",
+            minChunks: 2
+        })
+    ]
+});

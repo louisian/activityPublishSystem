@@ -34,13 +34,16 @@ class TagController extends Controller{
     }
     public function getTagsByTidList(Request $request){
         $tidList=explode(',',$request->input('tidList'));
-        $tml=[];
-        foreach ($tidList as $key=>$value){
-            $tm=TagModel::getTagByTid($value);
-            $tml[$key]['name']=$tm['name'];
-            $tml[$key]['tid']=$tm['tid'];
+//        var_dump($tidList);
+        $tidList=$this->convStringListToIntList($tidList);
+        $tml=TagModel::getTagByTidList($tidList);
+//        var_dump($tml);
+        $tml_ret=array();
+        foreach ($tml as $key=>$value){
+            $tml_ret[$key]['name']=$value['name'];
+            $tml_ret[$key]['tid']=$value['tid'];
         }
-        return $this->apiResponse(200,'数据获取成功',$tml);
+        return $this->apiResponse(200,'数据获取成功',$tml_ret);
 
 
     }
