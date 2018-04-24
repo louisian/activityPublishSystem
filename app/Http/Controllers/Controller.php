@@ -22,4 +22,12 @@ class Controller extends BaseController
         }
         return $intList;
     }
+    function arraySort($array, $keys, $sort = SORT_DESC) {
+        $keysValue = [];
+        foreach ($array as $k => $v) {
+            $keysValue[$k] = $v[$keys];
+        }
+        array_multisort($keysValue, $sort, $array);
+        return $array;
+    }
 }

@@ -72,6 +72,13 @@ class UserModel extends Model{
 //        var_dump( json_decode($te,true));
         return json_decode($te->tagEnter,true);
     }
+    public static function getTagScoreByUid($uid){
+        $ts=UserModel::where('uid',$uid)->select('tagScore')->first();
+        if($ts==null){
+            return [];
+        }
+        return json_decode($ts->tagScore,true);;
+    }
     public static function updateTagEnterTagScoreByTidListUid($tidList,$uid,$coefficient=1){//因为是写入，for持续写入性能问题
 //        $tidList=explode(',',$tidString);
 //        var_dump($uid);

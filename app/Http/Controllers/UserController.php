@@ -15,6 +15,7 @@ class UserController extends Controller{
         if($request->session()->has('logged')){
             return $this->apiResponse(200,'获取成功',[]);//todo fetch user data
         }
+        $request->session()->forget('logged_uid');
         return $this->apiResponse(400,'没有登录');
     }
     public function postLogin(Request $request){

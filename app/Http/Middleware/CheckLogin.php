@@ -18,6 +18,7 @@ class CheckLogin
         if(Session()->has('logged')){
             return $next($request);
         }
+        Session()->forget('logged_uid');
         return response()->json(['code'=>401,'message'=>'没有登录']);
     }
 }

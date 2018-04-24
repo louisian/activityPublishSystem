@@ -8,6 +8,7 @@
 
 namespace App\Model;
 
+use function foo\func;
 use Illuminate\Database\Eloquent\Model;
 class ActivityModel extends Model{
     protected $primaryKey='aid';
@@ -83,15 +84,47 @@ class ActivityModel extends Model{
         $aml=ActivityModel::whereIn('aid',$aidList)->get();
         return self::activityListFilter($aml->toArray());
     }
-    public static function getActivityListNotUid($uid,$selectListArray=['aid','name','cityName','activityStartTime','poster','creatorUid']){
-        $am=ActivityModel::where('creatorUid','<>',$uid)->where('applyStopTime','>',date('Y-m-d h:i:s'))->get();
+    public static function getActivityList($selectListArray=['aid','name','cityName','activityStartTime','poster','creatorUid','tag']){
+
+        $am=ActivityModel::where('applyStopTime','>',date('Y-m-d h:i:s'))
+            ->get();
+
         if($am==null){
             return [];
         }
         $aml=$am->toArray();
         return self::activityListFilter($aml,$selectListArray);
     }
+    public static function getActivityListNotAid($aidList,$uid,$selectListArray=['aid','name','cityName','activityStartTime','poster','creatorUid','tag']){
+        $am=ActivityModel::where('creatorUid','<>',$uid)
+            ->where('applyStopTime','>',date('Y-m-d h:i:s'))
+            ->whereNotIn('aid',$aidList)
+            ->get();
 
+        if($am==null){
+            return [];
+        }
+        $aml=$am->toArray();
+        return self::activityListFilter($aml,$selectListArray);
+    }
+    public static function getHasTagActivityList($tidList,$uid,$selectListArray=['aid','name','cityName','activityStartTime','poster','creatorUid','tag']){
+        global $G_tidList;
+        $G_tidList=$tidList;
+        $am=ActivityModel::where('creatorUid','<>',$uid)
+            ->where('applyStopTime','>',date('Y-m-d h:i:s'))
+            ->where(function ($query){
+                global $G_tidList;
+                foreach ($G_tidList as $value){
+                    //todo 只有这样才能输出值 ？模式sql语句一样但是输出空集
+                    $query->orWhereRaw("json_contains(tag,'[".$value."]')");
+                }
+            })->get();
+        if($am==null){
+            return [];
+        }
+        $aml=$am->toArray();
+        return self::activityListFilter($aml,$selectListArray);
+    }
     public static function getApplyInfoByAid($aid){
         $am=ActivityModel::where('aid',$aid)->select('applyInfo','commitTitle')->first();
         if($am==null){

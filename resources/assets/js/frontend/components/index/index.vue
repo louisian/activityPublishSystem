@@ -23,7 +23,9 @@
                         :total="pageInfo.total"
                         :page-sizes="pageInfo.sizes"
                         :page-size="pageInfo.size"
-                        :current-page.sync="pageInfo.current">
+                        :current-page.sync="pageInfo.current"
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange">
                 </el-pagination>
             </div>
 
@@ -59,7 +61,11 @@
         },
         watch:{
           '$root.isLogin':function (val) {
-              this.getAllActivity();
+              this.$nextTick(()=>{
+                  if(!this.activityLoading){
+                      this.getAllActivity();
+                  }
+              })
           }
         },
         mounted(){
@@ -71,13 +77,31 @@
 
         },
         methods:{
+            handleCurrentChange(val) {
+                this.pageInfo.current=val;
+              this.getAllActivity();
+            },
+            handleSizeChange(val){
+                this.pageInfo.size=val;
+                this.pageInfo.current=1;
+                this.getAllActivity();
+            },
             getAllActivity(){
                 this.activityLoading=true;
                 axios({
                     method:'get',
-                    url:this.$apiAddress.getAllActivity
+                    url:this.$apiAddress.getAllActivity,
+                    params:{
+                        page:+this.pageInfo.current,
+                        pageSize:+this.pageInfo.size,
+                    }
                 }).then((response)=>{
-                    this.activityDataList=response.data.data
+                    let res=response.data.data;
+                    this.activityDataList=res.list;
+                    this.pageInfo.total=res.total;
+                    this.pageInfo.current=+res.page;
+
+
                 }).finally(()=>{
                     this.activityLoading=false;
                 })
