@@ -66,7 +66,7 @@
                             range
                             :format-tooltip="formatTooltip"
                             show-stops
-                            :max="24">
+                            :max="23">
                     </el-slider>
                 </el-form-item>
                 <el-form-item label="喜欢的标签" prop="tag">

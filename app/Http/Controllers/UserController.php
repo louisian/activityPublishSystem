@@ -67,6 +67,7 @@ class UserController extends Controller{
         }
         return $this->apiResponse(500,'系统错误');
     }
+
     public function postInfoEdit(Request $request){
         $userObj=$request->all();
         if(UserModel::updateUser($userObj)){

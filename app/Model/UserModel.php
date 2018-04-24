@@ -40,6 +40,23 @@ class UserModel extends Model{
         self::updateTagEnterTagScoreByTidListUid(explode(',',$userObj['tag']),$um->uid,2);
         return true;
     }
+    public static function getFreeTimeByUid($uid){
+        $um=UserModel::where('uid',$uid)->select('freeDay','freeTime')->first();
+        $freeTime=array();
+        $day=explode(',',$um->freeDay);
+        $time=explode(',',$um->freeTime);
+
+        for($d=0;$d<7;$d++){
+            for($t=0;$t<24;$t++){
+                if(in_array((string)$d,$day)&&(intval($time[0])<=$t&&intval($time[1])>=$t)){
+                    $freeTime[$d*24+$t]=1;
+                }else{
+                    $freeTime[$d*24+$t]=0;
+                }
+            }
+        }
+        return $freeTime;
+    }
     public static function updateUser($userObj){
         $um=UserModel::where('uid',$userObj['uid'])->first();
         self::updateTagEnterTagScoreByTidListUid(explode(',',$um->tag),$um->uid,-2);

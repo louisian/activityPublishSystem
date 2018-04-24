@@ -7,7 +7,7 @@ use App\Model\ActivityModel;
 use App\Model\TagModel;
 use App\Model\UserModel;
 use Illuminate\Http\Request;
-
+use Carbon\Carbon;
 class ActivityController extends Controller
 {
     public function postAddActivityBasic(Request $request){
@@ -58,6 +58,35 @@ class ActivityController extends Controller
         $pagedata=array_slice($array,$start,$count);
         return ['list'=>$pagedata,'page'=>$page,'total'=>$totals,'pageSize'=>$count];  #返回查询数据
     }
+    private function calcTimeScore($startTime,$stopTime,$freeTime){
+        $startTimeCarbon=new Carbon($startTime, 'Asia/Shanghai');
+        $stopTimeCarbon=new Carbon($stopTime,'Asia/Shanghai');
+        $diffTime=$stopTimeCarbon->diffInHours($startTimeCarbon);
+        $total=0;
+        $startWeekDay=$startTimeCarbon->dayOfWeek;
+        $startHour=$startTimeCarbon->hour;
+//        $stopWeekDay=$stopTimeCarbon->dayOfWeek;
+        $tempWeek=$startWeekDay;
+        $tempHour=$startHour;
+
+        for($i=0;$i<$diffTime-1;$i++){
+            ++$tempHour;
+            if($tempHour==24){
+                ++$tempWeek;
+                $tempHour=0;
+                if($tempWeek==7){
+                    $tempWeek=0;
+                }
+            }
+//            var_dump($tempWeek*24+$tempHour,$freeTime[$tempWeek*24+$tempHour]);
+            $total+=$freeTime[$tempWeek*24+$tempHour];
+        }
+//        var_dump('week'.$startWeekDay);
+//        var_dump('total'.$total);
+//        var_dump('difftime'.$diffTime);
+        return $total/$diffTime;
+
+    }
     public function getAllActivity(Request $request){
         $pageSize=$request->input('pageSize');
         $page=$request->input('page');
@@ -76,6 +105,8 @@ class ActivityController extends Controller
 //            var_dump(array_keys(UserModel::getTagEnterByUid($uid)));
             $aml=ActivityModel::getHasTagActivityList($tidList,$uid);
             $naidList=array();
+            $freeTime=UserModel::getFreeTimeByUid($uid);
+//            var_dump($freeTime);
             foreach ($aml as $key=>$value){
                 $aml[$key]['rScore']=0;
                 array_push($naidList,$value['aid']);
@@ -87,13 +118,21 @@ class ActivityController extends Controller
             }
             $amln=ActivityModel::getActivityListNotAid($naidList,$uid);
             array_merge($aml,$amln);
+            foreach ($aml as $key=>$value){
+                if(!array_key_exists('rScore',$aml[$key])){
+                    $aml[$key]['rScore']=0;
+                }
+                $tScore=$this->calcTimeScore($value['activityStartTime'],$value['activityStopTime'],$freeTime)*50;
+//                var_dump($tScore);
+                $aml[$key]['rScore']+=$tScore;
+            }
         }else{
             $aml=ActivityModel::getActivityList();
         }
         $aidl=ActivityEnterModel::getAidByUid($uid);
         foreach ($aml as $key=>$value){
                 $aml[$key]['applied']=in_array($value['aid'],$aidl);
-                if(!$aml[$key]['rScore']){
+                if(!array_key_exists('rScore',$aml[$key])){
                     $aml[$key]['rScore']=0;
                 }
         }

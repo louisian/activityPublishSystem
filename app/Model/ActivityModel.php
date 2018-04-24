@@ -84,7 +84,7 @@ class ActivityModel extends Model{
         $aml=ActivityModel::whereIn('aid',$aidList)->get();
         return self::activityListFilter($aml->toArray());
     }
-    public static function getActivityList($selectListArray=['aid','name','cityName','activityStartTime','poster','creatorUid','tag']){
+    public static function getActivityList($selectListArray=['aid','name','cityName','activityStartTime','activityStopTime','poster','creatorUid','tag']){
 
         $am=ActivityModel::where('applyStopTime','>',date('Y-m-d h:i:s'))
             ->get();
@@ -95,7 +95,7 @@ class ActivityModel extends Model{
         $aml=$am->toArray();
         return self::activityListFilter($aml,$selectListArray);
     }
-    public static function getActivityListNotAid($aidList,$uid,$selectListArray=['aid','name','cityName','activityStartTime','poster','creatorUid','tag']){
+    public static function getActivityListNotAid($aidList,$uid,$selectListArray=['aid','name','cityName','activityStartTime','activityStopTime','poster','creatorUid','tag']){
         $am=ActivityModel::where('creatorUid','<>',$uid)
             ->where('applyStopTime','>',date('Y-m-d h:i:s'))
             ->whereNotIn('aid',$aidList)
@@ -107,7 +107,7 @@ class ActivityModel extends Model{
         $aml=$am->toArray();
         return self::activityListFilter($aml,$selectListArray);
     }
-    public static function getHasTagActivityList($tidList,$uid,$selectListArray=['aid','name','cityName','activityStartTime','poster','creatorUid','tag']){
+    public static function getHasTagActivityList($tidList,$uid,$selectListArray=['aid','name','cityName','activityStartTime','activityStopTime','poster','creatorUid','tag']){
         global $G_tidList;
         $G_tidList=$tidList;
         $am=ActivityModel::where('creatorUid','<>',$uid)
