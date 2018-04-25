@@ -4,9 +4,16 @@
             <h1 class="title">最新活动</h1>
             <el-button class="submit-activity-button" size="small" @click="handleNewActivity">新建活动</el-button>
         </div>
-        <el-carousel :interval="4000" class="activity-carousel" type="card" height="200px">
-            <el-carousel-item v-for="item in 6" :key="item">
-                <h3>{{ item }}</h3>
+        <el-carousel v-if="activityDataList.length>4" :interval="4000" class="activity-carousel" type="card"  height="297px">
+            <el-carousel-item   v-for="index in 4" :key="index">
+                <div @click="$router.push('/activity/'+activityDataList[index].aid)" class="carousel-container">
+                    <img class="carousel-background" :src="activityDataList[index].poster">
+                    <div class="des-container">
+                        <h1 class="title">{{activityDataList[index].name}}</h1>
+                        <p class="city-name">{{activityDataList[index].cityName}}</p>
+                    </div>
+                </div>
+
             </el-carousel-item>
         </el-carousel>
         <div class="activity-container-box">
@@ -124,24 +131,19 @@
     }
 </script>
 <style>
-    .el-carousel__item h3 {
-        color: #475669;
-        font-size: 14px;
-        opacity: 0.75;
-        line-height: 200px;
-        margin: 0;
+
+    .el-carousel__item:hover .des-container{
+        opacity: 1;
+
     }
 
-    .el-carousel__item:nth-child(2n) {
-        background-color: #99a9bf;
-    }
-
-    .el-carousel__item:nth-child(2n+1) {
-        background-color: #d3dce6;
-    }
 </style>
 <style scoped>
+    .carousel-container{
+        /*width: 528px;*/
+        /*height: 297px;*/
 
+    }
     .main{
         margin-bottom: 40px;
     }
@@ -150,7 +152,7 @@
         border-bottom: 1px solid #eee;
     }
     .activity-carousel{
-        margin: 30px 0;
+        margin: 30px auto;
     }
     .activity-container-box{
         width: 100%;
@@ -182,5 +184,36 @@
     .submit-activity-button{
         float: right;
         margin-right: 10px;
+    }
+    .carousel-background{
+        border-radius: 10px;
+        width: 100%;
+        height: 297px;
+        /*height: 100%;*/
+    }
+    .des-container{
+        bottom: 0;
+        border-radius: 10px;
+        width: 100%;
+        height: 30%;
+        left:0;
+        background-color: transparent;
+        opacity: 0.3;
+        position: absolute;
+        transition: .25s ease opacity;
+
+    }
+    .des-container .title{
+        display: block;
+        width: 100%;
+        text-align: right;
+        padding-right: 20px;
+    }
+    .des-container .city-name{
+        display: block;
+        width: 100%;
+        text-align: right;
+        padding-right: 20px;
+        margin-top: 15px;
     }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <div class="activity-container" @click="handleClick">
-        <img class="img" :src="activityData.poster"/>
+        <img class="img" @error="activityData.poster=require('../../../../img/no-pic.png')" :src="activityData.poster"/>
         <div class="activity-info">
             <h1 class="title">{{activityData.name||'活动'}}</h1>
             <p class="secondary-text date">{{activityData.activityStartTime||'2018-01-01'}}</p>

@@ -15,7 +15,7 @@
         <div class="main-info-container">
             <el-row>
                 <el-col class="banner-container" :span="12">
-                    <img class="banner" :src="activityData.poster"/>
+                    <img class="banner" @error="activityData.poster=require('../../../../img/no-pic.png')" :src="activityData.poster"/>
                 </el-col>
                 <el-col :span="8">
                     <div class="detail-info-container">
