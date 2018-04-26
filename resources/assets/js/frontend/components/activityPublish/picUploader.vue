@@ -9,7 +9,7 @@
                 :on-progress="handlePicUploading"
                 :on-error="handlePicError"
                 :before-upload="beforePicUpload">
-            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+            <img v-if="uploadedImg||imageUrl" :src="uploadedImg||imageUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
         <div class="upload-rule">
@@ -96,6 +96,9 @@
         props:{
             dataObject:{
                 require:true,
+            },
+            uploadedImg:{
+                default:'',
             }
         },
         data() {

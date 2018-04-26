@@ -17,7 +17,7 @@
             </el-carousel-item>
         </el-carousel>
         <div class="activity-container-box">
-            <div v-if="!activityLoading" class="activity-container-box-inner">
+            <div v-if="!activityLoading&&pageInfo.total>0" class="activity-container-box-inner">
                 <el-row class="activity-container" :gutter="20">
                     <el-col :span="6" v-for="item,key in activityDataList" :key="key">
                         <activity-block :applied="item.applied" @activityClick="handleActivityClick" @applyClick="handleApplyClick" :activity-data="item"></activity-block>
@@ -35,8 +35,13 @@
                         @current-change="handleCurrentChange">
                 </el-pagination>
             </div>
-
-                <div class="rotate-loader center-div" v-else></div>
+                <div class="no-activity" v-if="!activityLoading&&pageInfo.total<=0">
+                    <p class="no-activity-text">
+                        <i class="icon iconfont">&#xe618;</i>
+                        <span>暂无活动</span>
+                    </p>
+                </div>
+                <div class="rotate-loader center-div" v-if="activityLoading"></div>
 
         </div>
 
@@ -133,7 +138,7 @@
 <style>
 
     .el-carousel__item:hover .des-container{
-        opacity: 1;
+        opacity: 0.8;
 
     }
 
@@ -156,7 +161,7 @@
     }
     .activity-container-box{
         width: 100%;
-        min-height: 400px;
+        min-height: 300px;
         border: 1px solid #eee;
         padding: 15px;
         border-radius: 10px;
@@ -205,9 +210,11 @@
     }
     .des-container .title{
         display: block;
-        width: 100%;
+        width: 38%;
+        border-top:2px solid black;
         text-align: right;
-        padding-right: 20px;
+        margin-right: 20px;
+        margin-left: 60%;
     }
     .des-container .city-name{
         display: block;
@@ -215,5 +222,28 @@
         text-align: right;
         padding-right: 20px;
         margin-top: 15px;
+    }
+    .no-activity{
+        position: relative;
+        height: 300px;
+        width: 100%;
+    }
+    .no-activity-text{
+        position: absolute;
+        top:50%;
+        left: 50%;
+        display: flex;
+        transform: translate(-50%,-50%);
+        font-size: 20px;
+
+    }
+    .no-activity-text span{
+        display: inline-block;
+        height: 40px;
+        line-height: 40px;
+        margin-left: 10px;
+    }
+    .no-activity-text .icon{
+        font-size: 40px;
     }
 </style>

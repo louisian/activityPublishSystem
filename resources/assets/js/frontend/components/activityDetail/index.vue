@@ -6,9 +6,9 @@
                 <el-button
                            @click="handleShowApplyInfo"
                            type="primary"
+                           :loading="detailLoading"
                            :plain="true">
                     查看报名信息
-
                 </el-button>
             </el-badge>
         </h1>
@@ -17,25 +17,25 @@
                 <el-col class="banner-container" :span="12">
                     <img class="banner" @error="activityData.poster=require('../../../../img/no-pic.png')" :src="activityData.poster"/>
                 </el-col>
-                <el-col :span="8">
+                <el-col :span="12">
                     <div class="detail-info-container">
                         <table cellspacing="10" class="info-table">
                             <tbody>
                             <tr class="info-table-item">
-                                <td class="table-title">开始时间:</td>
+                                <td width="80" class="table-title">开始时间:</td>
                                 <td>{{activityData.activityStartTime}}</td>
                             </tr>
                             <tr class="info-table-item">
-                                <td class="table-title">结束时间:</td>
+                                <td width="80" class="table-title">结束时间:</td>
                                 <td>{{activityData.activityStopTime}}</td>
                             </tr>
                             <tr class="info-table-item">
-                                <td class="table-title">举办地点:</td>
-                                <td>{{activityData.cityName}}</td>
+                                <td width="80" class="table-title">举办地点:</td>
+                                <td>{{activityData.address+' '+activityData.detailAddress}}</td>
                             </tr>
                             <tr class="info-table-item">
-                                <td class="table-title">报名截止:</td>
-                                <td class="date-item">
+                                <td width="80" class="table-title">报名截止:</td>
+                                <td v-if="!isOutdate" class="date-item">
                                     {{countDownObj.day}}
                                     <p class="date-divider">天</p>
                                     {{countDownObj.hour}}
@@ -45,20 +45,21 @@
                                     {{countDownObj.second}}
                                     <p class="date-divider">秒</p>
                                 </td>
+                                <td v-else class="date-divider">报名已截止</td>
                             </tr>
                             </tbody>
                         </table>
                         <div class="button-container">
                             <el-button :disabled="true" v-if="activityData.applied" type="success">已报名</el-button>
-                            <el-button v-else @click="applyNow" :disabled="isOutdate" type="primary">{{isOutdate?'报名截止':'立即报名'}}</el-button>
+                            <el-button v-else v-if="!isCreator" @click="applyNow" :disabled="isOutdate" type="primary">{{isOutdate?'报名截止':'立即报名'}}</el-button>
                         </div>
                     </div>
                 </el-col>
-                <el-col :span="4">
-                    <div class="map-container">
+                <!--<el-col :span="4">-->
+                    <!--<div class="map-container">-->
 
-                    </div>
-                </el-col>
+                    <!--</div>-->
+                <!--</el-col>-->
             </el-row>
 
 
@@ -90,6 +91,8 @@
                     activityStartTime:'',
                     activityStopTime:'',
                     cityName:'',
+                    address:'',
+                    detailAddress:'',
                     description:'',
                     applied:false,
                 },
@@ -115,13 +118,14 @@
                 ],
                 applyInfoVisible:false,
                 applyVisible:false,
-                applyCount:100,
+                applyCount:0,
                 isCreator:true,
+                detailLoading:false,
             }
         },
         mounted(){
             // this.countDown(new Date('2019/1/1'))
-
+            this.detailLoading=true;
             let aid=this.$router.currentRoute.params.id;
             axios(this.$apiAddress.getActivityDetail,{params:{aid:aid}}).then((response)=>{
                 let data=response.data.data.activityInfo;
@@ -130,11 +134,21 @@
                 }
                 if(new Date(data.applyStopTime).getTime()<new Date().getTime()){
                     this.isOutdate=true;
+
                 }else{
                     this.countDown(new Date(data.applyStopTime));
                 }
 
                 this.isCreator=!!response.data.data.admin;
+                if(this.isCreator){
+                    axios(this.$apiAddress.getActivityEnterInfo,{params:{aid:aid}}).then((response)=>{
+                        this.applyTableHeader=response.data.data.header;
+                        this.applyCount=response.data.data.total;
+                        this.applyData=response.data.data.data;
+                    })
+                }
+            }).finally(()=>{
+                this.detailLoading=false;
             })
             // console.log(this.$router,'para',this.$router.currentRoute.params.id)
         },

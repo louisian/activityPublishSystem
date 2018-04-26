@@ -73,6 +73,14 @@ class UserModel extends Model{
         return true;
 
     }
+    public static function getUserListByUidList($uList){
+        $uml=UserModel::whereIn('uid',$uList)->get();
+        return $uml->toArray();
+    }
+    public static function getUserByUid($uid){
+        $uml=UserModel::where('uid',$uid)->first();
+        return $uml->toArray();
+    }
     public static function getUserByUsername($username){
         $user=UserModel::where('username',$username)->first();
 //        var_dump($user);

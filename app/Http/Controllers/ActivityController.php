@@ -12,9 +12,13 @@ class ActivityController extends Controller
 {
     public function postAddActivityBasic(Request $request){
         $bActivityInfo=$request->all();
+        $edit=false;
+        if($request->input('aid')){
+            $edit=true;
+        }
         $uid=$request->session()->get('logged_uid');
         $bActivityInfo['tag']=$this->convStringListToIntList(explode(',',$bActivityInfo['tag']));
-        $aid=ActivityModel::addBasicActivityInfo($bActivityInfo,$uid);
+        $aid=ActivityModel::addBasicActivityInfo($bActivityInfo,$uid,$edit);
         if($aid){
             return $this->apiResponse(200,'活动数据添加成功',['aid'=>$aid]);
         }
@@ -85,6 +89,17 @@ class ActivityController extends Controller
 //        var_dump('total'.$total);
 //        var_dump('difftime'.$diffTime);
         return $total/$diffTime;
+
+    }
+    public function getActivityEdit(Request $request){
+        $aid=$request->input('aid');
+        $uid=$request->session()->get('logged_uid');
+        $cUid=ActivityModel::getCreatorUidByAid($aid);
+        $am=ActivityModel::getActivityDetail($aid);
+        if($cUid!=$uid){
+            return $this->apiResponse(401,'您没有足够权限');
+        }
+        return $this->apiResponse(200,'数据获取成功',$am);
 
     }
     public function getAllActivity(Request $request){

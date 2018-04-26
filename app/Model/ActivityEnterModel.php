@@ -57,4 +57,9 @@ class ActivityEnterModel extends Model{
         }
         return $aeml_ret;
     }
+    public static function getAllEnterUidByAid($aid){
+        $aeml=ActivityEnterModel::where('aid',$aid)->get();
+
+        return $aeml->toArray();
+    }
 }

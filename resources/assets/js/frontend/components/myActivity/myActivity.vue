@@ -76,7 +76,7 @@
                 this.$router.push('/activity/'+id);
             },
             handleEdit(id){
-
+                this.$router.push('/activity/publish/'+id);
             }
         }
     }

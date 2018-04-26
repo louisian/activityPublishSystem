@@ -34,6 +34,10 @@ let address={
 
     getCreateActivity:'/activity/info/create',
 
+    getActivityEnterInfo:'/activity/apply/enter/info',
+
+    getActivityEditInfo:'/activity/info/edit',
+
 }
 for(let i in address){
     address[i]=prefix+address[i]

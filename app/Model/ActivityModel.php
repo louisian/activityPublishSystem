@@ -17,8 +17,14 @@ class ActivityModel extends Model{
         ActivityModel::where('aid',$aid)->update(['poster'=>$path]);
         return true;
     }
-    public static function addBasicActivityInfo($bActivityInfo,$uid){
-        $am=new ActivityModel();
+    public static function addBasicActivityInfo($bActivityInfo,$uid,$edit=false){
+        if($edit){
+           $am=ActivityModel::where('aid',$bActivityInfo['aid'])->first();
+        }else{
+            $am=new ActivityModel();
+        }
+
+
         $am->name=$bActivityInfo['name'];
         $am->tag=json_encode($bActivityInfo['tag']);
         $am->cityCode=$bActivityInfo['city'];
@@ -94,6 +100,10 @@ class ActivityModel extends Model{
         }
         $aml=$am->toArray();
         return self::activityListFilter($aml,$selectListArray);
+    }
+    public static function getCreatorUidByAid($aid){
+        $am=ActivityModel::where('aid',$aid)->select('creatorUid')->first();
+        return $am->creatorUid;
     }
     public static function getActivityListNotAid($aidList,$uid,$selectListArray=['aid','name','cityName','activityStartTime','activityStopTime','poster','creatorUid','tag']){
         $am=ActivityModel::where('creatorUid','<>',$uid)

@@ -519,7 +519,8 @@ var content = __webpack_require__(204);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(2)("33cf488d", content, false, {});
+var add = __webpack_require__(2).default
+var update = add("dc7fe5e6", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -673,7 +674,8 @@ var content = __webpack_require__(209);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(2)("0ec2f8dc", content, false, {});
+var add = __webpack_require__(2).default
+var update = add("190a1cd2", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -839,7 +841,8 @@ var content = __webpack_require__(213);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(2)("31f08f3e", content, false, {});
+var add = __webpack_require__(2).default
+var update = add("a24ef73e", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -879,7 +882,8 @@ var content = __webpack_require__(215);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(2)("45029d31", content, false, {});
+var add = __webpack_require__(2).default
+var update = add("48d34531", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -1625,7 +1629,8 @@ var content = __webpack_require__(220);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(2)("503b1087", content, false, {});
+var add = __webpack_require__(2).default
+var update = add("266dc987", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -2077,7 +2082,8 @@ var content = __webpack_require__(226);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(2)("132d7713", content, false, {});
+var add = __webpack_require__(2).default
+var update = add("75498293", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -2242,7 +2248,8 @@ var content = __webpack_require__(232);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(2)("45e43b9c", content, false, {});
+var add = __webpack_require__(2).default
+var update = add("6a241e48", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -2266,7 +2273,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "\n.el-carousel__item h3 {\n    color: #475669;\n    font-size: 14px;\n    opacity: 0.75;\n    line-height: 200px;\n    margin: 0;\n}\n.el-carousel__item:nth-child(2n) {\n    background-color: #99a9bf;\n}\n.el-carousel__item:nth-child(2n+1) {\n    background-color: #d3dce6;\n}\n", ""]);
+exports.push([module.i, "\n.el-carousel__item:hover .des-container{\n    opacity: 0.8;\n}\n\n", ""]);
 
 // exports
 
@@ -2282,7 +2289,8 @@ var content = __webpack_require__(234);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(2)("5d862a48", content, false, {});
+var add = __webpack_require__(2).default
+var update = add("03a35088", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -2306,7 +2314,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "\n.main[data-v-fbb82346]{\n    margin-bottom: 40px;\n}\n.title-container[data-v-fbb82346]{\n    padding-bottom: 15px;\n    border-bottom: 1px solid #eee;\n}\n.activity-carousel[data-v-fbb82346]{\n    margin: 30px 0;\n}\n.activity-container-box[data-v-fbb82346]{\n    width: 100%;\n    min-height: 400px;\n    border: 1px solid #eee;\n    padding: 15px;\n    border-radius: 10px;\n    position: relative;\n}\n.activity-container-box-loading[data-v-fbb82346]{\n    position: relative;\n    width: 100%;\n    height: 100%;\n}\n.center-div[data-v-fbb82346]{\n    position: absolute;\n    top:50%;\n    left:50%;\n    -webkit-transform: translate(-50%,-50%);\n            transform: translate(-50%,-50%);\n}\n.title[data-v-fbb82346]{\n    font-size: 24px;\n    float: left;\n}\n.activity-container[data-v-fbb82346]{\n    margin-top: 10px;\n}\n.submit-activity-button[data-v-fbb82346]{\n    float: right;\n    margin-right: 10px;\n}\n", ""]);
+exports.push([module.i, "\n.carousel-container[data-v-fbb82346]{\n    /*width: 528px;*/\n    /*height: 297px;*/\n}\n.main[data-v-fbb82346]{\n    margin-bottom: 40px;\n}\n.title-container[data-v-fbb82346]{\n    padding-bottom: 15px;\n    border-bottom: 1px solid #eee;\n}\n.activity-carousel[data-v-fbb82346]{\n    margin: 30px auto;\n}\n.activity-container-box[data-v-fbb82346]{\n    width: 100%;\n    min-height: 300px;\n    border: 1px solid #eee;\n    padding: 15px;\n    border-radius: 10px;\n    position: relative;\n}\n.activity-container-box-loading[data-v-fbb82346]{\n    position: relative;\n    width: 100%;\n    height: 100%;\n}\n.center-div[data-v-fbb82346]{\n    position: absolute;\n    top:50%;\n    left:50%;\n    -webkit-transform: translate(-50%,-50%);\n            transform: translate(-50%,-50%);\n}\n.title[data-v-fbb82346]{\n    font-size: 24px;\n    float: left;\n}\n.activity-container[data-v-fbb82346]{\n    margin-top: 10px;\n}\n.submit-activity-button[data-v-fbb82346]{\n    float: right;\n    margin-right: 10px;\n}\n.carousel-background[data-v-fbb82346]{\n    border-radius: 10px;\n    width: 100%;\n    height: 297px;\n    /*height: 100%;*/\n}\n.des-container[data-v-fbb82346]{\n    bottom: 0;\n    border-radius: 10px;\n    width: 100%;\n    height: 30%;\n    left:0;\n    background-color: transparent;\n    opacity: 0.3;\n    position: absolute;\n    -webkit-transition: .25s ease opacity;\n    transition: .25s ease opacity;\n}\n.des-container .title[data-v-fbb82346]{\n    display: block;\n    width: 38%;\n    border-top:2px solid black;\n    text-align: right;\n    margin-right: 20px;\n    margin-left: 60%;\n}\n.des-container .city-name[data-v-fbb82346]{\n    display: block;\n    width: 100%;\n    text-align: right;\n    padding-right: 20px;\n    margin-top: 15px;\n}\n.no-activity[data-v-fbb82346]{\n    position: relative;\n    height: 300px;\n    width: 100%;\n}\n.no-activity-text[data-v-fbb82346]{\n    position: absolute;\n    top:50%;\n    left: 50%;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-transform: translate(-50%,-50%);\n            transform: translate(-50%,-50%);\n    font-size: 20px;\n}\n.no-activity-text span[data-v-fbb82346]{\n    display: inline-block;\n    height: 40px;\n    line-height: 40px;\n    margin-left: 10px;\n}\n.no-activity-text .icon[data-v-fbb82346]{\n    font-size: 40px;\n}\n", ""]);
 
 // exports
 
@@ -2321,6 +2329,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__activityBlock___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__activityBlock__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__applyDialog__ = __webpack_require__(51);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__applyDialog___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__applyDialog__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2459,7 +2479,8 @@ var content = __webpack_require__(237);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(2)("c982519a", content, false, {});
+var add = __webpack_require__(2).default
+var update = add("220aae9a", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -2573,7 +2594,8 @@ var content = __webpack_require__(240);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(2)("283c0237", content, false, {});
+var add = __webpack_require__(2).default
+var update = add("28a3c4b7", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -2840,7 +2862,12 @@ var render = function() {
     [
       _c("img", {
         staticClass: "img",
-        attrs: { src: _vm.activityData.poster }
+        attrs: { src: _vm.activityData.poster },
+        on: {
+          error: function($event) {
+            _vm.activityData.poster = __webpack_require__(317)
+          }
+        }
       }),
       _vm._v(" "),
       _c(
@@ -2933,21 +2960,51 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c(
-        "el-carousel",
-        {
-          staticClass: "activity-carousel",
-          attrs: { interval: 4000, type: "card", height: "200px" }
-        },
-        _vm._l(6, function(item) {
-          return _c("el-carousel-item", { key: item }, [
-            _c("h3", [_vm._v(_vm._s(item))])
-          ])
-        })
-      ),
+      _vm.activityDataList.length > 4
+        ? _c(
+            "el-carousel",
+            {
+              staticClass: "activity-carousel",
+              attrs: { interval: 4000, type: "card", height: "297px" }
+            },
+            _vm._l(4, function(index) {
+              return _c("el-carousel-item", { key: index }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "carousel-container",
+                    on: {
+                      click: function($event) {
+                        _vm.$router.push(
+                          "/activity/" + _vm.activityDataList[index].aid
+                        )
+                      }
+                    }
+                  },
+                  [
+                    _c("img", {
+                      staticClass: "carousel-background",
+                      attrs: { src: _vm.activityDataList[index].poster }
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "des-container" }, [
+                      _c("h1", { staticClass: "title" }, [
+                        _vm._v(_vm._s(_vm.activityDataList[index].name))
+                      ]),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "city-name" }, [
+                        _vm._v(_vm._s(_vm.activityDataList[index].cityName))
+                      ])
+                    ])
+                  ]
+                )
+              ])
+            })
+          )
+        : _vm._e(),
       _vm._v(" "),
       _c("div", { staticClass: "activity-container-box" }, [
-        !_vm.activityLoading
+        !_vm.activityLoading && _vm.pageInfo.total > 0
           ? _c(
               "div",
               { staticClass: "activity-container-box-inner" },
@@ -2996,7 +3053,15 @@ var render = function() {
               ],
               1
             )
-          : _c("div", { staticClass: "rotate-loader center-div" })
+          : _vm._e(),
+        _vm._v(" "),
+        !_vm.activityLoading && _vm.pageInfo.total <= 0
+          ? _c("div", { staticClass: "no-activity" }, [_vm._m(0)])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.activityLoading
+          ? _c("div", { staticClass: "rotate-loader center-div" })
+          : _vm._e()
       ]),
       _vm._v(" "),
       _c("apply-dialog", {
@@ -3012,7 +3077,18 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", { staticClass: "no-activity-text" }, [
+      _c("i", { staticClass: "icon iconfont" }, [_vm._v("")]),
+      _vm._v(" "),
+      _c("span", [_vm._v("暂无活动")])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -3084,7 +3160,8 @@ var content = __webpack_require__(247);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(2)("15d676f3", content, false, {});
+var add = __webpack_require__(2).default
+var update = add("3f54f31a", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -3199,6 +3276,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3213,6 +3291,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 activityStartTime: '',
                 activityStopTime: '',
                 cityName: '',
+                address: '',
+                detailAddress: '',
                 description: '',
                 applied: false
             },
@@ -3233,15 +3313,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }],
             applyInfoVisible: false,
             applyVisible: false,
-            applyCount: 100,
-            isCreator: true
+            applyCount: 0,
+            isCreator: true,
+            detailLoading: false
         };
     },
     mounted: function mounted() {
         var _this = this;
 
         // this.countDown(new Date('2019/1/1'))
-
+        this.detailLoading = true;
         var aid = this.$router.currentRoute.params.id;
         axios(this.$apiAddress.getActivityDetail, { params: { aid: aid } }).then(function (response) {
             var data = response.data.data.activityInfo;
@@ -3255,6 +3336,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             _this.isCreator = !!response.data.data.admin;
+            if (_this.isCreator) {
+                axios(_this.$apiAddress.getActivityEnterInfo, { params: { aid: aid } }).then(function (response) {
+                    _this.applyTableHeader = response.data.data.header;
+                    _this.applyCount = response.data.data.total;
+                    _this.applyData = response.data.data.data;
+                });
+            }
+        }).finally(function () {
+            _this.detailLoading = false;
         });
         // console.log(this.$router,'para',this.$router.currentRoute.params.id)
     },
@@ -3333,10 +3423,14 @@ var render = function() {
                   _c(
                     "el-button",
                     {
-                      attrs: { type: "primary", plain: true },
+                      attrs: {
+                        type: "primary",
+                        loading: _vm.detailLoading,
+                        plain: true
+                      },
                       on: { click: _vm.handleShowApplyInfo }
                     },
-                    [_vm._v("\n                查看报名信息\n\n            ")]
+                    [_vm._v("\n                查看报名信息\n            ")]
                   )
                 ],
                 1
@@ -3359,12 +3453,17 @@ var render = function() {
                 [
                   _c("img", {
                     staticClass: "banner",
-                    attrs: { src: _vm.activityData.poster }
+                    attrs: { src: _vm.activityData.poster },
+                    on: {
+                      error: function($event) {
+                        _vm.activityData.poster = __webpack_require__(317)
+                      }
+                    }
                   })
                 ]
               ),
               _vm._v(" "),
-              _c("el-col", { attrs: { span: 8 } }, [
+              _c("el-col", { attrs: { span: 12 } }, [
                 _c("div", { staticClass: "detail-info-container" }, [
                   _c(
                     "table",
@@ -3372,9 +3471,14 @@ var render = function() {
                     [
                       _c("tbody", [
                         _c("tr", { staticClass: "info-table-item" }, [
-                          _c("td", { staticClass: "table-title" }, [
-                            _vm._v("开始时间:")
-                          ]),
+                          _c(
+                            "td",
+                            {
+                              staticClass: "table-title",
+                              attrs: { width: "80" }
+                            },
+                            [_vm._v("开始时间:")]
+                          ),
                           _vm._v(" "),
                           _c("td", [
                             _vm._v(_vm._s(_vm.activityData.activityStartTime))
@@ -3382,9 +3486,14 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("tr", { staticClass: "info-table-item" }, [
-                          _c("td", { staticClass: "table-title" }, [
-                            _vm._v("结束时间:")
-                          ]),
+                          _c(
+                            "td",
+                            {
+                              staticClass: "table-title",
+                              attrs: { width: "80" }
+                            },
+                            [_vm._v("结束时间:")]
+                          ),
                           _vm._v(" "),
                           _c("td", [
                             _vm._v(_vm._s(_vm.activityData.activityStopTime))
@@ -3392,52 +3501,74 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("tr", { staticClass: "info-table-item" }, [
-                          _c("td", { staticClass: "table-title" }, [
-                            _vm._v("举办地点:")
-                          ]),
+                          _c(
+                            "td",
+                            {
+                              staticClass: "table-title",
+                              attrs: { width: "80" }
+                            },
+                            [_vm._v("举办地点:")]
+                          ),
                           _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(_vm.activityData.cityName))])
+                          _c("td", [
+                            _vm._v(
+                              _vm._s(
+                                _vm.activityData.address +
+                                  " " +
+                                  _vm.activityData.detailAddress
+                              )
+                            )
+                          ])
                         ]),
                         _vm._v(" "),
                         _c("tr", { staticClass: "info-table-item" }, [
-                          _c("td", { staticClass: "table-title" }, [
-                            _vm._v("报名截止:")
-                          ]),
+                          _c(
+                            "td",
+                            {
+                              staticClass: "table-title",
+                              attrs: { width: "80" }
+                            },
+                            [_vm._v("报名截止:")]
+                          ),
                           _vm._v(" "),
-                          _c("td", { staticClass: "date-item" }, [
-                            _vm._v(
-                              "\n                                " +
-                                _vm._s(_vm.countDownObj.day) +
-                                "\n                                "
-                            ),
-                            _c("p", { staticClass: "date-divider" }, [
-                              _vm._v("天")
-                            ]),
-                            _vm._v(
-                              "\n                                " +
-                                _vm._s(_vm.countDownObj.hour) +
-                                "\n                                "
-                            ),
-                            _c("p", { staticClass: "date-divider" }, [
-                              _vm._v("小时")
-                            ]),
-                            _vm._v(
-                              "\n                                " +
-                                _vm._s(_vm.countDownObj.minute) +
-                                "\n                                "
-                            ),
-                            _c("p", { staticClass: "date-divider" }, [
-                              _vm._v("分")
-                            ]),
-                            _vm._v(
-                              "\n                                " +
-                                _vm._s(_vm.countDownObj.second) +
-                                "\n                                "
-                            ),
-                            _c("p", { staticClass: "date-divider" }, [
-                              _vm._v("秒")
-                            ])
-                          ])
+                          !_vm.isOutdate
+                            ? _c("td", { staticClass: "date-item" }, [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(_vm.countDownObj.day) +
+                                    "\n                                "
+                                ),
+                                _c("p", { staticClass: "date-divider" }, [
+                                  _vm._v("天")
+                                ]),
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(_vm.countDownObj.hour) +
+                                    "\n                                "
+                                ),
+                                _c("p", { staticClass: "date-divider" }, [
+                                  _vm._v("小时")
+                                ]),
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(_vm.countDownObj.minute) +
+                                    "\n                                "
+                                ),
+                                _c("p", { staticClass: "date-divider" }, [
+                                  _vm._v("分")
+                                ]),
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(_vm.countDownObj.second) +
+                                    "\n                                "
+                                ),
+                                _c("p", { staticClass: "date-divider" }, [
+                                  _vm._v("秒")
+                                ])
+                              ])
+                            : _c("td", { staticClass: "date-divider" }, [
+                                _vm._v("报名已截止")
+                              ])
                         ])
                       ])
                     ]
@@ -3453,9 +3584,13 @@ var render = function() {
                             { attrs: { disabled: true, type: "success" } },
                             [_vm._v("已报名")]
                           )
-                        : _c(
+                        : _vm._e(),
+                      _vm._v(" "),
+                      !_vm.isCreator
+                        ? _c(
                             "el-button",
                             {
+                              directives: [{ name: "else", rawName: "v-else" }],
                               attrs: {
                                 disabled: _vm.isOutdate,
                                 type: "primary"
@@ -3468,14 +3603,11 @@ var render = function() {
                               )
                             ]
                           )
+                        : _vm._e()
                     ],
                     1
                   )
                 ])
-              ]),
-              _vm._v(" "),
-              _c("el-col", { attrs: { span: 4 } }, [
-                _c("div", { staticClass: "map-container" })
               ])
             ],
             1
@@ -3605,7 +3737,8 @@ var content = __webpack_require__(252);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(2)("feb777b0", content, false, {});
+var add = __webpack_require__(2).default
+var update = add("65305d68", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -3645,7 +3778,8 @@ var content = __webpack_require__(254);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(2)("cd0ffda0", content, false, {});
+var add = __webpack_require__(2).default
+var update = add("ba8eff20", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -3914,6 +4048,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 description: ''
 
             },
+            posterUrl: '',
             picUploadStatus: '',
             publishDetail: '',
             descriptionSource: '',
@@ -3922,20 +4057,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             tagLoading: false,
             recentCityName: '',
             tagOptions: [],
+            editAid: '',
             provCityOptions: __WEBPACK_IMPORTED_MODULE_0__json_prov_city_json___default.a
         };
     },
     mounted: function mounted() {
+        var _this2 = this;
+
         // console.log(this.$router,'para',)
         this.mapInstance = new BMap.Map('map-container');
 
         //如果参数中有aid那么进入编辑模式
         var aid = this.$router.currentRoute.params.id;
         if (aid) {
+            this.editAid = +aid;
+            this.detailSubmitAid = +aid;
             // console.log('fd')
+            this.activeStep++;
             this.isCreate = false;
             //todo fetch activity data
-
+            axios(this.$apiAddress.getActivityEditInfo, { params: { aid: aid } }).then(function (response) {
+                var data = response.data.data;
+                _this2.publishInfo.applyInfo = data.applyInfo.split(',');
+                _this2.publishInfo.commitTitle = data.commitTitle;
+                _this2.posterUrl = data.poster;
+                _this2.descriptionSource = data.descriptionSource;
+            });
             return;
         }
         //如果localStorage中有aid 进入编辑详细信息模式
@@ -3952,7 +4099,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         tagRemoteMethod: function tagRemoteMethod(query) {
-            var _this2 = this;
+            var _this3 = this;
 
             if (query !== '') {
                 this.tagLoading = true;
@@ -3961,9 +4108,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     url: this.$apiAddress.searchTag,
                     params: this.setUrlParams({ query: query })
                 }).then(function (response) {
-                    _this2.tagOptions = response.data.data;
+                    _this3.tagOptions = response.data.data;
                 }).finally(function () {
-                    _this2.tagLoading = false;
+                    _this3.tagLoading = false;
                 });
             } else {
                 this.tagOptions = [];
@@ -3977,73 +4124,76 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             localStorage.setItem('md', this.descriptionSource);
         },
         addTag: function addTag() {
-            var _this3 = this;
+            var _this4 = this;
 
             this.tagDialogVisible = true;
             this.addTagInfo.name = '';
             this.addTagInfo.description = '';
             setTimeout(function () {
-                _this3.$refs['addTagForm'].resetFields();
+                _this4.$refs['addTagForm'].resetFields();
             }, 0);
         },
         setCityName: function setCityName() {
-            var _this4 = this;
+            var _this5 = this;
 
             if (this.selectCityList.length !== 2) return;
             this.publishInfo.cityName = this.provCityOptions.find(function (v) {
                 // console.log(v.code);
-                return v.code == _this4.selectCityList[0];
+                return v.code == _this5.selectCityList[0];
             })['children'].find(function (v) {
-                return v.code == _this4.selectCityList[1];
+                return v.code == _this5.selectCityList[1];
             })['name'];
         },
         onSubmitBasic: function onSubmitBasic() {
-            var _this5 = this;
+            var _this6 = this;
 
             var params = {};
             this.$refs['publishForm'].validate(function (valid) {
                 if (valid) {
-                    for (var i in _this5.publishInfo) {
+                    for (var i in _this6.publishInfo) {
                         switch (i) {
                             case 'applyTime':
-                                params['applyStartTime'] = _this5.publishInfo[i][0].getTime() / 1000;
-                                params['applyStopTime'] = _this5.publishInfo[i][1].getTime() / 1000;
+                                params['applyStartTime'] = _this6.publishInfo[i][0].getTime() / 1000;
+                                params['applyStopTime'] = _this6.publishInfo[i][1].getTime() / 1000;
                                 break;
                             case 'activityTime':
-                                params['activityStartTime'] = _this5.publishInfo[i][0].getTime() / 1000;
-                                params['activityStopTime'] = _this5.publishInfo[i][1].getTime() / 1000;
+                                params['activityStartTime'] = _this6.publishInfo[i][0].getTime() / 1000;
+                                params['activityStopTime'] = _this6.publishInfo[i][1].getTime() / 1000;
                                 break;
                             case 'applyInfo':
                             case 'commitTitle':
                                 break;
                             default:
-                                params[i] = _this5.publishInfo[i];
+                                params[i] = _this6.publishInfo[i];
                         }
+                    }
+                    if (_this6.editAid) {
+                        params['aid'] = _this6.editAid;
                     }
                     axios({
                         method: 'post',
-                        url: _this5.$apiAddress.postBasicActivityInfo,
-                        data: _this5.setUrlParams(params)
+                        url: _this6.$apiAddress.postBasicActivityInfo,
+                        data: _this6.setUrlParams(params)
                     }).then(function (response) {
-                        _this5.$message({
+                        _this6.$message({
                             message: '基本信息提交成功',
                             type: 'success'
                         });
-                        _this5.detailSubmitAid = response.data.data.aid;
-                        localStorage.setItem('aid', _this5.detailSubmitAid);
-                        _this5.activeStep++;
+                        _this6.detailSubmitAid = response.data.data.aid;
+                        localStorage.setItem('aid', _this6.detailSubmitAid);
+                        _this6.activeStep++;
                     });
                 }
             });
             // console.log(this.publishInfo)
         },
         onSubmitDetail: function onSubmitDetail() {
-            var _this6 = this;
+            var _this7 = this;
 
             if (!this.detailSubmitAid) {
                 this.$alert('基本信息上传未成功，无法上传详细信息');
             }
-            if (this.picUploadStatus !== 'success') {
+            if (this.isCreate && this.picUploadStatus !== 'success') {
                 this.$alert('请上传海报照片!');
                 return;
             }
@@ -4064,13 +4214,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     url: this.$apiAddress.postDetailActivityInfo,
                     data: this.setUrlParams(params)
                 }).then(function (response) {
-                    _this6.$message({
+                    _this7.$message({
                         message: '详细信息提交成功',
                         type: 'success'
                     });
                     localStorage.setItem('aid', '');
                     localStorage.setItem('md', '');
-                    _this6.activeStep++;
+                    _this7.activeStep++;
                 });
             } else {
                 this.$alert('请选择报名所需信息');
@@ -4104,29 +4254,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.mapInstance.addOverlay(new BMap.Marker(item.point));
         },
         handleAddTagSubmit: function handleAddTagSubmit() {
-            var _this7 = this;
+            var _this8 = this;
 
             this.$refs['addTagForm'].validate(function (valid) {
                 if (valid) {
                     axios({
                         method: 'post',
-                        url: _this7.$apiAddress.postAddTag,
-                        data: _this7.setUrlParams(_this7.addTagInfo)
+                        url: _this8.$apiAddress.postAddTag,
+                        data: _this8.setUrlParams(_this8.addTagInfo)
                     }).then(function (response) {
-                        _this7.$message({
+                        _this8.$message({
                             message: '标签添加成功',
                             type: 'success'
                         });
-                        _this7.tagDialogVisible = false;
+                        _this8.tagDialogVisible = false;
                     });
                 }
             });
         },
         handleAddTagCancel: function handleAddTagCancel() {
-            var _this8 = this;
+            var _this9 = this;
 
             this.$confirm('确认取消添加标签？').then(function () {
-                _this8.tagDialogVisible = false;
+                _this9.tagDialogVisible = false;
             }).catch(function () {});
         },
         handleCityChange: function handleCityChange() {
@@ -4134,7 +4284,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         imgDel: function imgDel() {},
         imgAdd: function imgAdd(pos, $file) {
-            var _this9 = this;
+            var _this10 = this;
 
             // 第一步.将图片上传到服务器.
             var formdata = new FormData();
@@ -4152,7 +4302,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                  * 2. 通过$refs获取: html声明ref : `<mavon-editor ref=md ></mavon-editor>，`$vm`为 `this.$refs.md`
                  */
                 // console.log(url);
-                _this9.$refs.mdEditor.$img2Url(pos, response.data.data.url);
+                _this10.$refs.mdEditor.$img2Url(pos, response.data.data.url);
             });
         }
     }
@@ -4222,7 +4372,8 @@ var content = __webpack_require__(258);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(2)("7ca2dc64", content, false, {});
+var add = __webpack_require__(2).default
+var update = add("d8c57eb8", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -4262,7 +4413,8 @@ var content = __webpack_require__(260);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(2)("01070c58", content, false, {});
+var add = __webpack_require__(2).default
+var update = add("2b95b214", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -4302,7 +4454,8 @@ var content = __webpack_require__(262);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(2)("036fbae6", content, false, {});
+var add = __webpack_require__(2).default
+var update = add("19e8aeb4", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -4326,7 +4479,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -4435,6 +4588,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     props: {
         dataObject: {
             require: true
+        },
+        uploadedImg: {
+            default: ''
         }
     },
     data: function data() {
@@ -4505,8 +4661,11 @@ var render = function() {
           }
         },
         [
-          _vm.imageUrl
-            ? _c("img", { staticClass: "avatar", attrs: { src: _vm.imageUrl } })
+          _vm.uploadedImg || _vm.imageUrl
+            ? _c("img", {
+                staticClass: "avatar",
+                attrs: { src: _vm.uploadedImg || _vm.imageUrl }
+              })
             : _c("i", { staticClass: "el-icon-plus avatar-uploader-icon" })
         ]
       ),
@@ -4915,7 +5074,10 @@ var render = function() {
                   _vm._v(" "),
                   _c("pic-uploader", {
                     staticClass: "pic-uploader",
-                    attrs: { "data-object": { aid: _vm.detailSubmitAid } },
+                    attrs: {
+                      "uploaded-img": _vm.posterUrl,
+                      "data-object": { aid: _vm.detailSubmitAid }
+                    },
                     on: {
                       uploadSuccess: function($event) {
                         _vm.picUploadStatus = "success"
@@ -5177,7 +5339,8 @@ var content = __webpack_require__(268);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(2)("27035634", content, false, {});
+var add = __webpack_require__(2).default
+var update = add("e960fab4", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -5293,7 +5456,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         handleActivityClick: function handleActivityClick(id) {
             this.$router.push('/activity/' + id);
         },
-        handleEdit: function handleEdit(id) {}
+        handleEdit: function handleEdit(id) {
+            this.$router.push('/activity/publish/' + id);
+        }
     }
 });
 
@@ -5535,49 +5700,30 @@ function defaultValue(value, defaultString) {
 /* 281 */
 /***/ (function(module, exports, __webpack_require__) {
 
+// style-loader: Adds some css to the DOM by adding a <style> tag
 
+// load the styles
 var content = __webpack_require__(282);
-
 if(typeof content === 'string') content = [[module.i, content, '']];
-
+// Prepare cssTransformation
 var transform;
-var insertInto;
 
-
-
-var options = {"hmr":true}
-
+var options = {}
 options.transform = transform
-options.insertInto = undefined;
-
+// add the styles to the DOM
 var update = __webpack_require__(11)(content, options);
-
 if(content.locals) module.exports = content.locals;
-
+// Hot Module Replacement
 if(false) {
-	module.hot.accept("!!../../../css-loader/index.js!./index.css", function() {
-		var newContent = require("!!../../../css-loader/index.js!./index.css");
-
-		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-
-		var locals = (function(a, b) {
-			var key, idx = 0;
-
-			for(key in a) {
-				if(!b || a[key] !== b[key]) return false;
-				idx++;
-			}
-
-			for(key in b) idx--;
-
-			return idx === 0;
-		}(content.locals, newContent.locals));
-
-		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
-
-		update(newContent);
-	});
-
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../css-loader/index.js!./index.css", function() {
+			var newContent = require("!!../../../css-loader/index.js!./index.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
 	module.hot.dispose(function() { update(); });
 }
 
@@ -5663,7 +5809,11 @@ var address = {
 
     getAppliedActivity: '/activity/info/applied',
 
-    getCreateActivity: '/activity/info/create'
+    getCreateActivity: '/activity/info/create',
+
+    getActivityEnterInfo: '/activity/apply/enter/info',
+
+    getActivityEditInfo: '/activity/info/edit'
 
 };
 for (var i in address) {
@@ -5779,6 +5929,36 @@ var plugins = {
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (plugins);
+
+/***/ }),
+/* 293 */,
+/* 294 */,
+/* 295 */,
+/* 296 */,
+/* 297 */,
+/* 298 */,
+/* 299 */,
+/* 300 */,
+/* 301 */,
+/* 302 */,
+/* 303 */,
+/* 304 */,
+/* 305 */,
+/* 306 */,
+/* 307 */,
+/* 308 */,
+/* 309 */,
+/* 310 */,
+/* 311 */,
+/* 312 */,
+/* 313 */,
+/* 314 */,
+/* 315 */,
+/* 316 */,
+/* 317 */
+/***/ (function(module, exports) {
+
+module.exports = "/images/no-pic.png?c35034b7c09a4076072a33b9e4bdbdbf";
 
 /***/ })
 ]),[94]);

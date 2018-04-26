@@ -108,7 +108,7 @@
                 </div>
 
                 <h1 class="input-title">活动海报上传</h1>
-                <pic-uploader :data-object="{aid:detailSubmitAid}" @uploadSuccess="picUploadStatus='success'" class="pic-uploader"></pic-uploader>
+                <pic-uploader :uploaded-img="posterUrl" :data-object="{aid:detailSubmitAid}" @uploadSuccess="picUploadStatus='success'" class="pic-uploader"></pic-uploader>
                 <h1 class="input-title">活动详情撰写</h1>
                 <mavon-editor @save="handleMdSave" class="md-editor" @change="handleMdChange"  ref="mdEditor" @imgAdd="imgAdd" @imgDel="imgDel" v-model="descriptionSource"/>
                 <div class="button-container clearfix">
@@ -249,6 +249,7 @@
                   description:'',
 
                 },
+                posterUrl:'',
                 picUploadStatus:'',
                 publishDetail: '',
                 descriptionSource:'',
@@ -257,6 +258,7 @@
                 tagLoading: false,
                 recentCityName: '',
                 tagOptions: [],
+                editAid:'',
                 provCityOptions: provCityJson,
             }
         },
@@ -267,10 +269,19 @@
             //如果参数中有aid那么进入编辑模式
             let aid=this.$router.currentRoute.params.id;
             if(aid){
+                this.editAid=+aid;
+                this.detailSubmitAid=+aid;
                 // console.log('fd')
+                this.activeStep++;
                 this.isCreate=false;
                 //todo fetch activity data
-
+                axios(this.$apiAddress.getActivityEditInfo,{params:{aid:aid}}).then((response)=>{
+                    let data=response.data.data;
+                    this.publishInfo.applyInfo=data.applyInfo.split(',');
+                    this.publishInfo.commitTitle=data.commitTitle;
+                    this.posterUrl=data.poster;
+                    this.descriptionSource=data.descriptionSource;
+                })
                 return;
             }
             //如果localStorage中有aid 进入编辑详细信息模式
@@ -350,6 +361,9 @@
                                     params[i]=this.publishInfo[i];
                             }
                         }
+                        if(this.editAid){
+                            params['aid']=this.editAid;
+                        }
                         axios({
                             method:'post',
                             url:this.$apiAddress.postBasicActivityInfo,
@@ -373,7 +387,7 @@
                 if(!this.detailSubmitAid){
                     this.$alert('基本信息上传未成功，无法上传详细信息');
                 }
-                if(this.picUploadStatus!=='success'){
+                if(this.isCreate&&this.picUploadStatus!=='success'){
                     this.$alert('请上传海报照片!');
                     return;
                 }
