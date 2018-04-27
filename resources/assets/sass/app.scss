@@ -66,3 +66,23 @@ $color-4: #53777A;
   0% { transform: translate(-50%, -50%) rotate(0); }
   100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
+$darkerGreen:#07D93B;
+$green:darken($darkerGreen,15%);
+#check-path{
+  animation: move 1.5s ease-in-out forwards;
+}
+
+@keyframes move {
+  0%{
+    stroke-dasharray: 0px, 7576px;
+    fill-opacity: 0;
+  }
+  99%{
+    fill-opacity: 20%;
+  }
+  100%{
+    fill: $darkerGreen;
+    fill-opacity: 100%;
+    stroke-dasharray: 7576px, 7576px;
+  }
+}

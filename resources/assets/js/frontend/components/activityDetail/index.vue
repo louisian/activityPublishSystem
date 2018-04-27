@@ -51,7 +51,7 @@
                         </table>
                         <div class="button-container">
                             <el-button :disabled="true" v-if="activityData.applied" type="success">已报名</el-button>
-                            <el-button v-else v-if="!isCreator" @click="applyNow" :disabled="isOutdate" type="primary">{{isOutdate?'报名截止':'立即报名'}}</el-button>
+                            <el-button v-if="!activityData.applied&&!isCreator" @click="applyNow" :disabled="isOutdate" type="primary">{{isOutdate?'报名截止':'立即报名'}}</el-button>
                         </div>
                     </div>
                 </el-col>
