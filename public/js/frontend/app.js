@@ -1660,7 +1660,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -1713,7 +1713,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 password: [{ required: true, message: '请输入密码', trigger: 'blur' }, { min: 6, message: '密码必须大于6位', trigger: 'blur' }]
             },
             submitting: false
-
         };
     },
 
@@ -3191,7 +3190,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "\n.banner-container[data-v-95a8681e]{\n    position: relative;\n}\n.banner[data-v-95a8681e]{\n    /*position: absolute;*/\n    width: 480px;\n    margin-left:60px;\n    height: 270px;\n    /*top: 50%;*/\n    /*left:50%;*/\n    /*transform: translate(-50% -50%);*/\n}\n.table-title[data-v-95a8681e]{\n    padding-right: 10px;\n    text-align: right;\n}\n.date-item[data-v-95a8681e]{\n    font-size: 18px;\n}\n.date-divider[data-v-95a8681e]{\n    display: inline-block;\n    font-size: 15px;\n    margin: 0 2px;\n}\n.info-table[data-v-95a8681e]{\n    border-collapse: separate;\n    border-spacing: 0px 10px;\n}\n.show-apply-info[data-v-95a8681e]{\n    float: right;\n}\n.title[data-v-95a8681e]{\n    padding: 20px 0;\n    line-height: 40px;\n    border-bottom: 1px solid #e0e0e0;\n}\n.main-info-container[data-v-95a8681e]{\n    border: 1px solid #eee;\n    padding: 5px;\n    border-radius: 10px;\n    margin: 30px 0;\n}\n.detail-info-container[data-v-95a8681e]{\n    padding: 25px 15px 0;\n}\n.info-table[data-v-95a8681e]{\n    font-size: 14px;\n}\n.info-table tr[data-v-95a8681e]{\n    padding-bottom: 5px;\n}\n.button-container[data-v-95a8681e]{\n    margin: 15px 0;\n}\n.map-container[data-v-95a8681e]{\n    height: 100%;\n}\n.content-container[data-v-95a8681e]{\n    width: 1200px;\n    padding: 15px;\n    margin: 0 auto 30px;\n    border: 1px solid #eee;\n    border-radius: 10px;\n\n    min-height: 100px;\n}\n", ""]);
+exports.push([module.i, "\n.banner-container[data-v-95a8681e]{\n    position: relative;\n}\n.banner[data-v-95a8681e]{\n    /*position: absolute;*/\n    width: 480px;\n    margin-left:60px;\n    height: 270px;\n    /*top: 50%;*/\n    /*left:50%;*/\n    /*transform: translate(-50% -50%);*/\n}\n.table-title[data-v-95a8681e]{\n    padding-right: 10px;\n    text-align: right;\n}\n.date-item[data-v-95a8681e]{\n    font-size: 18px;\n}\n.date-divider[data-v-95a8681e]{\n    display: inline-block;\n    font-size: 15px;\n    margin: 0 2px;\n}\n.info-table[data-v-95a8681e]{\n    border-collapse: separate;\n    border-spacing: 0px 10px;\n}\n.show-apply-info[data-v-95a8681e]{\n    float: right;\n}\n.title[data-v-95a8681e]{\n    padding: 20px 0;\n    line-height: 40px;\n    border-bottom: 1px solid #e0e0e0;\n}\n.main-info-container[data-v-95a8681e]{\n    border: 1px solid #eee;\n    padding: 5px;\n    border-radius: 10px;\n    margin: 30px 0;\n}\n.detail-info-container[data-v-95a8681e]{\n    padding: 25px 15px 0;\n}\n.info-table[data-v-95a8681e]{\n    font-size: 14px;\n}\n.info-table tr[data-v-95a8681e]{\n    padding-bottom: 5px;\n}\n.button-container[data-v-95a8681e]{\n    margin: 15px 0;\n}\n.map-container[data-v-95a8681e]{\n    height: 100%;\n}\n.content-container[data-v-95a8681e]{\n    width: 1200px;\n    padding: 15px;\n    margin: 0 auto 30px;\n    border: 1px solid #eee;\n    border-radius: 10px;\n\n    min-height: 100px;\n}\n\n/*.address-link:active{*/\n    /*color: #7cc0ff;*/\n/*}*/\n/*.address-link:link{*/\n    /*color: #7cc0ff;*/\n/*}*/\n/*.address-link:visited{*/\n    /*color: #7cc0ff;*/\n/*}*/\n", ""]);
 
 // exports
 
@@ -3204,6 +3203,9 @@ exports.push([module.i, "\n.banner-container[data-v-95a8681e]{\n    position: re
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index_applyDialog__ = __webpack_require__(51);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index_applyDialog___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__index_applyDialog__);
+//
+//
+//
 //
 //
 //
@@ -3321,7 +3323,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             applyVisible: false,
             applyCount: 0,
             isCreator: true,
-            detailLoading: false
+            detailLoading: false,
+            downloadLoading: false
         };
     },
     mounted: function mounted() {
@@ -3396,6 +3399,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         handleShowApplyInfo: function handleShowApplyInfo() {
             this.applyInfoVisible = true;
+        },
+        handleDownload: function handleDownload() {
+            var _this4 = this;
+
+            // =this.$apiAddress.getActivityEnterInfo+'?aid='+this.$router.currentRoute.params.id+'&download=download'
+            axios(this.$apiAddress.getActivityEnterInfo, { params: { aid: this.$router.currentRoute.params.id, download: 'download' }, responseType: 'arraybuffer' }).then(function (response) {
+                // console.log(response);
+                _this4.$message({
+                    message: '请求成功，请等待下载开始',
+                    type: 'success'
+                });
+                var blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                var objUrl = window.URL.createObjectURL(blob);
+                window.location.href = objUrl;
+            });
         }
     }
 
@@ -3517,12 +3535,21 @@ var render = function() {
                           ),
                           _vm._v(" "),
                           _c("td", [
+                            _c(
+                              "a",
+                              {
+                                staticClass: "address-link",
+                                attrs: {
+                                  href:
+                                    "http://api.map.baidu.com/geocoder?output=html&address=" +
+                                    _vm.activityData.address,
+                                  target: "_blank"
+                                }
+                              },
+                              [_vm._v(_vm._s(_vm.activityData.address))]
+                            ),
                             _vm._v(
-                              _vm._s(
-                                _vm.activityData.address +
-                                  " " +
-                                  _vm.activityData.detailAddress
-                              )
+                              "  " + _vm._s(_vm.activityData.detailAddress)
                             )
                           ])
                         ]),
@@ -3646,6 +3673,30 @@ var render = function() {
                 attrs: { property: item.prop, label: item.label }
               })
             })
+          ),
+          _vm._v(" "),
+          _c(
+            "span",
+            {
+              staticClass: "dialog-footer",
+              attrs: { slot: "footer" },
+              slot: "footer"
+            },
+            [
+              _c(
+                "el-button",
+                {
+                  attrs: {
+                    type: "primary",
+                    loading: _vm.downloadLoading,
+                    disabled: _vm.applyData.length <= 0
+                  },
+                  on: { click: _vm.handleDownload }
+                },
+                [_vm._v("下载报名信息")]
+              )
+            ],
+            1
           )
         ],
         1

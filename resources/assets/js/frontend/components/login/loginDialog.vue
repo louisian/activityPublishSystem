@@ -45,7 +45,6 @@
                     ]
                 },
                 submitting:false,
-
             }
         },
         methods:{

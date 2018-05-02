@@ -31,7 +31,7 @@
                             </tr>
                             <tr class="info-table-item">
                                 <td width="80" class="table-title">举办地点:</td>
-                                <td>{{activityData.address+' '+activityData.detailAddress}}</td>
+                                <td><a class="address-link" :href="'http://api.map.baidu.com/geocoder?output=html&address='+activityData.address" target="_blank">{{activityData.address}}</a>  {{activityData.detailAddress}}</td>
                             </tr>
                             <tr class="info-table-item">
                                 <td width="80" class="table-title">报名截止:</td>
@@ -72,6 +72,9 @@
             <el-table :data="applyData">
                 <el-table-column v-for="item,key in applyTableHeader" :key="key" :property="item.prop" :label="item.label"></el-table-column>
             </el-table>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="primary" :loading="downloadLoading" :disabled="applyData.length<=0" @click="handleDownload">下载报名信息</el-button>
+            </span>
         </el-dialog>
         <apply-dialog :dialog-visible.sync="applyVisible" @applySuccess="activityData.applied=true" :aid="activityData.aid"></apply-dialog>
     </div>
@@ -121,6 +124,7 @@
                 applyCount:0,
                 isCreator:true,
                 detailLoading:false,
+                downloadLoading:false,
             }
         },
         mounted(){
@@ -189,6 +193,19 @@
             },
             handleShowApplyInfo(){
                 this.applyInfoVisible=true;
+            },
+            handleDownload(){
+                // =this.$apiAddress.getActivityEnterInfo+'?aid='+this.$router.currentRoute.params.id+'&download=download'
+                axios(this.$apiAddress.getActivityEnterInfo,{params:{aid:this.$router.currentRoute.params.id,download:'download'},responseType:'arraybuffer'}).then((response)=>{
+                    // console.log(response);
+                    this.$message({
+                        message: '请求成功，请等待下载开始',
+                        type: 'success'
+                    });
+                    let blob=new Blob([response.data],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+                    let objUrl=window.URL.createObjectURL(blob);
+                    window.location.href=objUrl;
+                })
             }
         }
 
@@ -265,6 +282,15 @@
         border-radius: 10px;
 
         min-height: 100px;
-
     }
+
+    /*.address-link:active{*/
+        /*color: #7cc0ff;*/
+    /*}*/
+    /*.address-link:link{*/
+        /*color: #7cc0ff;*/
+    /*}*/
+    /*.address-link:visited{*/
+        /*color: #7cc0ff;*/
+    /*}*/
 </style>

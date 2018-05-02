@@ -23,6 +23,10 @@ class UploadController extends Controller{
                 // 上传文件
                 $filename = date('Y-m-d-H-i-s') . '-' . uniqid() . '.' . $ext;
                 // 使用我们新建的uploads本地存储空间（目录）
+//                $im = imagecreatefromjpeg($realPath);
+//                imageinterlace($im, 1);
+//                imagejpeg($im, $realPath, 100);
+//                imagedestroy($im);
                 $bool = Storage::disk('uploads')->put($filename, file_get_contents($realPath));
 //                var_dump($bool);
                 if($bool){

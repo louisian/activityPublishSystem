@@ -24,6 +24,15 @@
 .fa-icon{
   padding-right: 5px;
 }
+.hljs-center{
+  text-align: center;
+}
+.hljs-right{
+  text-align: right;
+}
+.hljs-left{
+  text-align: left;
+}
 // COLORS
 
 $color-1: #ECD078;
@@ -59,6 +68,44 @@ $color-4: #53777A;
     border-width:7.5px;
     animation-direction: reverse;
   }
+}
+a{
+  color: #008aff;
+  text-decoration: none;
+  transition: 0.75s ease all;
+  &:hover{
+    color: #004fc1;
+    text-decoration: none;
+  }
+  &:active{
+    text-decoration: none;
+  }
+  &:link{
+    text-decoration: none;
+  }
+  &:visited{
+    text-decoration: none;
+  }
+}
+.content-container{
+  & ul{
+    list-style: disc inside none;
+  }
+  & ol{
+    list-style: decimal inside none;
+  }
+  & table,& th,& td{
+    border: 1px solid #9c9c9c;
+    padding: 5px;
+  }
+}
+blockquote {
+  border-left: 2px solid #409eff;
+  background: #f6f6f6;
+  color: #555;
+  font-size: 1em;
+  margin: 1.5em 0;
+  padding: 10px 20px;
 }
 
 
